@@ -3732,4 +3732,482 @@ function _buildIssuedMap(){
       if(!r[0]||r[0].toLowerCase()==='grand total'||r[0]==='Item') return;
       if(r[0].toLowerCase().startsWith('reused')) return; // exclude reused items
       const name=normName(r[0]||'');
-      const total=(parseInt(r[nhIdx
+      
+])||0)+(parseInt(r[repIdx])||0);
+      if(name&&total>0) map[name]=(map[name]||0)+total;
+    });
+  });
+  return map;
+}
+
+function _getGroupIssuedQty(group, issMap){
+  const matched=new Set();
+  let total=0;
+
+  // 1. Try exact match via SEED names
+  group.skus.forEach(sku=>{
+    const seed=SEED.find(s=>s.sku===sku);
+    if(seed){
+      const k=normName(seed.name);
+      if(!matched.has(k)&&issMap[k]){
+        matched.add(k);
+        total+=issMap[k];
+      }
+    }
+  });
+
+  // 2. Fallback: prefix match via csvAliases (catches different naming in CSV)
+  if(group.csvAliases){
+    group.csvAliases.forEach(alias=>{
+      const base=normName(alias);
+      Object.keys(issMap).forEach(k=>{
+        if(!matched.has(k)&&(k===base||k.startsWith(base+' '))){
+          matched.add(k);
+          total+=issMap[k];
+        }
+      });
+    });
+  }
+
+  return total;
+}
+
+function showCSVNames(){
+  const box=document.getElementById('budget-debug');
+  if(!SHEET_ROWS||SHEET_ROWS.length<3){
+    box.innerHTML='⚠️ No CSV loaded. Go to Issuances tab and upload the CSV first.';
+    box.style.display='block'; return;
+  }
+  const names=[...new Set(
+    SHEET_ROWS.slice(2)
+      .map(r=>r[0]||'')
+      .filter(n=>n&&n.toLowerCase()!=='grand total'&&n!=='Item'&&n.trim()!=='')
+  )].sort();
+  box.innerHTML=
+    `<div style="color:#faf089;margin-bottom:8px;">📋 Unique item names in CSV (${names.length} items):</div>`+
+    names.map((n,i)=>`<span style="color:#e2e8f0;">${i+1}. "${n}"</span>`).join('<br>');
+  box.style.display='block';
+}
+
+function showBudgetDebug(){
+  const box=document.getElementById('budget-debug');
+  if(box.style.display!=='none'){ box.style.display='none'; return; }
+  const issMap=_buildIssuedMap();
+  const keys=Object.keys(issMap).sort();
+  if(keys.length===0){
+    box.innerHTML='⚠️ issMap is EMPTY — Issuances CSV not loaded yet.';
+    box.style.display='block'; return;
+  }
+
+  // Section 1: per-group computed qty
+  const groupLines=BUDGET_GROUPS.map(g=>{
+    const qty=_getGroupIssuedQty(g,issMap);
+    const color=qty>0?'#68d391':'#fc8181';
+    return `<span style="color:${color}">${qty>0?'✓':'✗'} [${g.key}] ${g.label} → qty=${qty}</span>`;
+  });
+
+  // Section 2: raw issMap keys
+  const matchedKeys=new Set();
+  BUDGET_GROUPS.forEach(g=>{
+    (g.csvAliases||[]).forEach(alias=>{
+      const base=normName(alias);
+      keys.forEach(k=>{ if(k===base||k.startsWith(base+' ')) matchedKeys.add(k); });
+    });
+    g.skus.forEach(sku=>{
+      const seed=SEED.find(s=>s.sku===sku);
+      if(seed&&issMap[normName(seed.name)]) matchedKeys.add(normName(seed.name));
+    });
+  });
+  const rawLines=keys.map(k=>{
+    const hit=matchedKeys.has(k);
+    const color=hit?'#68d391':'#fc8181';
+    return `<span style="color:${color}">${hit?'✓':'✗'} "${k}" = ${issMap[k]}</span>`;
+  });
+
+  box.innerHTML=
+    `<div style="color:#faf089;margin-bottom:6px;font-size:12px;">▶ Group Results:</div>`+
+    groupLines.join('<br>')+
+    `<div style="color:#faf089;margin:10px 0 6px;font-size:12px;">▶ Raw CSV Keys (${keys.length}) — ✓ matched / ✗ unmatched:</div>`+
+    rawLines.join('<br>');
+  box.style.display='block';
+}
+
+function renderBudgetPage(){
+  if(!_budgetLoaded){
+    loadBudgetData().then(()=>_refreshBudgetUI());
+  } else {
+    _refreshBudgetUI();
+  }
+}
+
+function _refreshBudgetUI(){
+  const issMap=_buildIssuedMap();
+  const tbody=document.getElementById('budget-table-body');
+  if(!tbody) return;
+
+  let totalQty=0, totalCost=0;
+  const rows=BUDGET_GROUPS.map(g=>{
+    const price=BUDGET_PRICES[g.key]||0;
+    const qty3pl=BUDGET_QTY_3PL[g.key]||0;
+    const qty=_getGroupIssuedQty(g,issMap);
+    const cost=price*(qty+qty3pl);
+    totalQty+=qty; totalCost+=cost;
+    return {g,price,qty3pl,qty,cost};
+  });
+
+  tbody.innerHTML=rows.map(({g,price,qty3pl,qty,cost},i)=>`
+  <tr style="background:${i%2===0?'white':'#f7fafc'};">
+    <td style="padding:9px 12px;font-weight:600;">${g.icon} ${g.label}</td>
+    <td style="text-align:center;padding:9px 12px;">
+      <input type="number" id="bprice-${g.key}" value="${price}" min="0" step="0.01"
+        style="width:90px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit;text-align:center;"
+        oninput="liveUpdateBudgetRow('${g.key}')">
+    </td>
+    <td style="text-align:center;padding:9px 12px;">
+      <input type="number" id="bprice3pl-${g.key}" value="${qty3pl||''}" min="0" step="1" placeholder="—"
+        style="width:90px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit;text-align:center;background:#fffbf0;"
+        oninput="liveUpdateBudgetRow('${g.key}')">
+    </td>
+    <td style="text-align:center;padding:9px 12px;font-weight:600;color:${qty===0?'var(--gray)':'var(--text)'};">${qty.toLocaleString()}</td>
+    <td id="bcost-${g.key}" style="text-align:center;padding:9px 12px;font-weight:700;color:var(--blue);">${cost.toFixed(3)}</td>
+  </tr>`).join('');
+
+  const total3pl=BUDGET_GROUPS.reduce((s,g)=>{
+    const inp3=document.getElementById(`bprice3pl-${g.key}`);
+    return s+(parseInt(inp3?.value)||0);
+  },0);
+  document.getElementById('budget-foot-3pl').textContent=total3pl>0?total3pl.toLocaleString():'—';
+  document.getElementById('budget-foot-qty').textContent=totalQty.toLocaleString();
+  document.getElementById('budget-foot-cost').textContent=totalCost.toFixed(3)+' JOD';
+
+  // Summary cards
+  const target=BUDGET_TARGET;
+  const remaining=target-totalCost;
+  const pct=target>0?Math.min(100,totalCost/target*100):0;
+  const overBudget=remaining<0;
+
+  document.getElementById('budget-summary-cards').innerHTML=`
+    <div class="card" style="border-left:4px solid var(--blue);text-align:center;padding:18px;">
+      <div id="bcard-cost" style="font-size:26px;font-weight:800;color:var(--blue);">${totalCost.toFixed(3)}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;margin-top:4px;">Total Issued Cost (JOD)</div>
+    </div>
+    <div class="card" style="border-left:4px solid #a0aec0;text-align:center;padding:18px;">
+      <div id="bcard-target" style="font-size:26px;font-weight:800;color:#4a5568;">${target>0?target.toFixed(3):'—'}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;margin-top:4px;">Expense Target (JOD)</div>
+    </div>
+    <div id="bcard-rem-wrap" class="card" style="border-left:4px solid ${overBudget?'#e53e3e':'#27ae60'};text-align:center;padding:18px;">
+      <div id="bcard-rem" style="font-size:26px;font-weight:800;color:${overBudget?'#e53e3e':'#27ae60'};">${target>0?(overBudget?'▲ ':'▼ ')+Math.abs(remaining).toFixed(3):'—'}</div>
+      <div id="bcard-rem-label" style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;margin-top:4px;">${overBudget?'Over Budget':'Remaining Budget'} (JOD)</div>
+    </div>
+    <div id="bcard-pct-wrap" class="card" style="border-left:4px solid ${pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60'};text-align:center;padding:18px;">
+      <div id="bcard-pct" style="font-size:26px;font-weight:800;color:${pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60'};">${target>0?pct.toFixed(1)+'%':'—'}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;margin-top:4px;">Budget Used</div>
+    </div>`;
+
+  // Progress bar
+  const progCard=document.getElementById('budget-progress-card');
+  if(target>0){
+    progCard.hidden=false;
+    document.getElementById('budget-bar').style.width=pct+'%';
+    document.getElementById('budget-bar').style.background=pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60';
+    document.getElementById('budget-pct-label').textContent=pct.toFixed(1)+'%';
+    document.getElementById('budget-target-label').textContent='Target: '+target.toFixed(3)+' JOD';
+  } else { progCard.hidden=true; }
+
+  // Target input
+  const ti=document.getElementById('budget-target-input');
+  if(ti&&target>0&&!ti.value) ti.value=target;
+}
+
+function liveUpdateBudgetRow(key){
+  const inp=document.getElementById(`bprice-${key}`);
+  const inp3=document.getElementById(`bprice3pl-${key}`);
+  const price=parseFloat(inp?.value)||0;
+  const qty3pl=parseInt(inp3?.value)||0;
+  const issMap=_buildIssuedMap();
+  const g=BUDGET_GROUPS.find(x=>x.key===key);
+  const qty=g?_getGroupIssuedQty(g,issMap):0;
+  const cost=price*(qty+qty3pl);
+  const cell=document.getElementById(`bcost-${key}`);
+  if(cell) cell.textContent=cost.toFixed(3);
+  liveUpdateBudgetBar();
+}
+
+function liveUpdateBudgetBar(){
+  const issMap=_buildIssuedMap();
+  let total=0, totalQtyLive=0, live3pl=0;
+  BUDGET_GROUPS.forEach(g=>{
+    const inp=document.getElementById(`bprice-${g.key}`);
+    const inp3=document.getElementById(`bprice3pl-${g.key}`);
+    const price=parseFloat(inp?.value)||0;
+    const qty3pl=parseInt(inp3?.value)||0;
+    const qty=_getGroupIssuedQty(g,issMap);
+    total+=price*(qty+qty3pl);
+    totalQtyLive+=qty;
+    live3pl+=qty3pl;
+  });
+  const fc=document.getElementById('budget-foot-cost');
+  if(fc) fc.textContent=total.toFixed(3)+' JOD';
+  const fq=document.getElementById('budget-foot-qty');
+  if(fq) fq.textContent=totalQtyLive.toLocaleString();
+  const f3=document.getElementById('budget-foot-3pl');
+  if(f3) f3.textContent=live3pl>0?live3pl.toLocaleString():'—';
+  const target=parseFloat(document.getElementById('budget-target-input')?.value)||0;
+  const pct=target>0?Math.min(100,total/target*100):0;
+  const remaining=target-total;
+  const overBudget=remaining<0;
+  const bar=document.getElementById('budget-bar');
+  const pc=document.getElementById('budget-pct-label');
+  const progCard=document.getElementById('budget-progress-card');
+  if(target>0){
+    progCard.hidden=false;
+    if(bar){ bar.style.width=pct+'%'; bar.style.background=pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60'; }
+    if(pc) pc.textContent=pct.toFixed(1)+'%';
+    document.getElementById('budget-target-label').textContent='Target: '+target.toFixed(3)+' JOD';
+  } else { progCard.hidden=true; }
+  const el_cost=document.getElementById('bcard-cost');
+  if(el_cost) el_cost.textContent=total.toFixed(3);
+  const el_target=document.getElementById('bcard-target');
+  if(el_target) el_target.textContent=target>0?target.toFixed(3):'—';
+  const el_rem=document.getElementById('bcard-rem');
+  if(el_rem){
+    el_rem.textContent=target>0?(overBudget?'▲ ':'▼ ')+Math.abs(remaining).toFixed(3):'—';
+    el_rem.style.color=overBudget?'#e53e3e':'#27ae60';
+  }
+  const el_rem_wrap=document.getElementById('bcard-rem-wrap');
+  if(el_rem_wrap) el_rem_wrap.style.borderLeftColor=overBudget?'#e53e3e':'#27ae60';
+  const el_rem_label=document.getElementById('bcard-rem-label');
+  if(el_rem_label) el_rem_label.textContent=(overBudget?'Over Budget':'Remaining Budget')+' (JOD)';
+  const el_pct=document.getElementById('bcard-pct');
+  if(el_pct){
+    el_pct.textContent=target>0?pct.toFixed(1)+'%':'—';
+    el_pct.style.color=pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60';
+  }
+  const el_pct_wrap=document.getElementById('bcard-pct-wrap');
+  if(el_pct_wrap) el_pct_wrap.style.borderLeftColor=pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60';
+}
+
+function exportBudgetReport(){
+  if(typeof XLSX==='undefined'){ toast('❌ XLSX library not loaded'); return; }
+  const issMap=_buildIssuedMap();
+  const now=new Date();
+  const dateLabel=now.toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const target=BUDGET_TARGET||parseFloat(document.getElementById('budget-target-input')?.value)||0;
+
+  const headers=['Product Group','Unit Price (JOD)','3PLs (Qty)','Total Issued','Total Cost (JOD)'];
+  let totalQty=0,totalCost=0,total3pl=0;
+  const dataRows=BUDGET_GROUPS.map(g=>{
+    const price=BUDGET_PRICES[g.key]||0;
+    const qty3pl=BUDGET_QTY_3PL[g.key]||0;
+    const qty=_getGroupIssuedQty(g,issMap);
+    const cost=price*(qty+qty3pl);
+    totalQty+=qty; totalCost+=cost; total3pl+=qty3pl;
+    return[g.label, price, qty3pl||'', qty, parseFloat(cost.toFixed(3))];
+  });
+
+  const aoa=[
+    [`Budget Report — ${dateLabel}`],
+    target>0?[`Expense Target: ${target.toFixed(3)} JOD  |  Total Issued Cost: ${totalCost.toFixed(3)} JOD  |  ${totalCost<=target?'Remaining: '+(target-totalCost).toFixed(3)+' JOD':'OVER BUDGET by '+(totalCost-target).toFixed(3)+' JOD'}`]:[],
+    [],
+    headers,
+    ...dataRows,
+    [],
+    ['TOTAL','',totalQty,parseFloat(totalCost.toFixed(3))]
+  ].filter(r=>r.length>0);
+
+  const ws=XLSX.utils.aoa_to_sheet(aoa);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Budget');
+  XLSX.writeFile(wb,`Budget_Report_${now.getFullYear()}_${String(now.getMonth()+1).padStart(2,'0')}.xlsx`);
+  toast('✅ Budget report exported');
+}
+
+// ======== REPORTS ARCHIVE ========
+let _archiveSnapshots = {};
+
+function renderArchivePage(){
+  db.ref('inv2026/snapshots').get().then(snap=>{
+    const container = document.getElementById('archive-cards');
+    const selA = document.getElementById('cmpMonthA');
+    const selB = document.getElementById('cmpMonthB');
+
+    if(!snap.exists()){
+      container.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray);font-size:14px;">No saved snapshots yet. Go to Stock OnHand and click 💾 Save Snapshot for a month.</div>';
+      return;
+    }
+
+    _archiveSnapshots = snap.val();
+    const months = Object.keys(_archiveSnapshots).sort().reverse();
+
+    [selA, selB].forEach(sel=>{
+      const prev = sel.value;
+      sel.innerHTML='<option value="">— select —</option>';
+      months.forEach(m=>{
+        const opt=document.createElement('option');
+        opt.value=m;
+        opt.textContent=_fmtMonthLabel(m);
+        sel.appendChild(opt);
+      });
+      if(prev) sel.value=prev;
+    });
+
+    container.innerHTML = months.map(m=>{
+      const s = _archiveSnapshots[m];
+      const stock = s.stock||{};
+      const sheetRows = s.sheetRows||[];
+      const {totalRem, totalIss} = _calcTotals(stock, sheetRows);
+      const savedAt = s.savedAt ? new Date(s.savedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+      const period = s.periodLabel || '—';
+
+      return `
+      <div class="card" style="border-left:4px solid var(--blue);padding:18px 20px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+          <div>
+            <div style="font-size:17px;font-weight:700;color:var(--text);">${_fmtMonthLabel(m)}</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:2px;">${period}</div>
+          </div>
+          <button onclick="exportArchiveMonth('${m}')" title="Export this month"
+            style="padding:5px 11px;background:var(--green);color:white;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">
+            📥 Export
+          </button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+          <div style="background:#f7fafc;border-radius:8px;padding:10px 12px;text-align:center;">
+            <div style="font-size:22px;font-weight:800;color:var(--blue);">${totalRem.toLocaleString()}</div>
+            <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;">Total Remaining</div>
+          </div>
+          <div style="background:#f7fafc;border-radius:8px;padding:10px 12px;text-align:center;">
+            <div style="font-size:22px;font-weight:800;color:#e67e22;">${totalIss.toLocaleString()}</div>
+            <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;">Total Issued</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--gray);">💾 Saved: ${savedAt}</div>
+      </div>`;
+    }).join('');
+  }).catch(e=>{ console.error(e); toast('❌ Failed to load archive'); });
+}
+
+function _fmtMonthLabel(m){
+  const [y,mo]=m.split('-').map(Number);
+  return new Date(y,mo-1,1).toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+}
+
+function _calcTotals(stock, sheetRows){
+  const branches=['amman','irbid','zarqa','aqaba'];
+  const BRANCH_COLS_MAP={amman:[1,2],irbid:[3,4],zarqa:[5,6],aqaba:[7,8]};
+  const issMap={};
+  branches.forEach(b=>{
+    const [nhIdx,repIdx]=BRANCH_COLS_MAP[b];
+    (sheetRows||[]).slice(2).forEach(r=>{
+      if(!r[0]||r[0].toLowerCase()==='grand total'||r[0]==='Item') return;
+      const name=normName(r[0]||'');
+      const total=(parseInt(r[nhIdx])||0)+(parseInt(r[repIdx])||0);
+      if(name&&total>0) issMap[name]=(issMap[name]||0)+total;
+    });
+  });
+
+  let totalRem=0, totalIss=0;
+  SEED.forEach(p=>{
+    const pKey=normName(p.name);
+    const s=stock[p.sku]||{};
+    const naouri=s.naouri||0;
+    const branchOnH=branches.reduce((sum,b)=>sum+(s[b]||0),0);
+    const iss=issMap[pKey]||0;
+    totalRem+=naouri+branchOnH-iss;
+    totalIss+=iss;
+  });
+  return {totalRem, totalIss};
+}
+
+function exportArchiveMonth(month){
+  const s = _archiveSnapshots[month];
+  if(!s){ toast('❌ Snapshot not loaded'); return; }
+  _doExport(s.stock||{}, s.sheetRows||[], month, s.periodLabel||null);
+}
+
+function runComparison(){
+  const mA = document.getElementById('cmpMonthA').value;
+  const mB = document.getElementById('cmpMonthB').value;
+  const out = document.getElementById('compare-result');
+  if(!mA||!mB){ out.innerHTML='<div style="color:#e53e3e;font-size:13px;">Please select two months to compare.</div>'; return; }
+  if(mA===mB){ out.innerHTML='<div style="color:#e53e3e;font-size:13px;">Please select two different months.</div>'; return; }
+  const sA=_archiveSnapshots[mA], sB=_archiveSnapshots[mB];
+  if(!sA||!sB){ out.innerHTML='<div style="color:#e53e3e;font-size:13px;">One or both snapshots not loaded. Please re-open the Archive tab.</div>'; return; }
+
+  const branches=['amman','irbid','zarqa','aqaba'];
+  const BRANCH_COLS_MAP={amman:[1,2],irbid:[3,4],zarqa:[5,6],aqaba:[7,8]};
+
+  function buildIssMap(sheetRows){
+    const map={};
+    branches.forEach(b=>{
+      const [nhIdx,repIdx]=BRANCH_COLS_MAP[b];
+      (sheetRows||[]).slice(2).forEach(r=>{
+        if(!r[0]||r[0].toLowerCase()==='grand total'||r[0]==='Item') return;
+        const name=normName(r[0]||'');
+        const total=(parseInt(r[nhIdx])||0)+(parseInt(r[repIdx])||0);
+        if(name&&total>0) map[name]=(map[name]||0)+total;
+      });
+    });
+    return map;
+  }
+
+  const issA=buildIssMap(sA.sheetRows), issB=buildIssMap(sB.sheetRows);
+
+  const rows = SEED.map(p=>{
+    const key=normName(p.name);
+    const stA=sA.stock[p.sku]||{}, stB=sB.stock[p.sku]||{};
+    const remA=(stA.naouri||0)+branches.reduce((s,b)=>s+(stA[b]||0),0)-(issA[key]||0);
+    const remB=(stB.naouri||0)+branches.reduce((s,b)=>s+(stB[b]||0),0)-(issB[key]||0);
+    const diff=remB-remA;
+    const color=diff>0?'#27ae60':diff<0?'#e53e3e':'#a0aec0';
+    const arrow=diff>0?'▲':diff<0?'▼':'–';
+    return {name:p.name,sku:p.sku,remA,remB,diff,color,arrow};
+  }).filter(r=>r.remA!==0||r.remB!==0);
+
+  const totalA=rows.reduce((s,r)=>s+r.remA,0);
+  const totalB=rows.reduce((s,r)=>s+r.remB,0);
+  const totalDiff=totalB-totalA;
+  const totalColor=totalDiff>0?'#27ae60':totalDiff<0?'#e53e3e':'#a0aec0';
+
+  out.innerHTML=`
+  <div style="overflow-x:auto;">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text);">
+      Comparing Remaining: <span style="color:var(--blue)">${_fmtMonthLabel(mA)}</span> → <span style="color:var(--blue)">${_fmtMonthLabel(mB)}</span>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead>
+        <tr style="background:#f7fafc;">
+          <th style="text-align:left;padding:8px 10px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.4px;">Product</th>
+          <th style="text-align:center;padding:8px 10px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--blue);">${_fmtMonthLabel(mA)}</th>
+          <th style="text-align:center;padding:8px 10px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--blue);">${_fmtMonthLabel(mB)}</th>
+          <th style="text-align:center;padding:8px 10px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;">Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.map((r,i)=>`
+        <tr style="background:${i%2===0?'white':'#f7fafc'};">
+          <td style="padding:7px 10px;border-bottom:1px solid var(--border);">${r.name}</td>
+          <td style="text-align:center;padding:7px 10px;border-bottom:1px solid var(--border);font-weight:600;">${r.remA}</td>
+          <td style="text-align:center;padding:7px 10px;border-bottom:1px solid var(--border);font-weight:600;">${r.remB}</td>
+          <td style="text-align:center;padding:7px 10px;border-bottom:1px solid var(--border);font-weight:700;color:${r.color};">${r.arrow} ${Math.abs(r.diff)}</td>
+        </tr>`).join('')}
+        <tr style="background:#edf2f7;font-weight:800;">
+          <td style="padding:9px 10px;">TOTAL</td>
+          <td style="text-align:center;padding:9px 10px;">${totalA.toLocaleString()}</td>
+          <td style="text-align:center;padding:9px 10px;">${totalB.toLocaleString()}</td>
+          <td style="text-align:center;padding:9px 10px;color:${totalColor};">${totalDiff>0?'▲ ':'▼ '}${Math.abs(totalDiff).toLocaleString()}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>`;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  syncFromFirebase();
+  const d=new Date();
+  const el=document.getElementById('reportMonth');
+  if(el){ el.value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; checkSnapshotExists(); }
+});
+</script>
+</body>
+</html>
