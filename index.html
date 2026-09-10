@@ -575,8 +575,7 @@
   <div class="tab active" onclick="show('overview')">🏠 Overview</div>
   <div class="tab" onclick="show('locations')">📍 Locations</div>
   <div class="tab" onclick="show('products')">📋 Stock OnHand</div>
-  <div class="tab" onclick="show('inbound')">📥 Inbound Shipment</div>
-  <div class="tab" onclick="show('outbound')">📤 Outbound</div>
+  <div class="tab" onclick="show('mainwh')">🏭 Main WH</div>
   <div class="tab" onclick="show('sheetdata')">📋 Issuances</div>
   <div class="tab" onclick="show('dispatch')">🚚 Dispatch</div>
   <div class="tab" onclick="show('archive')">🗂️ Reports Archive</div>
@@ -896,6 +895,65 @@
 </div>
 
 <!-- INBOUND -->
+<!-- MAIN WH (combined inbound + outbound) -->
+<div id="page-mainwh" class="page">
+  <!-- Hero -->
+  <div class="page-hero" style="--hc:#3182ce">
+    <div class="page-hero-art">
+      <svg width="200" height="100" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="55" y="28" width="90" height="52" rx="4" fill="#f7fafc" stroke="#e2e8f0" stroke-width="2"/>
+        <rect x="55" y="28" width="90" height="16" rx="4" fill="#3182ce" opacity="0.15"/>
+        <text x="100" y="40" text-anchor="middle" font-size="9" fill="#3182ce" font-weight="800" font-family="Arial">NAOURI WH</text>
+        <rect x="72" y="52" width="18" height="22" rx="2" fill="#e2e8f0"/>
+        <rect x="94" y="52" width="18" height="22" rx="2" fill="#e2e8f0"/>
+        <g style="animation:boxFall 2s ease-in-out infinite"><rect x="64" y="5" width="16" height="14" rx="3" fill="#2a9d8f" opacity="0.9"/></g>
+        <g style="animation:boxRise 2s ease-in-out infinite;animation-delay:.6s"><rect x="126" y="44" width="16" height="14" rx="3" fill="#e63946" opacity="0.9"/></g>
+        <line x1="28" y1="28" x2="28" y2="58" stroke="#2a9d8f" stroke-width="2.5" stroke-linecap="round"/>
+        <polyline points="20,50 28,62 36,50" stroke="#2a9d8f" stroke-width="2.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+        <line x1="172" y1="62" x2="172" y2="32" stroke="#e63946" stroke-width="2.5" stroke-linecap="round"/>
+        <polyline points="164,40 172,28 180,40" stroke="#e63946" stroke-width="2.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="page-hero-info">
+      <h2>🏭 Main Warehouse — Naouri</h2>
+      <p>Manage all stock movements in and out of Naouri warehouse. Register incoming shipments and track all outbound dispatches in one place.</p>
+    </div>
+  </div>
+
+  <!-- WH KPI strip -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:18px 24px 0;">
+    <div class="stat-card" style="border-left:4px solid #2a9d8f">
+      <div class="stat-label">Total Received (All Time)</div>
+      <div class="stat-val" id="wh-kTotalIn">—</div>
+    </div>
+    <div class="stat-card" style="border-left:4px solid #e63946">
+      <div class="stat-label">Total Dispatched (All Time)</div>
+      <div class="stat-val" id="wh-kTotalOut">—</div>
+    </div>
+    <div class="stat-card" style="border-left:4px solid #3182ce">
+      <div class="stat-label">Received Today</div>
+      <div class="stat-val" id="wh-kInToday">—</div>
+    </div>
+    <div class="stat-card" style="border-left:4px solid #f4a261">
+      <div class="stat-label">Dispatched Today</div>
+      <div class="stat-val" id="wh-kOutToday">—</div>
+    </div>
+  </div>
+
+  <!-- Sub-tab switcher -->
+  <div style="display:flex;gap:0;padding:18px 24px 0;">
+    <button id="wh-btn-in" onclick="showWHTab('inbound')"
+      style="padding:10px 28px;background:#2a9d8f;color:white;border:none;border-radius:9px 0 0 9px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;">
+      📥 Inbound — Receive Stock
+    </button>
+    <button id="wh-btn-out" onclick="showWHTab('outbound')"
+      style="padding:10px 28px;background:var(--border);color:var(--gray);border:none;border-radius:0 9px 9px 0;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;">
+      📤 Outbound — Dispatch History
+    </button>
+  </div>
+
+  <!-- Inbound sub-section -->
+  <div id="wh-section-inbound" style="display:block">
 <div id="page-inbound" class="page">
   <div class="page-hero" style="--hc:#2a9d8f">
     <div class="page-hero-art">
@@ -1023,8 +1081,11 @@
   </div>
 </div>
 
-<!-- OUTBOUND -->
-<div id="page-outbound" class="page">
+  </div><!-- /wh-section-inbound -->
+
+  <!-- Outbound sub-section -->
+  <div id="wh-section-outbound" style="display:none">
+<div id="page-outbound" class="page" style="padding:0">
   <div class="page-hero" style="--hc:#e63946">
     <div class="page-hero-art">
       <svg width="200" height="100" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1108,7 +1169,8 @@
     </div>
   </div>
 </div>
-
+  </div><!-- /wh-section-outbound -->
+</div><!-- /page-mainwh -->
 
 <!-- SHEET DATA -->
 <div id="page-sheetdata" class="page">
@@ -2729,6 +2791,42 @@ function clearInbForm(){
 
 function getInbHistory(){ return INBOUND; }
 
+// ── Main WH combined tab ─────────────────────────────────────
+function renderWHPage(){
+  const today = new Date().toISOString().slice(0,10);
+  const totalIn  = INBOUND.reduce((s,r)=>s+(parseInt(r.qty)||0),0);
+  const inToday  = INBOUND.filter(r=>r.date===today).reduce((s,r)=>s+(parseInt(r.qty)||0),0);
+  const totalOut = HISTORY.reduce((s,r)=>s+(parseInt(r.qty)||0),0);
+  const outToday = HISTORY.filter(r=>(r.date||'').slice(0,10)===today).reduce((s,r)=>s+(parseInt(r.qty)||0),0);
+  const fmt = n => n>=1000 ? (n/1000).toFixed(1)+'k' : String(n);
+  const el = id => document.getElementById(id);
+  if(el('wh-kTotalIn'))  el('wh-kTotalIn').textContent  = fmt(totalIn);
+  if(el('wh-kTotalOut')) el('wh-kTotalOut').textContent = fmt(totalOut);
+  if(el('wh-kInToday'))  el('wh-kInToday').textContent  = fmt(inToday);
+  if(el('wh-kOutToday')) el('wh-kOutToday').textContent = fmt(outToday);
+}
+
+function showWHTab(which){
+  const inSec  = document.getElementById('wh-section-inbound');
+  const outSec = document.getElementById('wh-section-outbound');
+  const btnIn  = document.getElementById('wh-btn-in');
+  const btnOut = document.getElementById('wh-btn-out');
+  if(!inSec) return;
+  if(which==='inbound'){
+    inSec.style.display  = 'block';
+    outSec.style.display = 'none';
+    btnIn.style.background  = '#2a9d8f';      btnIn.style.color  = 'white';
+    btnOut.style.background = 'var(--border)'; btnOut.style.color = 'var(--gray)';
+    renderInbPage();
+  } else {
+    inSec.style.display  = 'none';
+    outSec.style.display = 'block';
+    btnOut.style.background = '#e63946';      btnOut.style.color = 'white';
+    btnIn.style.background  = 'var(--border)'; btnIn.style.color  = 'var(--gray)';
+    renderOutboundPage();
+  }
+}
+
 function renderInbPage(){
   // Set today's date default
   const dateEl = document.getElementById('inb-date');
@@ -3169,8 +3267,7 @@ const TAB_META={
   overview: { icon:'📊', label:'Overview',   color:'#e63946', anim:'anim-zoom'  },
   locations:{ icon:'📍', label:'Locations',  color:'#3182ce', anim:'anim-right' },
   products: { icon:'📦', label:'Products',   color:'#805ad5', anim:'anim-up'    },
-  inbound:  { icon:'📥', label:'Inbound',    color:'#2a9d8f', anim:'anim-down'  },
-  outbound: { icon:'📤', label:'Outbound',   color:'#e63946', anim:'anim-up'    },
+  mainwh:   { icon:'🏭', label:'Main WH',    color:'#3182ce', anim:'anim-down'  },
   sheetdata:{ icon:'📋', label:'Sheet Data', color:'#718096', anim:'anim-left'  },
   dispatch: { icon:'🚚', label:'Dispatch',   color:'#e67e22', anim:'anim-left'  },
   archive:  { icon:'🗄️', label:'Archive',    color:'#1a202c', anim:'anim-zoom'  },
@@ -3207,13 +3304,12 @@ function show(id){
   if(meta){ void page.offsetWidth; page.classList.add(meta.anim); }
   // Show announcement banner
   showTabAnnounce(id);
-  const tabs=['overview','locations','products','inbound','outbound','sheetdata','dispatch','archive','budget'];
+  const tabs=['overview','locations','products','mainwh','sheetdata','dispatch','archive','budget'];
   document.querySelectorAll('.tab')[tabs.indexOf(id)]?.classList.add('active');
   if(id==='overview')  renderOverview();
   if(id==='locations') renderLocPage();
   if(id==='products')  renderProdTable();
-  if(id==='inbound')   renderInbPage();
-  if(id==='outbound')  renderOutboundPage();
+  if(id==='mainwh')    { renderWHPage(); showWHTab('inbound'); }
   if(id==='sheetdata') renderSheetPage();
   if(id==='dispatch')  {renderDispatch();renderHistory();}
   if(id==='issuance')  {renderIssuance();renderIssHistory();}
@@ -3300,7 +3396,6 @@ async function syncNow(){
   if(lbl)  lbl.textContent  = 'Syncing…';
 
   try {
-    // Pull all data fresh from Firebase
     await syncFromFirebase();
 
     toast('✅ Data refreshed from Firebase');
@@ -3403,7 +3498,7 @@ function setupFirebaseListeners(){
     if(JSON.stringify(newH)===JSON.stringify(HISTORY)) return;
     HISTORY=newH;
     const activePage=document.querySelector('.page.active')?.id?.replace('page-','');
-    if(activePage==='outbound') renderOutboundPage();
+    if(activePage==='mainwh') renderOutboundPage();
     if(activePage==='dispatch') renderHistory();
     if(activePage==='locations'){
       if(currentLocBranch && currentLocTab==='received'){
@@ -3422,7 +3517,7 @@ function setupFirebaseListeners(){
     if(JSON.stringify(newI)===JSON.stringify(INBOUND)) return;
     INBOUND=newI;
     const activePage=document.querySelector('.page.active')?.id?.replace('page-','');
-    if(activePage==='inbound') renderInbPage();
+    if(activePage==='mainwh') renderInbPage();
     if(activePage==='locations'){
       if(currentLocBranch && currentLocTab==='received'){
         renderBranchTab(currentLocBranch,'received');
@@ -3690,6 +3785,7 @@ function _buildIssuedMap(){
       if(!r[0]||r[0].toLowerCase()==='grand total'||r[0]==='Item') return;
       if(r[0].toLowerCase().startsWith('reused')) return; // exclude reused items
       const name=normName(r[0]||'');
+      
       const total=(parseInt(r[nhIdx])||0)+(parseInt(r[repIdx])||0);
       if(name&&total>0) map[name]=(map[name]||0)+total;
     });
