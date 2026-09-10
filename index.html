@@ -6,8 +6,7 @@
 <title>Inventory Monitor 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<!-- Firebase SDK replaced with REST API — no WebSocket needed -->
 <style>
   :root {
     --red:#e63946; --dark-red:#c1121f; --orange:#f4a261; --green:#2a9d8f;
@@ -1428,18 +1427,53 @@
 <div id="toast"></div>
 
 <script>
-// ======== FIREBASE ========
-const firebaseConfig = {
-  apiKey: "AIzaSyDjwoy4RJC5gLKpBA9EXdxfw4aVj_gRoDc",
-  authDomain: "inventory-aba19.firebaseapp.com",
-  databaseURL: "https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "inventory-aba19",
-  storageBucket: "inventory-aba19.firebasestorage.app",
-  messagingSenderId: "114355237740",
-  appId: "1:114355237740:web:90ccf1990e4d9ea488f949"
+// ======== FIREBASE REST API (replaces WebSocket SDK) ========
+const FB_BASE = 'https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app';
+
+function _makeSnap(val){
+  return { val:()=>val, exists:()=>val!==null&&val!==undefined };
+}
+
+async function _fbFetch(path, opts={}){
+  const url = FB_BASE + '/' + path.replace(/^\/+/,'') + '.json';
+  const r = await fetch(url, opts);
+  if(!r.ok) throw new Error('Firebase '+r.status+' on '+path);
+  return r.json();
+}
+
+// Polling for real-time listeners (every 30s)
+const _fbListeners = {};
+let _fbPollTimer = null;
+function _fbStartPoll(){
+  if(_fbPollTimer) return;
+  _fbPollTimer = setInterval(async ()=>{
+    for(const path of Object.keys(_fbListeners)){
+      try{ const v=await _fbFetch(path); _fbListeners[path].forEach(cb=>cb(_makeSnap(v))); }catch(e){}
+    }
+  }, 30000);
+}
+
+// Drop-in replacement for firebase.database()
+const db = {
+  ref: (path)=>{
+    const p = path.replace(/^\/+/,'');
+    return {
+      once: ()=> _fbFetch(p).then(v=>_makeSnap(v)),
+      get:  ()=> _fbFetch(p).then(v=>_makeSnap(v)),
+      set:  (d)=> _fbFetch(p,{method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(d)}),
+      update:(d)=> _fbFetch(p,{method:'PATCH',headers:{'Content-Type':'application/json'}, body:JSON.stringify(d)}),
+      push: (d)=> _fbFetch(p,{method:'POST',headers:{'Content-Type':'application/json'}, body:JSON.stringify(d)}).then(r=>({key:r?.name})),
+      remove:()=> _fbFetch(p,{method:'DELETE'}),
+      on:(event,cb)=>{
+        if(p==='.info/connected'){ cb(_makeSnap(true)); return; }
+        if(!_fbListeners[p]) _fbListeners[p]=[];
+        _fbListeners[p].push(cb);
+        _fbFetch(p).then(v=>cb(_makeSnap(v))).catch(()=>{});
+        _fbStartPoll();
+      }
+    };
+  }
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
 function setFbStatus(state){
   const dot=document.getElementById('fb-dot');
@@ -3698,50 +3732,4 @@ function _buildIssuedMap(){
       if(!r[0]||r[0].toLowerCase()==='grand total'||r[0]==='Item') return;
       if(r[0].toLowerCase().startsWith('reused')) return; // exclude reused items
       const name=normName(r[0]||'');
-      const total=(parseInt(r[nhIdx])||0)+(parseInt(r[repIdx])||0);
-      if(name&&total>0) map[name]=(map[name]||0)+total;
-    });
-  });
-  return map;
-}
-
-function _getGroupIssuedQty(group, issMap){
-  const matched=new Set();
-  let total=0;
-
-  // 1. Try exact match via SEED names
-  group.skus.forEach(sku=>{
-    const seed=SEED.find(s=>s.sku===sku);
-    if(seed){
-      const k=normName(seed.name);
-      if(!matched.has(k)&&issMap[k]){
-        matched.add(k);
-        total+=issMap[k];
-      }
-    }
-  });
-
-  // 2. Fallback: prefix match via csvAliases (catches different naming in CSV)
-  if(group.csvAliases){
-    group.csvAliases.forEach(alias=>{
-      const base=normName(alias);
-      Object.keys(issMap).forEach(k=>{
-        if(!matched.has(k)&&(k===base||k.startsWith(base+' '))){
-          matched.add(k);
-          total+=issMap[k];
-        }
-      });
-    });
-  }
-
-  return total;
-}
-
-function showCSVNames(){
-  const box=document.getElementById('budget-debug');
-  if(!SHEET_ROWS||SHEET_ROWS.length<3){
-    box.innerHTML='⚠️ No CSV loaded. Go to Issuances tab and upload the CSV first.';
-    box.style.display='block'; return;
-  }
-  const names=[...new Set(
-    SHEET_ROWS.slice(
+      const total=(parseInt(r[nhIdx
