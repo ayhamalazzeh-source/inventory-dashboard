@@ -3732,8 +3732,7 @@ function _buildIssuedMap(){
       if(!r[0]||r[0].toLowerCase()==='grand total'||r[0]==='Item') return;
       if(r[0].toLowerCase().startsWith('reused')) return; // exclude reused items
       const name=normName(r[0]||'');
-      
-])||0)+(parseInt(r[repIdx])||0);
+      const total=(parseInt(r[nhIdx])||0)+(parseInt(r[repIdx])||0);
       if(name&&total>0) map[name]=(map[name]||0)+total;
     });
   });
