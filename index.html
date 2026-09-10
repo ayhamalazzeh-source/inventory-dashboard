@@ -3290,7 +3290,7 @@ function refreshAllData(){
   });
 }
 
-// ── Sync Now: fetch sheet CSV → Firebase ────────────
+// ── Sync Now: pull latest data from Firebase ────────────
 async function syncNow(){
   const btn  = document.getElementById('sync-now-btn');
   const icon = document.getElementById('sync-icon');
@@ -3299,56 +3299,14 @@ async function syncNow(){
   if(icon) icon.textContent = '⏳';
   if(lbl)  lbl.textContent  = 'Syncing…';
 
-  const CSV_URL = 'https://docs.google.com/spreadsheets/d/13F8CVK1fEXjbskOZmK0UvE9fazIUYn6nRWkAhBqsdcw/gviz/tq?tqx=out:csv&sheet=fl';
-  const FB_URL  = 'https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/inv2026/sheetRows.json';
-
   try {
-    // 1. Fetch CSV from Google Sheets (requires being logged into Google in Chrome)
-    const resp = await fetch(CSV_URL, {credentials:'include'});
-    if(!resp.ok) throw new Error('Could not reach Google Sheets — make sure you are logged into Google in Chrome.');
-    const csv = await resp.text();
+    // Pull all data fresh from Firebase
+    await syncFromFirebase();
 
-    // 2. Parse CSV
-    function parseCSVLine(line){
-      const res=[]; let cur=''; let inQ=false;
-      for(let i=0;i<line.length;i++){
-        const c=line[i];
-        if(c==='"'){ inQ=!inQ; }
-        else if(c===','&&!inQ){ res.push(cur.trim()); cur=''; }
-        else cur+=c;
-      }
-      res.push(cur.trim());
-      return res;
-    }
-    const lines = csv.split('\n').filter(l=>l.trim());
-    const rawRows = lines.map(parseCSVLine);
-
-    // 3. Build rows with standard headers
-    const HEADER1 = ["Item","Amman","","Irbid","","Zarqa","","Aqaba","","Total New Hiring","Total Replacement"];
-    const HEADER2 = ["","New Hiring","Replacement","New Hiring","Replacement","New Hiring","Replacement","New Hiring","Replacement","",""];
-    const dataRows = rawRows.slice(1).map(r => r.slice(0,11));
-    const rows = [HEADER1, HEADER2, ...dataRows];
-
-    // 4. PUT to Firebase
-    const fbResp = await fetch(FB_URL, {
-      method:'PUT',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(rows)
-    });
-    if(!fbResp.ok) throw new Error('Firebase write failed (status ' + fbResp.status + ')');
-
-    // 5. Update in memory + re-render
-    SHEET_ROWS = rows;
-    try{ localStorage.setItem('sheetRows', JSON.stringify(rows)); }catch(e){}
-    renderSheetPage();
-    renderOverview();
-    renderProdTable();
-    _renderOvEmployees && _renderOvEmployees();
-
-    toast('✅ Sheet synced — ' + (dataRows.length) + ' rows updated');
+    toast('✅ Data refreshed from Firebase');
     if(icon) icon.textContent = '✅';
     if(lbl)  lbl.textContent  = 'Synced!';
-    setTimeout(()=>{ if(icon) icon.textContent='⚡'; if(lbl) lbl.textContent='Sync Sheet'; }, 3000);
+    setTimeout(()=>{ if(icon) icon.textContent='⚡'; if(lbl) lbl.textContent='Sync Now'; }, 3000);
 
   } catch(e) {
     toast('❌ Sync failed: ' + e.message);
