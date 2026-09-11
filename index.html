@@ -4256,25 +4256,29 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </div></div><!-- /main-content /app-layout -->
-  <!-- إضافة حاسبة الميزانية المتوقعة التلقائية -->
+<!-- إضافة حاسبة الميزانية المتوقعة (أسعار وكميات متغيرة) -->
 <script>
 setTimeout(() => {
-  // 1. إضافة واجهة الجدول في قسم الميزانية تلقائياً
+  // 1. إضافة واجهة الجدول تلقائياً
   const budgetPage = document.getElementById('page-budget');
+  const oldSec = document.getElementById('expected-budget-section');
+  if (oldSec) oldSec.remove(); // مسح النسخة القديمة إن وجدت
+
   if (budgetPage) {
     const expectedSection = document.createElement('div');
+    expectedSection.id = 'expected-budget-section';
     expectedSection.innerHTML = `
       <div class="card" style="margin-top:20px;">
         <div class="card-header" style="border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:0;">
           <h2 style="font-size:15px;">🔮 حاسبة الميزانية المتوقعة (Forecasting)</h2>
-          <span style="font-size:11px;color:var(--gray);">قم بإدخال الكمية المتوقعة يدوياً لمعرفة التكلفة الإجمالية بناءً على الأسعار المعتمدة</span>
+          <span style="font-size:11px;color:var(--gray);">قم بإدخال السعر والكمية المتوقعة يدوياً (هذه الخانات للتجربة ولا تؤثر على الجدول الرئيسي)</span>
         </div>
         <div class="tbl-wrap">
           <table>
             <thead>
               <tr>
                 <th>Product Group</th>
-                <th style="text-align:center">Unit Price (JOD)</th>
+                <th style="text-align:center">Expected Price (السعر)</th>
                 <th style="text-align:center">Expected Qty (الكمية)</th>
                 <th style="text-align:center">Expected Total (المجموع)</th>
               </tr>
@@ -4294,15 +4298,22 @@ setTimeout(() => {
     budgetPage.appendChild(expectedSection);
   }
 
-  // 2. دوال الحساب وتحديث الأرقام
+  // 2. رسم الجدول بخانات إدخال للسعر والكمية
   window.renderExpectedBudget = function() {
     const tbody = document.getElementById('budget-expected-body');
     if (!tbody) return;
     tbody.innerHTML = BUDGET_GROUPS.map((g, i) => {
-      const price = BUDGET_PRICES[g.key] || 0;
+      // جلب السعر المباشر من الجدول الرئيسي كقيمة افتراضية
+      const mainPriceInput = document.getElementById(`bprice-${g.key}`);
+      const price = mainPriceInput ? (parseFloat(mainPriceInput.value) || 0) : (BUDGET_PRICES[g.key] || 0);
+      
       return `<tr style="background:${i % 2 === 0 ? 'white' : '#f7fafc'};">
         <td style="padding:9px 12px;font-weight:600;">${g.icon} ${g.label}</td>
-        <td id="exp-price-${g.key}" style="text-align:center;padding:9px 12px;">${price.toFixed(3)}</td>
+        <td style="text-align:center;padding:9px 12px;">
+          <input type="number" id="exp-price-${g.key}" value="${price}" min="0" step="0.01"
+            style="width:90px;padding:5px 8px;border:1px solid #90cdf4;border-radius:7px;font-size:13px;font-family:inherit;text-align:center;background:#ebf8ff;color:var(--text);font-weight:bold;"
+            oninput="calcExpectedBudget()">
+        </td>
         <td style="text-align:center;padding:9px 12px;">
           <input type="number" id="exp-qty-${g.key}" value="0" min="0" step="1"
             style="width:90px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit;text-align:center;"
@@ -4314,18 +4325,19 @@ setTimeout(() => {
     window.calcExpectedBudget();
   };
 
+  // 3. حساب العمليات الرياضية
   window.calcExpectedBudget = function() {
     let totalQty = 0, totalCost = 0;
     BUDGET_GROUPS.forEach(g => {
-      const price = BUDGET_PRICES[g.key] || 0;
-      const priceTd = document.getElementById(`exp-price-${g.key}`);
-      if(priceTd) priceTd.textContent = price.toFixed(3);
+      const priceInput = document.getElementById(`exp-price-${g.key}`);
+      const price = parseFloat(priceInput?.value) || 0;
       
       const qtyInput = document.getElementById(`exp-qty-${g.key}`);
       const qty = parseInt(qtyInput?.value) || 0;
       
       const rowTotal = price * qty;
-      totalQty += qty; totalCost += rowTotal;
+      totalQty += qty; 
+      totalCost += rowTotal;
       
       const totalTd = document.getElementById(`exp-total-${g.key}`);
       if (totalTd) totalTd.textContent = rowTotal.toFixed(3);
@@ -4336,7 +4348,7 @@ setTimeout(() => {
     if(fC) fC.textContent = totalCost.toFixed(3) + ' JOD';
   };
 
-  // 3. ربط التحديثات مع الجدول الأصلي لتعمل معاً بنجاح
+  // 4. ربط الجدول ليتحدث تلقائياً مع الجدول الأصلي
   const oldRefresh = window._refreshBudgetUI;
   window._refreshBudgetUI = function() {
     if(oldRefresh) oldRefresh();
@@ -4346,10 +4358,13 @@ setTimeout(() => {
   const oldUpdate = window.liveUpdateBudgetRow;
   window.liveUpdateBudgetRow = function(key) {
     if(oldUpdate) oldUpdate(key);
+    // إذا تم تعديل السعر في الجدول الرئيسي، يتم نسخه كقيمة افتراضية للجدول المتوقع
+    const mainInp = document.getElementById(`bprice-${key}`);
+    const expInp = document.getElementById(`exp-price-${key}`);
+    if(mainInp && expInp) { expInp.value = mainInp.value; }
     window.calcExpectedBudget();
   };
 
-  // تشغيل أولي بعد تحميل الصفحة
   setTimeout(window.renderExpectedBudget, 500);
 }, 1000);
 </script>
