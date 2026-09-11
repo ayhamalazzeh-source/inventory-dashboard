@@ -18,10 +18,9 @@
 
   /* ── Hero banner ── */
   .tlb-hero{background:linear-gradient(135deg,#fff8f4 0%,#fff 40%,#fff5f0 100%);border-bottom:1px solid #ffe0cc;position:relative;overflow:hidden;}
-  .tlb-hero-inner{display:flex;align-items:center;justify-content:space-between;padding:0 0;height:186px;}
-  .tlb-hero-left,.tlb-hero-right{flex:1;min-width:0;overflow:hidden;display:flex;align-items:stretch;}
-  .tlb-hero-left svg,.tlb-hero-right svg{width:100%;height:220px;}
-  .tlb-hero-center{text-align:center;flex:0 0 260px;padding:0 2px;}
+  .tlb-hero-inner{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:186px;}
+  .tlb-hero-left,.tlb-hero-right{flex-shrink:0;}
+  .tlb-hero-center{text-align:center;flex:1;padding:0 8px;}
   .tlb-hero-brand{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:0;}
   .tlb-hero-brand span{font-size:32px;font-weight:900;color:#FF5900;letter-spacing:-1px;font-family:'Segoe UI',Arial,sans-serif;}
   .tlb-wordmark-wrap{position:relative;display:inline-block;line-height:1;margin:0 0 2px;}
@@ -343,170 +342,104 @@
 <div class="tlb-hero">
   <div class="tlb-hero-inner">
 
-    <!-- LEFT: Truck · Bag · Loading -->
+    <!-- LEFT: Upload arrow + boxes + truck -->
     <div class="tlb-hero-left" aria-hidden="true">
-      <svg viewBox="0 0 520 220" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="280" height="170" viewBox="0 0 280 170" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="trBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#e8e8e8"/></linearGradient>
-          <linearGradient id="trOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#CC3D00"/></linearGradient>
-          <linearGradient id="trGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b3d9f5" stop-opacity="0.8"/><stop offset="100%" stop-color="#6fb3e0" stop-opacity="0.5"/></linearGradient>
-          <linearGradient id="bagBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7030"/><stop offset="100%" stop-color="#BF3000"/></linearGradient>
-          <linearGradient id="bagDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#8B2000"/></linearGradient>
-          <linearGradient id="boxF" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B55A"/><stop offset="100%" stop-color="#C48B30"/></linearGradient>
-          <linearGradient id="boxT" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5C87A"/><stop offset="100%" stop-color="#D4A04A"/></linearGradient>
-          <linearGradient id="boxSd" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C48B30"/><stop offset="100%" stop-color="#A06010"/></linearGradient>
-          <radialGradient id="tireShine" cx="35%" cy="30%" r="60%"><stop offset="0%" stop-color="#666"/><stop offset="100%" stop-color="#111"/></radialGradient>
-          <filter id="shadow"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#00000030"/></filter>
-          <filter id="shadowSm"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000025"/></filter>
+          <linearGradient id="bF" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B55A"/><stop offset="100%" stop-color="#C48B30"/></linearGradient>
+          <linearGradient id="bT" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5C87A"/><stop offset="100%" stop-color="#D4A04A"/></linearGradient>
+          <linearGradient id="bS" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C48B30"/><stop offset="100%" stop-color="#A86E1A"/></linearGradient>
+          <linearGradient id="trC" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#eee"/></linearGradient>
+          <linearGradient id="trOr" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7A35"/><stop offset="100%" stop-color="#CC3D00"/></linearGradient>
+          <filter id="sh"><feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-color="#00000028"/></filter>
+          <filter id="sh2"><feDropShadow dx="1" dy="3" stdDeviation="4" flood-color="#00000030"/></filter>
         </defs>
 
-        <!-- ═══ TRUCK (detailed) ═══ -->
-        <g transform="translate(10, 30)" filter="url(#shadow)">
-          <!-- Ground shadow -->
-          <ellipse cx="185" cy="175" rx="160" ry="10" fill="rgba(0,0,0,0.12)"/>
-          <!-- Cargo container -->
-          <rect x="0" y="30" width="220" height="120" rx="4" fill="url(#trBody)"/>
-          <!-- Container top edge -->
-          <rect x="0" y="30" width="220" height="6" rx="3" fill="#d0d0d0"/>
-          <!-- talabat branding stripe on cargo -->
-          <rect x="0" y="118" width="220" height="26" rx="0" fill="url(#trOrange)"/>
-          <!-- talabat text on cargo -->
-          <text x="22" y="88" font-size="28" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial,sans-serif" letter-spacing="-1">talabat</text>
-          <!-- Door lines on cargo -->
-          <line x1="110" y1="36" x2="110" y2="118" stroke="#ccc" stroke-width="2"/>
-          <line x1="158" y1="36" x2="158" y2="118" stroke="#ccc" stroke-width="2"/>
-          <!-- Rivets -->
-          <circle cx="5" cy="40" r="3" fill="#bbb"/><circle cx="5" cy="60" r="3" fill="#bbb"/><circle cx="5" cy="80" r="3" fill="#bbb"/><circle cx="5" cy="100" r="3" fill="#bbb"/>
-          <circle cx="215" cy="40" r="3" fill="#bbb"/><circle cx="215" cy="60" r="3" fill="#bbb"/>
-
+        <!-- ── DELIVERY TRUCK ── -->
+        <g transform="translate(8,68)" filter="url(#sh2)">
+          <!-- Cargo box -->
+          <rect x="0" y="10" width="120" height="58" rx="3" fill="url(#trC)"/>
+          <rect x="0" y="10" width="120" height="10" rx="3" fill="#f0f0f0"/>
+          <text x="14" y="44" font-size="16" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
+          <rect x="0" y="54" width="120" height="5" fill="rgba(255,89,0,0.2)"/>
           <!-- Cab -->
-          <rect x="188" y="10" width="90" height="136" rx="8" fill="url(#trBody)"/>
-          <!-- Cab front slope -->
-          <path d="M188,10 L228,0 L278,10" fill="#e0e0e0"/>
-          <!-- Windshield -->
-          <rect x="196" y="16" width="74" height="52" rx="5" fill="url(#trGlass)"/>
-          <!-- Windshield reflection -->
-          <path d="M200,20 L234,16 L234,30 L200,36 Z" fill="rgba(255,255,255,0.35)"/>
-          <!-- Cab door -->
-          <rect x="196" y="76" width="74" height="56" rx="3" fill="#e8e8e8"/>
-          <rect x="200" y="80" width="66" height="44" rx="3" fill="#f5f5f5"/>
-          <!-- Door handle -->
-          <rect x="254" y="105" width="12" height="5" rx="2.5" fill="#bbb"/>
-          <!-- Side mirror -->
-          <rect x="184" y="20" width="10" height="18" rx="3" fill="#ccc"/>
-          <!-- Cab stripe -->
-          <rect x="188" y="118" width="90" height="18" rx="0" fill="url(#trOrange)"/>
-          <!-- Lights -->
-          <rect x="260" y="12" width="16" height="10" rx="2" fill="#fffde0"/>
-          <rect x="260" y="12" width="16" height="10" rx="2" fill="rgba(255,220,100,0.6)"/>
-          <!-- Front bumper -->
-          <rect x="188" y="134" width="90" height="12" rx="4" fill="#d0d0d0"/>
-          <!-- Exhaust pipe -->
-          <rect x="186" y="0" width="6" height="28" rx="3" fill="#aaa"/>
-
+          <rect x="98" y="0" width="50" height="68" rx="5" fill="url(#trC)"/>
+          <rect x="103" y="5" width="40" height="26" rx="3" fill="#3a1505" opacity="0.7"/>
+          <rect x="98" y="56" width="50" height="7" fill="url(#trOr)"/>
+          <!-- Orange stripe -->
+          <rect x="0" y="62" width="148" height="6" rx="2" fill="url(#trOr)"/>
           <!-- Wheels -->
-          <g transform="translate(30, 142)">
-            <circle cx="0" cy="0" r="24" fill="#1a1a1a"/>
-            <circle cx="0" cy="0" r="16" fill="url(#tireShine)"/>
-            <circle cx="0" cy="0" r="8" fill="#222"/>
-            <circle cx="0" cy="0" r="4" fill="#555"/>
-            <!-- Lug nuts -->
-            <circle cx="0" cy="-12" r="3" fill="#888"/>
-            <circle cx="10" cy="-6" r="3" fill="#888"/>
-            <circle cx="10" cy="6" r="3" fill="#888"/>
-            <circle cx="0" cy="12" r="3" fill="#888"/>
-            <circle cx="-10" cy="6" r="3" fill="#888"/>
-            <circle cx="-10" cy="-6" r="3" fill="#888"/>
-          </g>
-          <g transform="translate(126, 142)">
-            <circle cx="0" cy="0" r="24" fill="#1a1a1a"/>
-            <circle cx="0" cy="0" r="16" fill="url(#tireShine)"/>
-            <circle cx="0" cy="0" r="8" fill="#222"/>
-            <circle cx="0" cy="0" r="4" fill="#555"/>
-            <circle cx="0" cy="-12" r="3" fill="#888"/>
-            <circle cx="10" cy="-6" r="3" fill="#888"/>
-            <circle cx="10" cy="6" r="3" fill="#888"/>
-            <circle cx="0" cy="12" r="3" fill="#888"/>
-            <circle cx="-10" cy="6" r="3" fill="#888"/>
-            <circle cx="-10" cy="-6" r="3" fill="#888"/>
-          </g>
-          <g transform="translate(236, 142)">
-            <circle cx="0" cy="0" r="24" fill="#1a1a1a"/>
-            <circle cx="0" cy="0" r="16" fill="url(#tireShine)"/>
-            <circle cx="0" cy="0" r="8" fill="#222"/>
-            <circle cx="0" cy="0" r="4" fill="#555"/>
-            <circle cx="0" cy="-12" r="3" fill="#888"/>
-            <circle cx="10" cy="-6" r="3" fill="#888"/>
-            <circle cx="10" cy="6" r="3" fill="#888"/>
-            <circle cx="0" cy="12" r="3" fill="#888"/>
-            <circle cx="-10" cy="6" r="3" fill="#888"/>
-            <circle cx="-10" cy="-6" r="3" fill="#888"/>
-          </g>
-          <!-- Road -->
-          <line x1="-20" y1="166" x2="310" y2="166" stroke="#d0d0d0" stroke-width="3"/>
-          <line x1="-20" y1="168" x2="310" y2="168" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+          <circle cx="28" cy="76" r="13" fill="#2a1000"/>
+          <circle cx="28" cy="76" r="8"  fill="#555"/>
+          <circle cx="28" cy="76" r="4"  fill="#2a1000"/>
+          <circle cx="28" cy="76" r="2"  fill="#fff" opacity="0.4"/>
+          <circle cx="88" cy="76" r="13" fill="#2a1000"/>
+          <circle cx="88" cy="76" r="8"  fill="#555"/>
+          <circle cx="88" cy="76" r="4"  fill="#2a1000"/>
+          <circle cx="88" cy="76" r="2"  fill="#fff" opacity="0.4"/>
+          <circle cx="130" cy="76" r="13" fill="#2a1000"/>
+          <circle cx="130" cy="76" r="8"  fill="#555"/>
+          <circle cx="130" cy="76" r="4"  fill="#2a1000"/>
+          <circle cx="130" cy="76" r="2"  fill="#fff" opacity="0.4"/>
+          <!-- Road line -->
+          <line x1="-10" y1="89" x2="160" y2="89" stroke="#ddd" stroke-width="2"/>
+          <!-- Speed lines -->
+          <line x1="-18" y1="36" x2="-4" y2="36" stroke="#FF5900" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/>
+          <line x1="-22" y1="48" x2="-6" y2="48" stroke="#FF5900" stroke-width="1.5" stroke-linecap="round" opacity="0.25"/>
         </g>
 
-        <!-- ═══ DELIVERY BAG (detailed) ═══ -->
-        <g transform="translate(320, 18)" filter="url(#shadowSm)">
-          <ellipse cx="60" cy="200" rx="50" ry="7" fill="rgba(0,0,0,0.1)"/>
-          <!-- Handle left -->
-          <path d="M28,36 C28,10 92,10 92,36" stroke="#6B1800" stroke-width="12" fill="none" stroke-linecap="round"/>
-          <path d="M28,36 C28,14 92,14 92,36" stroke="#FF5020" stroke-width="6" fill="none" stroke-linecap="round"/>
-          <!-- Handle shine -->
-          <path d="M36,30 C40,16 80,16 84,30" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <!-- Bag body -->
-          <rect x="8" y="36" width="104" height="152" rx="10" fill="url(#bagBody)"/>
-          <!-- Zipper flap top -->
-          <rect x="8" y="36" width="104" height="28" rx="10" fill="url(#bagDark)"/>
-          <rect x="8" y="56" width="104" height="8" fill="url(#bagDark)"/>
-          <!-- Zipper teeth -->
-          <line x1="16" y1="50" x2="104" y2="50" stroke="#FF6030" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
-          <!-- Zipper pull -->
-          <rect x="55" y="28" width="10" height="16" rx="4" fill="#3a0800"/>
-          <rect x="57" y="20" width="6" height="12" rx="3" fill="#220400"/>
-          <!-- Quilted horizontal seams -->
-          <line x1="8" y1="80"  x2="112" y2="80"  stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
-          <line x1="8" y1="104" x2="112" y2="104" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
-          <line x1="8" y1="128" x2="112" y2="128" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
-          <line x1="8" y1="152" x2="112" y2="152" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
-          <!-- Side depth shading -->
-          <rect x="8"   y="64" width="10" height="124" rx="5" fill="rgba(0,0,0,0.18)"/>
-          <rect x="102" y="64" width="10" height="124" rx="5" fill="rgba(255,255,255,0.06)"/>
-          <!-- White logo plate -->
-          <rect x="18" y="110" width="84" height="36" rx="7" fill="white"/>
-          <text x="60" y="134" text-anchor="middle" font-size="20" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial,sans-serif">talabat</text>
-          <!-- Highlight shine on body -->
-          <ellipse cx="32" cy="44" rx="14" ry="5" fill="rgba(255,255,255,0.22)" transform="rotate(-8,32,44)"/>
-          <!-- Bottom rounded shadow -->
-          <rect x="8" y="172" width="104" height="16" rx="0 0 10 10" fill="rgba(0,0,0,0.12)"/>
+        <!-- ── OPEN BOX with UP arrow (upload) ── -->
+        <g transform="translate(170,30)" filter="url(#sh)">
+          <ellipse cx="40" cy="104" rx="32" ry="5" fill="rgba(0,0,0,0.08)"/>
+          <!-- box front -->
+          <path d="M8,40 L8,102 L72,102 L72,40 Z" fill="url(#bF)"/>
+          <!-- box top face -->
+          <path d="M8,40 L40,24 L72,40 L40,56 Z" fill="url(#bT)"/>
+          <!-- box side -->
+          <path d="M72,40 L72,102 L84,92 L84,30 Z" fill="url(#bS)"/>
+          <!-- open flaps -->
+          <path d="M8,40 L8,22 L40,6 L40,24 Z" fill="#DDB060" opacity="0.8"/>
+          <path d="M72,40 L72,22 L40,6 L40,24 Z" fill="#C89040" opacity="0.85"/>
+          <!-- tape -->
+          <rect x="35" y="40" width="10" height="62" fill="rgba(255,200,100,0.35)"/>
+          <!-- seams front -->
+          <line x1="8" y1="55" x2="72" y2="55" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
+          <line x1="8" y1="72" x2="72" y2="72" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
+          <line x1="8" y1="88" x2="72" y2="88" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
+          <!-- UP ARROW (upload) -->
+          <line x1="40" y1="3" x2="40" y2="28" stroke="#FF5900" stroke-width="3" stroke-linecap="round" opacity="0.0"/>
         </g>
 
-        <!-- ═══ INBOUND / OUTBOUND (stylish) ═══ -->
-        <g transform="translate(328, 0)">
-          <!-- INBOUND box -->
-          <rect x="0" y="0" width="78" height="28" rx="14" fill="rgba(255,89,0,0.1)"/>
-          <line x1="24" y1="20" x2="24" y2="8"  stroke="#FF5900" stroke-width="3" stroke-linecap="round"/>
-          <polyline points="16,15 24,6 32,15" stroke="#FF5900" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-          <text x="44" y="18" font-size="10" fill="#FF5900" font-weight="700" font-family="Arial">INBOUND</text>
+        <!-- ── UPLOAD ARROW floating ── -->
+        <g transform="translate(200,5)">
+          <circle cx="28" cy="28" r="22" fill="#FF5900" opacity="0.12"/>
+          <line x1="28" y1="38" x2="28" y2="16" stroke="#FF5900" stroke-width="3" stroke-linecap="round"/>
+          <polyline points="18,26 28,14 38,26" stroke="#FF5900" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+          <text x="28" y="55" text-anchor="middle" font-size="8" fill="#FF5900" font-weight="700" font-family="Arial">INBOUND</text>
         </g>
-        <g transform="translate(328, 32)">
-          <!-- OUTBOUND box -->
-          <rect x="0" y="0" width="90" height="28" rx="14" fill="rgba(42,157,143,0.1)"/>
-          <line x1="24" y1="8"  x2="24" y2="20" stroke="#2a9d8f" stroke-width="3" stroke-linecap="round"/>
-          <polyline points="16,13 24,22 32,13" stroke="#2a9d8f" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-          <text x="44" y="18" font-size="10" fill="#2a9d8f" font-weight="700" font-family="Arial">OUTBOUND</text>
+
+        <!-- ── DOWNLOAD ARROW floating ── -->
+        <g transform="translate(234,5)">
+          <circle cx="20" cy="28" r="18" fill="#2a9d8f" opacity="0.12"/>
+          <line x1="20" y1="16" x2="20" y2="38" stroke="#2a9d8f" stroke-width="3" stroke-linecap="round"/>
+          <polyline points="10,28 20,40 30,28" stroke="#2a9d8f" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+          <text x="20" y="55" text-anchor="middle" font-size="8" fill="#2a9d8f" font-weight="700" font-family="Arial">OUTBOUND</text>
         </g>
 
       </svg>
     </div>
 
-    <!-- CENTER -->
+    <!-- CENTER: talabat wordmark + title -->
     <div class="tlb-hero-center">
       <div class="tlb-hero-brand">
-        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <defs><linearGradient id="iG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#CC3D00"/></linearGradient></defs>
-          <rect x="2" y="10" width="28" height="18" rx="3.5" fill="url(#iG)"/>
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="iconGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FF8040"/>
+              <stop offset="100%" stop-color="#CC3D00"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="10" width="28" height="18" rx="3.5" fill="url(#iconGrad)"/>
           <rect x="9" y="4" width="14" height="9" rx="2" fill="#FF7A35"/>
           <rect x="12" y="13" width="8" height="9" rx="1.5" fill="white"/>
         </svg>
@@ -516,129 +449,85 @@
         <svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex-shrink:0"><rect x="2" y="5" width="16" height="12" rx="2" fill="#888"/><rect x="6" y="2" width="8" height="5" rx="1" fill="#aaa"/><rect x="8" y="8" width="4" height="5" rx="0.5" fill="white"/></svg>
         Inventory Monitor
       </div>
-      <div class="tlb-hero-sub">Naouri Warehouse &nbsp;·&nbsp; 5 Locations &nbsp;·&nbsp; 2026</div>
+      <div class="tlb-hero-sub">Naouri Warehouse &nbsp;·&nbsp; 5 Locations &nbsp;·&nbsp; Auto-saved &nbsp;·&nbsp; 2026</div>
     </div>
 
-    <!-- RIGHT: Jacket · Coins · Box loading -->
+    <!-- RIGHT: jacket + tshirt + budget coins -->
     <div class="tlb-hero-right" aria-hidden="true">
-      <svg viewBox="0 0 520 220" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="280" height="170" viewBox="0 0 280 170" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="jkBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#E03800"/></linearGradient>
-          <linearGradient id="jkDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#8B2200"/></linearGradient>
-          <linearGradient id="jkSlv"  x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#FF6020"/></linearGradient>
-          <linearGradient id="coinTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFE066"/><stop offset="100%" stop-color="#D4A010"/></linearGradient>
-          <linearGradient id="coinSide" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C89010"/><stop offset="100%" stop-color="#906000"/></linearGradient>
-          <linearGradient id="bxF2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B55A"/><stop offset="100%" stop-color="#C48B30"/></linearGradient>
-          <linearGradient id="bxT2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5C87A"/><stop offset="100%" stop-color="#D4A04A"/></linearGradient>
-          <linearGradient id="bxS2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C48B30"/><stop offset="100%" stop-color="#906010"/></linearGradient>
-          <filter id="sh7"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#00000030"/></filter>
-          <filter id="sh8"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000025"/></filter>
+          <linearGradient id="jG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#E04000"/></linearGradient>
+          <linearGradient id="sG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7A35"/><stop offset="100%" stop-color="#FF5900"/></linearGradient>
+          <linearGradient id="coinG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFD966"/><stop offset="100%" stop-color="#B8860B"/></linearGradient>
+          <linearGradient id="coinS" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4A017"/><stop offset="100%" stop-color="#8B6000"/></linearGradient>
+          <filter id="sh3"><feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-color="#00000028"/></filter>
+          <filter id="sh4"><feDropShadow dx="1" dy="3" stdDeviation="4" flood-color="#00000030"/></filter>
         </defs>
 
-        <!-- ═══ JACKET (detailed) ═══ -->
-        <g transform="translate(8, 4)" filter="url(#sh7)">
-          <ellipse cx="84" cy="214" rx="76" ry="8" fill="rgba(0,0,0,0.1)"/>
-          <!-- Body -->
-          <path d="M28,38 L10,120 L16,206 L152,206 L158,120 L140,38 Z" fill="url(#jkBody)"/>
-          <!-- Left sleeve -->
-          <path d="M28,38 L6,30 L-8,100 L28,108 Z" fill="#FF6020"/>
-          <!-- Left sleeve seam -->
-          <line x1="28" y1="38" x2="28" y2="108" stroke="rgba(0,0,0,0.1)" stroke-width="2"/>
-          <!-- Left cuff -->
-          <rect x="-8" y="90" width="36" height="18" rx="6" fill="url(#jkDark)"/>
-          <!-- Right sleeve -->
-          <path d="M140,38 L162,30 L176,100 L140,108 Z" fill="#FF6020"/>
-          <line x1="140" y1="38" x2="140" y2="108" stroke="rgba(0,0,0,0.1)" stroke-width="2"/>
-          <!-- Right cuff -->
-          <rect x="140" y="90" width="36" height="18" rx="6" fill="url(#jkDark)"/>
-          <!-- Left collar -->
-          <path d="M28,38 Q42,18 56,10 Q72,30 84,38 L80,72 Q52,68 28,72 Z" fill="url(#jkDark)"/>
-          <!-- Right collar -->
-          <path d="M140,38 Q126,18 112,10 Q96,30 84,38 L88,72 Q116,68 140,72 Z" fill="url(#jkDark)"/>
-          <!-- Collar inner V shape -->
-          <path d="M56,12 Q84,36 112,12" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/>
-          <!-- Zipper line -->
-          <line x1="84" y1="38" x2="84" y2="206" stroke="rgba(0,0,0,0.2)" stroke-width="2.5" stroke-dasharray="6,4"/>
-          <!-- Zipper pull -->
-          <rect x="79" y="34" width="10" height="9" rx="3" fill="url(#jkDark)"/>
-          <rect x="81" y="24" width="6" height="13" rx="2" fill="#4a0e00"/>
-          <!-- Left chest pocket -->
-          <rect x="34" y="96" width="34" height="28" rx="5" fill="rgba(0,0,0,0.15)"/>
-          <line x1="34" y1="108" x2="68" y2="108" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
-          <!-- Right chest badge (white) -->
-          <rect x="100" y="96" width="44" height="28" rx="5" fill="white"/>
-          <text x="122" y="115" text-anchor="middle" font-size="11" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
-          <!-- Bottom hem -->
-          <rect x="16" y="200" width="136" height="8" rx="4" fill="url(#jkDark)"/>
-          <!-- Body highlight -->
-          <path d="M34,46 Q60,62 84,56" stroke="rgba(255,255,255,0.28)" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <!-- Stitching lines body -->
-          <line x1="28" y1="72" x2="28" y2="120" stroke="rgba(0,0,0,0.06)" stroke-width="1.5"/>
-          <line x1="140" y1="72" x2="140" y2="120" stroke="rgba(0,0,0,0.06)" stroke-width="1.5"/>
+        <!-- ── JACKET ── -->
+        <g transform="translate(0,6)" filter="url(#sh4)">
+          <ellipse cx="58" cy="152" rx="48" ry="6" fill="rgba(0,0,0,0.08)"/>
+          <path d="M20,30 L8,95 L12,144 L104,144 L108,95 L96,30 Z" fill="url(#jG)"/>
+          <!-- sleeves -->
+          <path d="M20,30 L4,24 L-4,72 L20,78 Z" fill="#FF6020"/>
+          <rect x="-4" y="66" width="24" height="12" rx="4" fill="#CC3D00"/>
+          <path d="M96,30 L112,24 L120,72 L96,78 Z" fill="#FF6020"/>
+          <rect x="96" y="66" width="24" height="12" rx="4" fill="#CC3D00"/>
+          <!-- collars -->
+          <path d="M20,30 Q30,14 40,8 Q52,24 58,30 L56,58 Q34,54 20,58 Z" fill="#CC3D00"/>
+          <path d="M96,30 Q86,14 76,8 Q64,24 58,30 L60,58 Q82,54 96,58 Z" fill="#CC3D00"/>
+          <!-- zipper -->
+          <line x1="58" y1="30" x2="58" y2="144" stroke="rgba(0,0,0,0.18)" stroke-width="2" stroke-dasharray="5,3"/>
+          <rect x="54" y="28" width="8" height="7" rx="2" fill="#CC3D00"/>
+          <rect x="56" y="21" width="4" height="10" rx="1.5" fill="#881800"/>
+          <!-- pockets -->
+          <rect x="22" y="72" width="26" height="22" rx="4" fill="rgba(0,0,0,0.12)"/>
+          <rect x="68" y="72" width="34" height="22" rx="4" fill="white"/>
+          <text x="85" y="87" text-anchor="middle" font-size="9" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
+          <rect x="12" y="140" width="92" height="6" rx="3" fill="#CC3D00"/>
+          <!-- seams + highlight -->
+          <line x1="20" y1="30" x2="20" y2="78" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+          <line x1="96" y1="30" x2="96" y2="78" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+          <path d="M24,36 Q46,50 58,44" stroke="rgba(255,255,255,0.28)" stroke-width="3" fill="none" stroke-linecap="round"/>
         </g>
 
-        <!-- ═══ COIN STACK BUDGET (detailed) ═══ -->
-        <g transform="translate(186, 10)" filter="url(#sh8)">
-          <ellipse cx="56" cy="208" rx="52" ry="8" fill="rgba(0,0,0,0.1)"/>
-          <!-- 6 coin layers from bottom to top -->
-          <!-- Layer 6 (bottom) -->
-          <ellipse cx="56" cy="198" rx="50" ry="12" fill="#7a5200"/>
-          <rect x="6" y="170" width="100" height="28" fill="url(#coinSide)"/>
-          <ellipse cx="56" cy="170" rx="50" ry="12" fill="url(#coinTop)"/>
-          <text x="56" y="175" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
-          <!-- Layer 5 -->
-          <ellipse cx="56" cy="158" rx="50" ry="12" fill="#7a5200"/>
-          <rect x="6" y="130" width="100" height="28" fill="url(#coinSide)"/>
-          <ellipse cx="56" cy="130" rx="50" ry="12" fill="url(#coinTop)"/>
-          <text x="56" y="135" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
-          <!-- Layer 4 -->
-          <ellipse cx="56" cy="118" rx="50" ry="12" fill="#7a5200"/>
-          <rect x="6" y="90" width="100" height="28" fill="url(#coinSide)"/>
-          <ellipse cx="56" cy="90" rx="50" ry="12" fill="url(#coinTop)"/>
-          <text x="56" y="95" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
-          <!-- Layer 3 -->
-          <ellipse cx="56" cy="78" rx="50" ry="12" fill="#7a5200"/>
-          <rect x="6" y="50" width="100" height="28" fill="url(#coinSide)"/>
-          <ellipse cx="56" cy="50" rx="50" ry="12" fill="url(#coinTop)"/>
-          <text x="56" y="55" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
-          <!-- Layer 2 -->
-          <ellipse cx="56" cy="38" rx="50" ry="12" fill="#7a5200"/>
-          <rect x="6" y="14" width="100" height="24" fill="url(#coinSide)"/>
-          <ellipse cx="56" cy="14" rx="50" ry="12" fill="url(#coinTop)"/>
-          <!-- shine top coin -->
-          <ellipse cx="36" cy="8" rx="16" ry="6" fill="rgba(255,255,255,0.42)" transform="rotate(-16,36,8)"/>
-          <text x="56" y="19" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
-          <!-- BUDGET label -->
-          <text x="56" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#906000" font-family="'Segoe UI',Arial" letter-spacing="2">BUDGET</text>
+        <!-- ── T-SHIRT ── -->
+        <g transform="translate(118,8)" filter="url(#sh3)">
+          <ellipse cx="54" cy="140" rx="44" ry="5" fill="rgba(0,0,0,0.08)"/>
+          <path d="M22,28 L22,132 L86,132 L86,28 Q70,38 54,36 Q38,38 22,28 Z" fill="url(#sG)"/>
+          <path d="M22,28 Q8,20 2,30 L10,54 L22,48 Z" fill="#FF6020"/>
+          <path d="M86,28 Q100,20 106,30 L98,54 L86,48 Z" fill="#FF6020"/>
+          <path d="M36,28 Q54,42 72,28" stroke="#CC3D00" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M36,28 Q54,18 72,28" fill="#FF7A35"/>
+          <rect x="28" y="74" width="52" height="24" rx="4" fill="rgba(255,255,255,0.95)"/>
+          <text x="54" y="91" text-anchor="middle" font-size="13" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
+          <path d="M26,34 Q42,42 54,38" stroke="rgba(255,255,255,0.3)" stroke-width="3" fill="none" stroke-linecap="round"/>
         </g>
 
-        <!-- ═══ OPEN BOX loading scene ═══ -->
-        <g transform="translate(326, 28)" filter="url(#sh8)">
-          <ellipse cx="90" cy="190" rx="80" ry="8" fill="rgba(0,0,0,0.09)"/>
-          <!-- Big open box -->
-          <path d="M18,76 L18,182 L162,182 L162,76 Z" fill="url(#bxF2)"/>
-          <!-- Box top face -->
-          <path d="M18,76 L90,48 L162,76 L90,104 Z" fill="url(#bxT2)"/>
-          <!-- Box right side -->
-          <path d="M162,76 L162,182 L186,166 L186,60 Z" fill="url(#bxS2)"/>
-          <!-- Open flap left -->
-          <path d="M18,76 L18,42 L90,14 L90,48 Z" fill="#DDB060" opacity="0.85"/>
-          <!-- Open flap right -->
-          <path d="M162,76 L162,42 L90,14 L90,48 Z" fill="#C89040" opacity="0.9"/>
-          <!-- Tape stripe -->
-          <rect x="82" y="76" width="16" height="106" fill="rgba(255,210,120,0.35)"/>
-          <rect x="18" y="120" width="144" height="16" fill="rgba(255,210,120,0.28)"/>
-          <!-- Seam lines front -->
-          <line x1="18" y1="104" x2="162" y2="104" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-          <line x1="18" y1="136" x2="162" y2="136" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-          <line x1="18" y1="162" x2="162" y2="162" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-          <!-- Cardboard texture lines -->
-          <line x1="18" y1="89" x2="162" y2="89" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
-          <!-- UP arrow inside box (loading) -->
-          <line x1="90" y1="162" x2="90" y2="120" stroke="#FF5900" stroke-width="4" stroke-linecap="round"/>
-          <polyline points="74,136 90,118 106,136" stroke="#FF5900" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-          <!-- "LOAD" text -->
-          <text x="90" y="178" text-anchor="middle" font-size="11" font-weight="700" fill="rgba(140,80,0,0.6)" font-family="Arial" letter-spacing="2">LOAD</text>
+        <!-- ── BUDGET COIN STACK ── -->
+        <g transform="translate(222,20)" filter="url(#sh3)">
+          <!-- shadow -->
+          <ellipse cx="32" cy="140" rx="28" ry="5" fill="rgba(0,0,0,0.1)"/>
+          <!-- Stack 3 (bottom) -->
+          <ellipse cx="32" cy="128" rx="26" ry="7" fill="#8B6000"/>
+          <rect x="6" y="108" width="52" height="20" fill="#B8860B"/>
+          <ellipse cx="32" cy="108" rx="26" ry="7" fill="url(#coinG)"/>
+          <!-- Stack 2 -->
+          <ellipse cx="32" cy="100" rx="26" ry="7" fill="#8B6000"/>
+          <rect x="6" y="80" width="52" height="20" fill="#B8860B"/>
+          <ellipse cx="32" cy="80" rx="26" ry="7" fill="url(#coinG)"/>
+          <!-- Stack 1 (top) -->
+          <ellipse cx="32" cy="72" rx="26" ry="7" fill="#8B6000"/>
+          <rect x="6" y="52" width="52" height="20" fill="#B8860B"/>
+          <ellipse cx="32" cy="52" rx="26" ry="7" fill="url(#coinG)"/>
+          <!-- JOD text -->
+          <text x="32" y="56" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(80,50,0,0.75)" font-family="Arial">JOD</text>
+          <text x="32" y="84" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(80,50,0,0.75)" font-family="Arial">JOD</text>
+          <text x="32" y="112" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(80,50,0,0.75)" font-family="Arial">JOD</text>
+          <!-- shine on top coin -->
+          <ellipse cx="20" cy="48" rx="9" ry="3.5" fill="rgba(255,255,255,0.35)" transform="rotate(-15,20,48)"/>
+          <!-- budget label -->
+          <text x="32" y="158" text-anchor="middle" font-size="9" font-weight="700" fill="#B8860B" font-family="Arial">BUDGET</text>
         </g>
 
       </svg>
@@ -1535,34 +1424,7 @@
       </table>
     </div>
   </div>
-
-  <!-- Expected Budget Calculator -->
-  <div class="card" style="margin-top:20px;">
-    <div class="card-header" style="border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:0;">
-      <h2 style="font-size:15px;">🔮 حاسبة الميزانية المتوقعة (Forecasting)</h2>
-      <span style="font-size:11px;color:var(--gray);">قم بإدخال الكمية المتوقعة يدوياً لمعرفة التكلفة الإجمالية بناءً على الأسعار المعتمدة</span>
-    </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Product Group</th>
-            <th style="text-align:center">Unit Price (JOD)</th>
-            <th style="text-align:center">Expected Qty (الكمية)</th>
-            <th style="text-align:center">Expected Total (المجموع)</th>
-          </tr>
-        </thead>
-        <tbody id="budget-expected-body"></tbody>
-        <tfoot>
-          <tr style="background:#edf2f7;font-weight:800;">
-            <td colspan="2" style="padding:10px 12px;font-size:14px;">GRAND TOTAL EXPECTED</td>
-            <td id="budget-expected-foot-qty" style="text-align:center;padding:10px 12px;font-size:14px;">0</td>
-            <td id="budget-expected-foot-cost" style="text-align:center;padding:10px 12px;font-size:14px;color:var(--red);">0.000 JOD</td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </div>
+</div>
 
 <!-- EMAIL MODAL -->
 <div id="email-modal" class="email-modal-overlay" style="display:none;">
@@ -2811,4 +2673,1685 @@ function renderSheetTable(){
     // skip rows with no data matching filter
     if(totalNH===0&&totalREP===0) return '';
     const totCols=!cityFilter
-      ?`<td class="num" style="background:#fef9e7;font-weight:800;color:#92400e">${totalNH||'—'}</td><td class="num" style="background:#fefلا يمكنني المساعدة في ذلك لأنّني مجرّد نموذج لغوي.
+      ?`<td class="num" style="background:#fef9e7;font-weight:800;color:#92400e">${totalNH||'—'}</td><td class="num" style="background:#fef9e7;font-weight:800;color:#92400e">${totalREP||'—'}</td>`
+      :'';
+    return`<tr><td style="font-weight:600">${r[0]}</td>${cols}${totCols}</tr>`;
+  }).filter(Boolean).join('')||'<tr><td colspan="11" class="empty-state">No matching data</td></tr>';
+
+  // update header based on filter
+  const thead=document.querySelector('#sheet-table thead tr');
+  if(thead){
+    if(!cityFilter){
+      thead.innerHTML='<th>Item</th><th>Amman NH</th><th>Amman REP</th><th>Irbid NH</th><th>Irbid REP</th><th>Zarqa NH</th><th>Zarqa REP</th><th>Aqaba NH</th><th>Aqaba REP</th><th style="background:#fef3c7">Total NH</th><th style="background:#fef3c7">Total REP</th>';
+    } else {
+      const cityName=cityFilter.charAt(0).toUpperCase()+cityFilter.slice(1);
+      if(typeFilter==='hiring') thead.innerHTML=`<th>Item</th><th>${cityName} New Hiring</th>`;
+      else if(typeFilter==='replacement') thead.innerHTML=`<th>Item</th><th>${cityName} Replacement</th>`;
+      else thead.innerHTML=`<th>Item</th><th>${cityName} New Hiring</th><th>${cityName} Replacement</th>`;
+    }
+  }
+}
+
+// Load sheet rows from Firebase on startup
+db.ref('inv2026/sheetRows').once('value').then(snap=>{
+  const val=snap.val();
+  if(val&&Array.isArray(val)&&val.length>2){
+    SHEET_ROWS=val;
+    localStorage.setItem('sheetRows',JSON.stringify(val));
+    renderSheetPage();
+  } else if(SHEET_ROWS.length>2){
+    renderSheetPage();
+  }
+  // Refresh employees section now that SHEET_ROWS is ready
+  if(SHEET_ROWS.length>2) _renderOvEmployees();
+}).catch(()=>{
+  if(SHEET_ROWS.length>2){ renderSheetPage(); _renderOvEmployees(); }
+});
+
+// ======== CHARTS ========
+const _ch={};
+function mkBar(id,labels,datasets,opts={}){
+  const ctx=document.getElementById(id)?.getContext('2d');
+  if(!ctx) return;
+  if(_ch[id]) _ch[id].destroy();
+  _ch[id]=new Chart(ctx,{type:'bar',data:{labels,datasets},options:{responsive:true,plugins:{legend:{position:'top'}},scales:{x:{stacked:opts.stacked},y:{stacked:opts.stacked,beginAtZero:true}}}});
+}
+function renderCharts(){
+  const data=getData();
+  const tot={naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
+  data.forEach(p=>['naouri','amman','irbid','zarqa','aqaba'].forEach(l=>tot[l]+=(p[l]||0)));
+  const ctx=document.getElementById('locPieChart')?.getContext('2d');
+  if(ctx){if(_ch.pie)_ch.pie.destroy();_ch.pie=new Chart(ctx,{type:'pie',data:{labels:['Naouri','Amman','Irbid','Zarqa','Aqaba'],datasets:[{data:Object.values(tot),backgroundColor:Object.values(LOC_COLORS),borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}});}
+  const ths=data.filter(p=>p.sku.startsWith('THS-')&&p.onhand>0);
+  mkBar('thsChart',ths.map(p=>getSizeName(p.sku)),['naouri','amman','irbid','zarqa','aqaba'].map(l=>({label:LOC_NAMES[l],data:ths.map(p=>p[l]||0),backgroundColor:LOC_COLORS[l]})),{stacked:true});
+  const tls=data.filter(p=>p.sku.startsWith('TLS-')&&p.onhand>0);
+  mkBar('tlsChart',tls.map(p=>getSizeName(p.sku)),['naouri','amman','irbid','zarqa','aqaba'].map(l=>({label:LOC_NAMES[l],data:tls.map(p=>p[l]||0),backgroundColor:LOC_COLORS[l]})),{stacked:true});
+  const hj=data.filter(p=>p.sku.startsWith('HJ-')&&p.onhand>0);
+  mkBar('hjChart',hj.map(p=>getSizeName(p.sku)),['naouri','amman','irbid','zarqa','aqaba'].map(l=>({label:LOC_NAMES[l],data:hj.map(p=>p[l]||0),backgroundColor:LOC_COLORS[l]})),{stacked:true});
+  const cats={};
+  data.forEach(p=>{const c=getCat(p.name);if(!cats[c])cats[c]={naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};['naouri','amman','irbid','zarqa','aqaba'].forEach(l=>cats[c][l]+=(p[l]||0));});
+  const mc=['T-Shirt','Jacket','Bag','Helmet'];
+  mkBar('locBarChart',mc,['naouri','amman','irbid','zarqa','aqaba'].map(l=>({label:LOC_NAMES[l],data:mc.map(c=>cats[c]?.[l]||0),backgroundColor:LOC_COLORS[l]})),{stacked:true});
+}
+
+
+// ======== INBOUND ========
+function populateInbSkus(){
+  const cat = document.getElementById('inb-cat').value;
+  const sel = document.getElementById('inb-sku');
+  const items = cat ? SEED.filter(s => getCat(s.name) === cat) : SEED;
+  sel.innerHTML = '<option value="">— Select SKU —</option>' +
+    items.map(s => `<option value="${s.sku}">${s.name} (${s.sku})</option>`).join('');
+}
+
+function receiveInbound(){
+  const sku   = document.getElementById('inb-sku').value;
+  const qty   = parseInt(document.getElementById('inb-qty').value) || 0;
+  const ref   = document.getElementById('inb-ref').value.trim();
+  const date  = document.getElementById('inb-date').value;
+  const notes = document.getElementById('inb-notes').value.trim();
+
+  if(!sku)  { toast('⚠️ Please select a product'); return; }
+  if(qty<1) { toast('⚠️ Quantity must be at least 1'); return; }
+  if(!date) { toast('⚠️ Please select a date'); return; }
+
+  if(!STOCK[sku]) STOCK[sku]={naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
+  STOCK[sku].naouri = (STOCK[sku].naouri||0) + qty;
+  saveStock();
+  renderProdTable();
+  renderOverview();
+  renderLocPage();
+
+  // Log
+  const p = SEED.find(s=>s.sku===sku)||{name:sku};
+  const record={date, ref: ref||'—', sku, name:p.name, qty, notes: notes||'—', ts:Date.now()};
+  INBOUND.unshift(record);
+  db.ref('inv2026/inbound').push(record).catch(e=>console.warn(e));
+  try{localStorage.setItem('inv2026_inbound',JSON.stringify(INBOUND.slice(0,300)));}catch(e){}
+
+  toast(`✅ Added ${fmt(qty)} pcs of ${p.name} to Naouri`);
+  clearInbForm();
+  renderInbPage();
+}
+
+function clearInbForm(){
+  document.getElementById('inb-cat').value='';
+  document.getElementById('inb-sku').innerHTML='<option value="">— Select SKU —</option>';
+  document.getElementById('inb-qty').value='';
+  document.getElementById('inb-ref').value='';
+  document.getElementById('inb-notes').value='';
+}
+
+function getInbHistory(){ return INBOUND; }
+
+// ── Main WH combined tab ─────────────────────────────────────
+function renderWHPage(){
+  const today = new Date().toISOString().slice(0,10);
+  const totalIn  = INBOUND.reduce((s,r)=>s+(parseInt(r.qty)||0),0);
+  const inToday  = INBOUND.filter(r=>r.date===today).reduce((s,r)=>s+(parseInt(r.qty)||0),0);
+  const totalOut = HISTORY.reduce((s,r)=>s+(parseInt(r.qty)||0),0);
+  const outToday = HISTORY.filter(r=>(r.date||'').slice(0,10)===today).reduce((s,r)=>s+(parseInt(r.qty)||0),0);
+  const fmt = n => n>=1000 ? (n/1000).toFixed(1)+'k' : String(n);
+  const el = id => document.getElementById(id);
+  if(el('wh-kTotalIn'))  el('wh-kTotalIn').textContent  = fmt(totalIn);
+  if(el('wh-kTotalOut')) el('wh-kTotalOut').textContent = fmt(totalOut);
+  if(el('wh-kInToday'))  el('wh-kInToday').textContent  = fmt(inToday);
+  if(el('wh-kOutToday')) el('wh-kOutToday').textContent = fmt(outToday);
+}
+
+function showWHTab(which){
+  const inSec  = document.getElementById('wh-section-inbound');
+  const outSec = document.getElementById('wh-section-outbound');
+  const btnIn  = document.getElementById('wh-btn-in');
+  const btnOut = document.getElementById('wh-btn-out');
+  if(!inSec) return;
+  if(which==='inbound'){
+    inSec.style.display  = 'block';
+    outSec.style.display = 'none';
+    btnIn.style.background  = '#2a9d8f';      btnIn.style.color  = 'white';
+    btnOut.style.background = 'var(--border)'; btnOut.style.color = 'var(--gray)';
+    renderInbPage();
+  } else {
+    inSec.style.display  = 'none';
+    outSec.style.display = 'block';
+    btnOut.style.background = '#e63946';      btnOut.style.color = 'white';
+    btnIn.style.background  = 'var(--border)'; btnIn.style.color  = 'var(--gray)';
+    renderOutboundPage();
+  }
+}
+
+function renderInbPage(){
+  // Set today's date default
+  const dateEl = document.getElementById('inb-date');
+  if(dateEl && !dateEl.value) dateEl.valueAsDate = new Date();
+
+  // Summary
+  const data = getData();
+  const naouriTotal = data.reduce((s,p)=>s+(p.naouri||0),0);
+  const active = data.filter(p=>p.naouri>0).length;
+  const h = getInbHistory();
+  const today = new Date().toISOString().slice(0,10);
+  const todayQty = h.filter(r=>r.date===today).reduce((s,r)=>s+r.qty,0);
+  const allTime  = h.reduce((s,r)=>s+r.qty,0);
+
+  document.getElementById('inb-kNaouri').textContent  = fmt(naouriTotal);
+  document.getElementById('inb-kToday').textContent   = fmt(todayQty);
+  document.getElementById('inb-kAllTime').textContent = fmt(allTime);
+  document.getElementById('inb-kActive').textContent  = active;
+
+  // History
+  document.getElementById('inbHistoryBody').innerHTML = h.length
+    ? h.map(r=>`<tr>
+        <td>${r.date}</td>
+        <td><span class="badge b-green">${r.ref}</span></td>
+        <td>${r.name}</td>
+        <td><span class="badge b-gray">${r.sku}</span></td>
+        <td class="num" style="color:var(--green);font-weight:800">+${r.qty}</td>
+        <td style="color:var(--gray);font-size:12px">${r.notes}</td>
+      </tr>`).join('')
+    : '<tr><td colspan="6" class="empty-state">No inbound shipments recorded yet</td></tr>';
+}
+
+function clearInbHistory(){
+  if(confirm('Clear all inbound history?')){
+    INBOUND=[];
+    db.ref('inv2026/inbound').remove();
+    localStorage.removeItem('inv2026_inbound');
+    renderInbPage();
+  }
+}
+
+// ======== OUTBOUND ========
+function renderOutboundPage(){
+  const h = getHistory(); // reads inv2026_history (written by confirmDispatch)
+
+  // --- KPIs ---
+  const allTime = h.reduce((s,r)=>s+r.qty,0);
+  // parse date format "DD/MM/YYYY HH:MM"
+  const todayStr = (()=>{const d=new Date();return`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;})();
+  const todayQty = h.filter(r=>r.date&&r.date.startsWith(todayStr)).reduce((s,r)=>s+r.qty,0);
+
+  // Group rows by txId → each group = one Outbound Order
+  const txMap = new Map();
+  h.forEach(r=>{
+    const id = r.txId || (r.date+'|'+r.branch); // fallback for old entries without txId
+    if(!txMap.has(id)) txMap.set(id,{txId:id,date:r.date,branch:r.branch,items:[]});
+    txMap.get(id).items.push(r);
+  });
+  const orders = [...txMap.values()]; // already in insertion order (newest first)
+
+  document.getElementById('out-kAllTime').textContent = fmt(allTime);
+  document.getElementById('out-kToday').textContent   = fmt(todayQty);
+  document.getElementById('out-kEvents').textContent  = orders.length;
+
+  // --- By branch ---
+  const byBranch={amman:0,irbid:0,zarqa:0,aqaba:0};
+  const by3pl={};
+  h.forEach(r=>{
+    if(byBranch[r.branch]!==undefined) byBranch[r.branch]+=r.qty;
+    else if(_is3PL(r.branch)) by3pl[r.branch]=(by3pl[r.branch]||0)+r.qty;
+  });
+  const bpClass={amman:'bp-amman',irbid:'bp-irbid',zarqa:'bp-zarqa',aqaba:'bp-aqaba'};
+  const branchRows=Object.entries(byBranch).filter(([,v])=>v>0).map(([b,v])=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <span class="branch-pill ${bpClass[b]}">${LOC_ICONS[b]||''} ${LOC_NAMES[b]||b}</span>
+      <span style="font-weight:800;font-size:16px">${fmt(v)}</span>
+    </div>`).join('');
+  const tplRows=Object.entries(by3pl).filter(([,v])=>v>0).map(([b,v])=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <span class="branch-pill" style="background:#fef3c7;color:#92400e;">🏢 ${LOC_NAMES[b]||b}</span>
+      <span style="font-weight:800;font-size:16px">${fmt(v)}</span>
+    </div>`).join('');
+  document.getElementById('out-byBranch').innerHTML=
+    (branchRows||tplRows)
+      ? branchRows+(tplRows?`<div style="font-size:10px;font-weight:700;color:#e67e22;text-transform:uppercase;letter-spacing:.4px;margin:8px 0 4px;">3PLs</div>`+tplRows:'')
+      : '<div style="color:var(--gray);font-size:12px">No dispatches yet</div>';
+
+  // --- Top 5 products ---
+  const byProd={};
+  h.forEach(r=>{byProd[r.name]=(byProd[r.name]||0)+r.qty;});
+  const top5=Object.entries(byProd).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  document.getElementById('out-topProducts').innerHTML=top5.length
+    ? top5.map(([name,qty])=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:12px;">
+          <span style="color:var(--sub);font-weight:600;flex:1;margin-right:8px">${name}</span>
+          <span style="font-weight:800;color:var(--red)">${fmt(qty)}</span>
+        </div>`).join('')
+    : '<div style="color:var(--gray);font-size:12px">No dispatches yet</div>';
+
+  // --- Order cards ---
+  const bBadge={amman:'b-blue',irbid:'b-green',zarqa:'b-orange',aqaba:'b-purple'};
+  const branchIcon={amman:'🏙️',irbid:'🌿',zarqa:'⚙️',aqaba:'🌊'};
+
+  if(!orders.length){
+    document.getElementById('outbOrderList').innerHTML='<div class="empty-state">No outbound dispatches recorded yet</div>';
+    return;
+  }
+
+  document.getElementById('outbOrderList').innerHTML = orders.map((o,i)=>{
+    const isCxl = CANCELLED_ORDERS.has(o.txId);
+    const totalQty = o.items.reduce((s,r)=>s+r.qty,0);
+    const skuCount = o.items.length;
+    const dateOnly = o.date.split(' ')[0]; // "DD/MM/YYYY"
+    const timeOnly = o.date.split(' ')[1]||'';
+    const branchName = LOC_NAMES[o.branch]||o.branch;
+    const icon = branchIcon[o.branch]||'📦';
+    const detailRows = o.items.map(r=>`
+      <tr>
+        <td>${r.name}</td>
+        <td><span class="badge b-gray">${r.sku}</span></td>
+        <td class="num" style="color:var(--red);font-weight:800">${fmt(r.qty)}</td>
+      </tr>`).join('');
+    const cancelBtn = isCxl
+      ? `<span class="ob-cancelled-badge">✕ CANCELLED</span>`
+      : `<button class="ob-cancel-btn" onclick="event.stopPropagation();cancelOrder('${o.txId}')">🔄 Cancel Order</button>`;
+
+    return`<div class="ob-card${isCxl?' cancelled':''}">
+      <div class="ob-card-header" onclick="toggleObCard('ob-${i}')">
+        <div class="ob-icon">${icon}</div>
+        <div class="ob-title">
+          <h3>Outbound — ${branchName} &nbsp;·&nbsp; ${dateOnly}</h3>
+          <div class="ob-meta">${timeOnly} &nbsp;·&nbsp; ${skuCount} SKU${skuCount>1?'s':''}</div>
+        </div>
+        <div class="ob-badges">
+          ${cancelBtn}
+          <span class="badge ${bBadge[o.branch]||'b-gray'}">${branchName}</span>
+          <span class="ob-total-badge">${fmt(totalQty)} pcs</span>
+          <span class="ob-chevron" id="chev-ob-${i}">▼</span>
+        </div>
+      </div>
+      <div class="ob-details" id="ob-${i}">
+        <table>
+          <thead><tr><th>Product</th><th>SKU</th><th style="text-align:center">Qty</th></tr></thead>
+          <tbody>${detailRows}</tbody>
+          <tfoot><tr>
+            <td colspan="2" style="padding:10px 20px;font-weight:700;font-size:13px;color:var(--sub)">Total</td>
+            <td class="num" style="padding:10px 20px;font-weight:800;font-size:15px;color:var(--red)">${fmt(totalQty)}</td>
+          </tr></tfoot>
+        </table>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleObCard(id){
+  const el=document.getElementById(id);
+  const chev=document.getElementById('chev-'+id);
+  if(!el) return;
+  const open=el.classList.toggle('open');
+  if(chev) chev.classList.toggle('open',open);
+}
+
+function clearOutboundHistory(){
+  if(confirm('Clear all outbound dispatch history? This will NOT restore stock — it only clears the log.'))
+    {localStorage.removeItem('inv2026_history');renderOutboundPage();renderHistory();}
+}
+
+function cancelOrder(txId){
+  if(CANCELLED_ORDERS.has(txId)){ toast('⚠️ This order is already cancelled'); return; }
+  const items = HISTORY.filter(r=>r.txId===txId);
+  if(!items.length){ toast('⚠️ Order not found'); return; }
+  const branch = items[0].branch;
+  const is3pl = _is3PL(branch);
+  const totalQty = items.reduce((s,r)=>s+r.qty,0);
+  const branchName = LOC_NAMES[branch]||branch;
+  if(!confirm(`Cancel this order to ${branchName}?\n${items.length} SKU(s), ${totalQty} pcs total.\n\nThis will restore ${totalQty} pcs back to Naouri stock.`)) return;
+
+  items.forEach(r=>{
+    const {sku,qty}=r;
+    if(!STOCK[sku]) STOCK[sku]={naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
+    // Restore Naouri stock
+    STOCK[sku].naouri = (STOCK[sku].naouri||0) + qty;
+    if(!is3pl){
+      // Reverse branch stock increment
+      STOCK[sku][branch] = Math.max(0,(STOCK[sku][branch]||0) - qty);
+    } else {
+      // Reverse 3PL budget qty
+      const gKey = _skuToGroupKey(sku);
+      if(gKey){
+        BUDGET_QTY_3PL[gKey] = Math.max(0,(BUDGET_QTY_3PL[gKey]||0) - qty);
+        const inp3 = document.getElementById(`bprice3pl-${gKey}`);
+        if(inp3) inp3.value = BUDGET_QTY_3PL[gKey];
+      }
+    }
+  });
+
+  // Mark order as cancelled
+  CANCELLED_ORDERS.add(txId);
+  // Persist to Firebase and localStorage (txId = "tx-<timestamp>", no forbidden chars)
+  db.ref('inv2026/cancelledOrders/'+txId).set(true).catch(e=>console.warn(e));
+  try{localStorage.setItem('inv2026_cancelled',JSON.stringify([...CANCELLED_ORDERS]));}catch(e){}
+  saveStock();
+  if(is3pl){
+    db.ref('inv2026/budget').update({qty3pl:BUDGET_QTY_3PL}).catch(e=>console.warn(e));
+    liveUpdateBudgetBar();
+  }
+  // Re-render affected views
+  renderOutboundPage();
+  renderHistory();
+  renderOverview();
+  renderLocPage();
+  renderProdTable();
+  toast(`✅ Order cancelled — ${totalQty} pcs restored to Naouri`);
+}
+
+// ======== ISSUANCE ========
+let currentIssBranch = 'amman';
+let issCart = {};
+
+function setIssBranch(branch, btn){
+  currentIssBranch = branch;
+  document.querySelectorAll('.iss-branch-bar .branch-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('issCartDest').textContent = 'Branch: ' + LOC_NAMES[branch];
+  issCart = {};
+  renderIssuance();
+  updateIssCart();
+}
+
+function renderIssuance(){
+  const cat = document.getElementById('issCatFilter')?.value || '';
+  const groups = cat ? GROUPS.filter(g=>g.cat===cat) : GROUPS;
+
+  document.getElementById('issProducts').innerHTML = groups.map(g=>{
+    const skus = g.skus.filter(sku=>SEED.find(s=>s.sku===sku));
+    const total = skus.reduce((s,sku)=>{
+      const st=STOCK[sku]||{}; return s+(st[currentIssBranch]||0);
+    },0);
+
+    const rows = skus.map(sku=>{
+      const st = STOCK[sku]||{};
+      const avail = st[currentIssBranch]||0;
+      const cq = issCart[sku]||0;
+      const cls = avail===0?'out':avail<10?'low':'ok';
+      return`<div class="size-row" id="iss-row-${sku}">
+        <div class="size-badge">${getSizeName(sku)}</div>
+        <div class="size-avail">
+          <div class="avail-num ${cls}">${avail}</div>
+          <div class="avail-label">in ${LOC_NAMES[currentIssBranch]}</div>
+        </div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="setIssQty('${sku}',${cq}-1)" ${cq<=0?'disabled':''}>−</button>
+          <input class="qty-input" id="iss-qty-${sku}" type="number" value="${cq}" min="0" max="${avail}"
+            oninput="setIssQty('${sku}',parseInt(this.value)||0)">
+          <button class="qty-btn" onclick="setIssQty('${sku}',${cq}+1)" ${avail<=cq?'disabled':''}>+</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    return`<div class="prod-card">
+      <div class="prod-card-header">
+        <div class="prod-icon">${g.icon}</div>
+        <div class="prod-info"><h3>${g.label}</h3><div class="prod-meta">${g.cat}</div></div>
+        <div class="prod-total-badge" style="background:linear-gradient(135deg,#dd6b20,#c05621)">${fmt(total)} pc</div>
+      </div>${rows}</div>`;
+  }).join('');
+}
+
+function setIssQty(sku, val){
+  const st = STOCK[sku]||{};
+  const avail = st[currentIssBranch]||0;
+  let v = Math.max(0, Math.min(avail, parseInt(val)||0));
+  if(v===0) delete issCart[sku]; else issCart[sku]=v;
+  const inp = document.getElementById('iss-qty-'+sku);
+  if(inp) inp.value = v;
+  const row = document.getElementById('iss-row-'+sku);
+  if(row){
+    const btns = row.querySelectorAll('.qty-btn');
+    if(btns[0]) btns[0].disabled = v<=0;
+    if(btns[1]) btns[1].disabled = v>=avail;
+  }
+  updateIssCart();
+}
+
+function updateIssCart(){
+  const entries = Object.entries(issCart).filter(([,q])=>q>0);
+  const ci = document.getElementById('issCartItems');
+  const ct = document.getElementById('issCartTotal');
+  const cb = document.getElementById('issConfirmBtn');
+  if(!entries.length){
+    ci.innerHTML='<div class="cart-empty">No items selected yet</div>';
+    ct.textContent='0'; cb.disabled=true; return;
+  }
+  ci.innerHTML = entries.map(([sku,qty])=>{
+    const p = SEED.find(s=>s.sku===sku)||{name:sku};
+    return`<div class="cart-item">
+      <div><div class="cart-item-name">${p.name}</div><div style="font-size:11px;color:var(--gray)">${sku}</div></div>
+      <span class="cart-item-qty">× ${qty}</span>
+    </div>`;
+  }).join('');
+  ct.textContent = fmt(entries.reduce((s,[,q])=>s+q,0));
+  cb.disabled = false;
+}
+
+function confirmIssuance(){
+  const entries = Object.entries(issCart).filter(([,q])=>q>0);
+  if(!entries.length) return;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-GB')+' '+now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  entries.forEach(([sku,qty])=>{
+    if(!STOCK[sku]) STOCK[sku]={naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
+    STOCK[sku][currentIssBranch] = Math.max(0,(STOCK[sku][currentIssBranch]||0)-qty);
+    addIssHistory(dateStr, currentIssBranch, sku, qty);
+  });
+  saveStock();
+  const total = entries.reduce((s,[,q])=>s+q,0);
+  toast(`✅ Issued ${fmt(total)} pcs from ${LOC_NAMES[currentIssBranch]}`);
+  issCart = {};
+  renderIssuance();
+  updateIssCart();
+  renderIssHistory();
+}
+
+function clearIssCart(){
+  issCart = {};
+  updateIssCart();
+  document.querySelectorAll('[id^="iss-qty-"]').forEach(i=>i.value=0);
+}
+
+let ISSUANCE = [];
+function getIssHistory(){ return ISSUANCE; }
+function addIssHistory(date, branch, sku, qty){
+  const p = SEED.find(s=>s.sku===sku)||{name:sku};
+  const ts = Date.now();
+  const record = {date, branch, sku, name:p.name, qty, ts};
+  ISSUANCE.unshift(record);
+  db.ref('inv2026/issuance').push(record).catch(e=>console.warn(e));
+  try{localStorage.setItem('inv2026_issuance',JSON.stringify(ISSUANCE.slice(0,500)));}catch(e){}
+}
+
+function renderIssHistory(){
+  const h = getIssHistory();
+  const bBadge={amman:'b-blue',irbid:'b-green',zarqa:'b-orange',aqaba:'b-purple'};
+  document.getElementById('issHistoryBody').innerHTML = h.length
+    ? h.map(r=>`<tr>
+        <td style="font-size:12px">${r.date}</td>
+        <td><span class="badge ${bBadge[r.branch]||'b-gray'}">${LOC_NAMES[r.branch]||r.branch}</span></td>
+        <td>${r.name}</td>
+        <td><span class="badge b-gray">${r.sku}</span></td>
+        <td class="num" style="color:var(--orange);font-weight:800">−${r.qty}</td>
+      </tr>`).join('')
+    : '<tr><td colspan="5" class="empty-state">No issuances recorded yet</td></tr>';
+}
+
+function clearIssHistory(){
+  if(confirm('Clear all issuance history?')){
+    ISSUANCE=[];
+    db.ref('inv2026/issuance').remove();
+    localStorage.removeItem('inv2026_issuance');
+    renderIssHistory();
+  }
+}
+
+// ======== EMAIL DRAFT ========
+let _emailSubject = '';
+
+function showEmailDraft(branch, dateStr, entries, is3pl=false){
+  const branchName = LOC_NAMES[branch] || branch;
+  const dateOnly   = dateStr.split(' ')[0]; // DD/MM/YYYY
+
+  _emailSubject = is3pl
+    ? `Outbound 3PL - ${dateOnly} (${branch})`
+    : `Outbound - ${branchName} - ${dateOnly}`;
+
+  const rows = entries.map(([sku, qty])=>{
+    const p = SEED.find(s=>s.sku===sku)||{name:sku};
+    return `<tr><td>${sku}</td><td>${p.name}</td><td>${qty}</td></tr>`;
+  }).join('');
+
+  const table = `
+    <table>
+      <thead><tr><th>SKU</th><th>Item Name</th><th>QYT</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+
+  const html = is3pl ? `
+    <p>Dear Raad,</p>
+    <p>We need your support to prepare the <strong>${branchName}</strong> order by <strong>${dateOnly}</strong><br>
+    Below are the order quantities.</p>
+    ${table}
+    <p>Please note that the order will be picked up from our 3PL side.</p>
+    <p>Regards,</p>` : `
+    <p>Dear Raad,</p>
+    <p>We need your assistance in preparing and delivering the order to <strong>${branchName}</strong> by <strong>${dateOnly}</strong> at 10:00 AM.<br>
+    Please find the required quantities in the table below.</p>
+    ${table}
+    <p>Regards,</p>`;
+
+  document.getElementById('email-subject-display').textContent = _emailSubject;
+  document.getElementById('email-body-preview').innerHTML = html;
+  document.getElementById('email-modal').style.display = 'flex';
+}
+
+function closeEmailModal(){
+  document.getElementById('email-modal').style.display = 'none';
+}
+
+async function copyEmailHtml(){
+  const subj = _emailSubject;
+  const bodyEl = document.getElementById('email-body-preview');
+  try{
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([bodyEl.innerHTML], {type:'text/html'}),
+      'text/plain': new Blob([bodyEl.innerText], {type:'text/plain'})
+    })]);
+    toast('✅ Email copied — paste into Gmail');
+  } catch(e){
+    // Fallback
+    const range=document.createRange();
+    range.selectNode(bodyEl);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    toast('✅ Email copied — paste into Gmail');
+  }
+}
+
+function openGmailCompose(){
+  const body = document.getElementById('email-body-preview').innerText;
+  const url = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(_emailSubject)}&body=${encodeURIComponent(body)}`;
+  window.open(url,'_blank');
+}
+
+// ======== NAV ========
+// ======== TAB META (animations + announce) ========
+const TAB_META={
+  overview: { icon:'📊', label:'Overview',   color:'#e63946', anim:'anim-zoom'  },
+  locations:{ icon:'📍', label:'Locations',  color:'#3182ce', anim:'anim-right' },
+  products: { icon:'📦', label:'Products',   color:'#805ad5', anim:'anim-up'    },
+  mainwh:   { icon:'🏭', label:'Main WH',    color:'#3182ce', anim:'anim-down'  },
+  sheetdata:{ icon:'📋', label:'Sheet Data', color:'#718096', anim:'anim-left'  },
+  dispatch: { icon:'🚚', label:'Dispatch',   color:'#e67e22', anim:'anim-left'  },
+  archive:  { icon:'🗄️', label:'Archive',    color:'#1a202c', anim:'anim-zoom'  },
+  budget:   { icon:'💰', label:'Budget',     color:'#2a9d8f', anim:'anim-right' },
+};
+
+let _taTimer=null;
+function showTabAnnounce(id){
+  const meta=TAB_META[id];
+  if(!meta) return;
+  const el=document.getElementById('tab-announce');
+  if(!el) return;
+  if(_taTimer) clearTimeout(_taTimer);
+  el.style.background=meta.color;
+  el.querySelector('.ta-icon').textContent=meta.icon;
+  el.querySelector('.ta-label').textContent=meta.label;
+  el.classList.remove('ta-showing');
+  void el.offsetWidth;
+  el.classList.add('ta-showing');
+  _taTimer=setTimeout(()=>el.classList.remove('ta-showing'),1700);
+}
+
+function show(id){
+  const ANIM_CLASSES=['anim-up','anim-down','anim-left','anim-right','anim-zoom'];
+  document.querySelectorAll('.page').forEach(p=>{
+    p.classList.remove('active');
+    ANIM_CLASSES.forEach(a=>p.classList.remove(a));
+  });
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  const page=document.getElementById('page-'+id);
+  page.classList.add('active');
+  // Trigger animation
+  const meta=TAB_META[id];
+  if(meta){ void page.offsetWidth; page.classList.add(meta.anim); }
+  // Show announcement banner
+  showTabAnnounce(id);
+  const tabs=['overview','locations','products','mainwh','dispatch','sheetdata','archive','budget'];
+  document.querySelectorAll('.tab')[tabs.indexOf(id)]?.classList.add('active');
+  if(id==='overview')  renderOverview();
+  if(id==='locations') renderLocPage();
+  if(id==='products')  renderProdTable();
+  if(id==='mainwh')    { renderWHPage(); showWHTab('inbound'); }
+  if(id==='sheetdata') renderSheetPage();
+  if(id==='dispatch')  {renderDispatch();renderHistory();}
+  if(id==='issuance')  {renderIssuance();renderIssHistory();}
+  if(id==='charts')    renderCharts();
+  if(id==='archive')   renderArchivePage();
+  if(id==='budget')    renderBudgetPage();
+}
+
+// ======== REFRESH & AUTO-REFRESH ========
+let _autoRefreshTimer=null;
+const AUTO_REFRESH_MINUTES=5;
+
+function setLastUpdated(){
+  const now=new Date();
+  const h=now.getHours().toString().padStart(2,'0');
+  const m=now.getMinutes().toString().padStart(2,'0');
+  const s=now.getSeconds().toString().padStart(2,'0');
+  const el=document.getElementById('last-updated');
+  if(el) el.textContent=`Updated ${h}:${m}:${s}`;
+}
+
+function refreshAllData(){
+  const btn=document.getElementById('refresh-btn');
+  const icon=document.getElementById('refresh-icon');
+  if(btn) btn.disabled=true;
+  if(icon) icon.textContent='⏳';
+
+  Promise.all([
+    db.ref('inv2026/sheetRows').once('value'),
+    db.ref('inv2026/stock').once('value'),
+    db.ref('inv2026/history').once('value'),
+    db.ref('inv2026/inbound').once('value'),
+    db.ref('inv2026/issuance').once('value'),
+    db.ref('inv2026/cancelledOrders').once('value'),
+  ]).then(([sheetSnap, stockSnap, histSnap, inbSnap, issSnap, cxlSnap])=>{
+    // sheetRows
+    const sr=sheetSnap.val();
+    if(sr&&Array.isArray(sr)&&sr.length>2){
+      SHEET_ROWS=sr;
+      try{localStorage.setItem('sheetRows',JSON.stringify(sr));}catch(e){}
+    }
+    // stock
+    const st=stockSnap.val();
+    if(st) { STOCK=st; try{localStorage.setItem('inv2026_stock',JSON.stringify(STOCK));}catch(e){} }
+    // history
+    const h=histSnap.val();
+    if(h) HISTORY=Object.values(h).sort((a,b)=>(b.ts||0)-(a.ts||0));
+    // inbound
+    const ib=inbSnap.val();
+    if(ib) INBOUND=Object.values(ib).sort((a,b)=>(b.ts||0)-(a.ts||0));
+    // issuance
+    const is=issSnap.val();
+    if(is) ISSUANCE=Object.values(is).sort((a,b)=>(b.ts||0)-(a.ts||0));
+    // cancelled orders
+    const cx=cxlSnap.val();
+    if(cx) CANCELLED_ORDERS=new Set(Object.keys(cx));
+    try{const lc=JSON.parse(localStorage.getItem('inv2026_cancelled')||'[]');lc.forEach(id=>CANCELLED_ORDERS.add(id));}catch(e){}
+
+    // Re-render all active views
+    _budgetLoaded=false;
+    renderOverview();
+    renderProdTable();
+    renderLocPage();
+    renderSheetPage();
+
+    setLastUpdated();
+    toast('✅ Data refreshed');
+  }).catch(err=>{
+    toast('❌ Refresh failed — check connection');
+    console.warn('Refresh error',err);
+  }).finally(()=>{
+    if(btn) btn.disabled=false;
+    if(icon) icon.textContent='🔄';
+  });
+}
+
+// ── Sync Now: pull latest data from Firebase ────────────
+async function syncNow(){
+  const btn  = document.getElementById('sync-now-btn');
+  const icon = document.getElementById('sync-icon');
+  const lbl  = document.getElementById('sync-label');
+  if(btn) btn.disabled = true;
+  if(icon) icon.textContent = '⏳';
+  if(lbl)  lbl.textContent  = 'Syncing…';
+
+  try {
+    await syncFromFirebase();
+
+    toast('✅ Data refreshed from Firebase');
+    if(icon) icon.textContent = '✅';
+    if(lbl)  lbl.textContent  = 'Synced!';
+    setTimeout(()=>{ if(icon) icon.textContent='⚡'; if(lbl) lbl.textContent='Sync Now'; }, 3000);
+
+  } catch(e) {
+    toast('❌ Sync failed: ' + e.message);
+    if(icon) icon.textContent = '❌';
+    if(lbl)  lbl.textContent  = 'Failed';
+    setTimeout(()=>{ if(icon) icon.textContent='⚡'; if(lbl) lbl.textContent='Sync Sheet'; }, 3000);
+  } finally {
+    if(btn) btn.disabled = false;
+  }
+}
+
+function startAutoRefresh(){
+  if(_autoRefreshTimer) clearInterval(_autoRefreshTimer);
+  _autoRefreshTimer=setInterval(()=>{
+    refreshAllData();
+  }, AUTO_REFRESH_MINUTES * 60 * 1000);
+}
+
+// ======== FIREBASE SYNC ========
+function syncFromFirebase(){
+  document.getElementById('fb-loader').style.display='flex';
+  setFbStatus('connecting');
+
+  db.ref('inv2026/stock').once('value').then(snap=>{
+    const val=snap.val();
+    if(val){
+      STOCK=val;
+      try{localStorage.setItem('inv2026_stock',JSON.stringify(STOCK));}catch(e){}
+    } else {
+      // First run — push seed data to Firebase
+      const stock={};
+      SEED.forEach(p=>{stock[p.sku]={naouri:p.naouri,amman:p.amman,irbid:p.irbid,zarqa:p.zarqa,aqaba:p.aqaba};});
+      STOCK=stock;
+      db.ref('inv2026/stock').set(STOCK);
+    }
+    return db.ref('inv2026/history').once('value');
+  }).then(snap=>{
+    const val=snap.val();
+    HISTORY=val ? Object.values(val).sort((a,b)=>(b.ts||0)-(a.ts||0)) : [];
+    return db.ref('inv2026/inbound').once('value');
+  }).then(snap=>{
+    const val=snap.val();
+    INBOUND=val ? Object.values(val).sort((a,b)=>(b.ts||0)-(a.ts||0)) : [];
+    return db.ref('inv2026/issuance').once('value');
+  }).then(snap=>{
+    const val=snap.val();
+    ISSUANCE=val ? Object.values(val).sort((a,b)=>(b.ts||0)-(a.ts||0)) : [];
+    return db.ref('inv2026/cancelledOrders').once('value');
+  }).then(snap=>{
+    const val=snap.val();
+    // txId format is "tx-<timestamp>" — safe for Firebase keys, stored as-is
+    if(val) CANCELLED_ORDERS=new Set(Object.keys(val));
+    try{const lc=JSON.parse(localStorage.getItem('inv2026_cancelled')||'[]');lc.forEach(id=>CANCELLED_ORDERS.add(id));}catch(e){}
+    document.getElementById('fb-loader').style.display='none';
+    setFbStatus('online');
+    renderOverview();
+    renderProdTable();
+    renderLocPage();
+    setLastUpdated();
+    startAutoRefresh();
+    setupFirebaseListeners();
+  }).catch(err=>{
+    console.warn('Firebase error, falling back to local data',err);
+    try{HISTORY=JSON.parse(localStorage.getItem('inv2026_history')||'[]');}catch(e){HISTORY=[];}
+    try{INBOUND=JSON.parse(localStorage.getItem('inv2026_inbound')||'[]');}catch(e){INBOUND=[];}
+    try{CANCELLED_ORDERS=new Set(JSON.parse(localStorage.getItem('inv2026_cancelled')||'[]'));}catch(e){CANCELLED_ORDERS=new Set();}
+    document.getElementById('fb-loader').style.display='none';
+    setFbStatus('offline');
+    renderOverview();
+    renderProdTable();
+    renderLocPage();
+    setLastUpdated();
+    startAutoRefresh();
+  });
+}
+
+function setupFirebaseListeners(){
+  // Real-time stock updates from other users
+  db.ref('inv2026/stock').on('value', snap=>{
+    const val=snap.val();
+    if(!val||JSON.stringify(STOCK)===JSON.stringify(val)) return;
+    STOCK=val;
+    try{localStorage.setItem('inv2026_stock',JSON.stringify(STOCK));}catch(e){}
+    renderProdTable();
+    renderLocPage();
+    renderOverview();
+    const activePage=document.querySelector('.page.active')?.id?.replace('page-','');
+    if(activePage && activePage!=='products' && activePage!=='locations' && activePage!=='overview') show(activePage);
+  });
+
+  db.ref('inv2026/history').on('value', snap=>{
+    const val=snap.val();
+    const newH=val ? Object.values(val).sort((a,b)=>(b.ts||0)-(a.ts||0)) : [];
+    if(JSON.stringify(newH)===JSON.stringify(HISTORY)) return;
+    HISTORY=newH;
+    const activePage=document.querySelector('.page.active')?.id?.replace('page-','');
+    if(activePage==='mainwh') renderOutboundPage();
+    if(activePage==='dispatch') renderHistory();
+    if(activePage==='locations'){
+      if(currentLocBranch && currentLocTab==='received'){
+        renderBranchTab(currentLocBranch,'received');
+      } else if(currentLocBranch){
+        showBranchDetail(currentLocBranch);
+      } else {
+        renderLocPage();
+      }
+    }
+  });
+
+  db.ref('inv2026/inbound').on('value', snap=>{
+    const val=snap.val();
+    const newI=val ? Object.values(val).sort((a,b)=>(b.ts||0)-(a.ts||0)) : [];
+    if(JSON.stringify(newI)===JSON.stringify(INBOUND)) return;
+    INBOUND=newI;
+    const activePage=document.querySelector('.page.active')?.id?.replace('page-','');
+    if(activePage==='mainwh') renderInbPage();
+    if(activePage==='locations'){
+      if(currentLocBranch && currentLocTab==='received'){
+        renderBranchTab(currentLocBranch,'received');
+      } else if(currentLocBranch){
+        showBranchDetail(currentLocBranch);
+      } else {
+        renderLocPage();
+      }
+    }
+  });
+
+  db.ref('inv2026/issuance').on('value', snap=>{
+    const val=snap.val();
+    const newI=val ? Object.values(val).sort((a,b)=>(b.ts||0)-(a.ts||0)) : [];
+    if(JSON.stringify(newI)===JSON.stringify(ISSUANCE)) return;
+    ISSUANCE=newI;
+    const activePage=document.querySelector('.page.active')?.id?.replace('page-','');
+    if(activePage==='issuance') renderIssHistory();
+    if(activePage==='locations'){
+      if(currentLocBranch && currentLocTab==='issued'){
+        renderBranchTab(currentLocBranch,'issued');
+      } else if(currentLocBranch){
+        showBranchDetail(currentLocBranch);
+      } else {
+        renderLocPage();
+      }
+    }
+  });
+
+  // Connection state indicator
+  db.ref('.info/connected').on('value', snap=>{
+    setFbStatus(snap.val() ? 'online' : 'offline');
+  });
+}
+
+function getSelectedMonth(){
+  return document.getElementById('reportMonth')?.value||
+    `${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}`;
+}
+
+function getMonthRange(month){
+  const [y,m]=month.split('-').map(Number);
+  const firstDay=new Date(y,m-1,1);
+  const lastDay=new Date(y,m,0,23,59,0); // last day at 23:59
+  const fmt=d=>`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+  return{
+    start: firstDay,
+    end: lastDay,
+    label: `${fmt(firstDay)} 00:00  →  ${fmt(lastDay)} 23:59`
+  };
+}
+
+function saveMonthSnapshot(){
+  const month=getSelectedMonth();
+  const range=getMonthRange(month);
+  if(!confirm(`حفظ snapshot للشهر ${month}؟\nالفترة: ${range.label}\nسيتم حفظ بيانات Stock و Issued الحالية.`)) return;
+  const snapshot={
+    stock:JSON.parse(JSON.stringify(STOCK)),
+    sheetRows:JSON.parse(JSON.stringify(SHEET_ROWS||[])),
+    savedAt:new Date().toISOString(),
+    periodStart:range.start.toISOString(),
+    periodEnd:range.end.toISOString(),
+    periodLabel:range.label
+  };
+  db.ref(`inv2026/snapshots/${month}`).set(snapshot)
+    .then(()=>{
+      toast(`✅ Snapshot saved for ${month}`);
+      document.getElementById('snapshot-status').textContent=`✅ Saved: ${range.label}`;
+      document.getElementById('snapshot-status').style.color='var(--green)';
+    })
+    .catch(e=>{ alert('❌ Error: '+e.message); });
+}
+
+function checkSnapshotExists(){
+  const month=getSelectedMonth();
+  const el=document.getElementById('snapshot-status');
+  el.textContent='⏳ Checking...';
+  db.ref(`inv2026/snapshots/${month}`).get().then(snap=>{
+    if(snap.exists()){
+      const s=snap.val();
+      const range=s.periodLabel||getMonthRange(month).label;
+      el.textContent=`✅ ${range}`;
+      el.style.color='var(--green)';
+    } else {
+      const range=getMonthRange(month);
+      el.textContent=`⚠️ No snapshot — ${range.label}`;
+      el.style.color='var(--orange)';
+    }
+  }).catch(()=>{ el.textContent=''; });
+}
+
+function exportMonthlyReport(){
+  const month=getSelectedMonth();
+  db.ref(`inv2026/snapshots/${month}`).get().then(snap=>{
+    if(!snap.exists()){
+      if(!confirm(`⚠️ لا يوجد snapshot للشهر ${month}.\nهل تريد تصدير البيانات الحالية بدلاً منها؟`)) return;
+      _doExport(STOCK, SHEET_ROWS||[], month, null);
+    } else {
+      const s=snap.val();
+      _doExport(s.stock||{}, s.sheetRows||[], month, s.periodLabel||null);
+    }
+  }).catch(()=>{ _doExport(STOCK, SHEET_ROWS||[], month); });
+}
+
+function _doExport(stockData, sheetRowsData, month, periodLabel){
+  const branches=['amman','irbid','zarqa','aqaba'];
+  const branchNames={amman:'Amman',irbid:'Irbid',zarqa:'Zarqa',aqaba:'Aqaba'};
+  const now=new Date(month+'-01');
+  const monthLabel=now.toLocaleString('en',{month:'long',year:'numeric'});
+  const range=periodLabel||getMonthRange(month).label;
+  const reportTitle=`${monthLabel}  (${range})`;
+
+  // Rebuild getData using snapshot stock
+  const data=SEED.map(s=>({...s,...(stockData[s.sku]||{naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0})}));
+
+  // Build issMap per branch from snapshot sheetRows
+  const BRANCH_COLS2={amman:[1,2],irbid:[3,4],zarqa:[5,6],aqaba:[7,8]};
+  const issMapAll={};
+  branches.forEach(b=>{
+    issMapAll[b]={};
+    if(sheetRowsData&&sheetRowsData.length>2){
+      const [nhIdx,repIdx]=BRANCH_COLS2[b];
+      sheetRowsData.slice(2)
+        .filter(r=>r[0]&&r[0].toLowerCase()!=='grand total'&&r[0]!=='Item')
+        .forEach(r=>{
+          const name=normName(r[0]||'');
+          const total=(parseInt(r[nhIdx])||0)+(parseInt(r[repIdx])||0);
+          if(name&&total>0) issMapAll[b][name]=total;
+        });
+    }
+  });
+
+  // ---- Sheet 1: Remaining ----
+  const remHeaders=['Product','SKU','Category','Naouri',...branches.map(b=>branchNames[b]),'Total Remaining'];
+  const remRows=data.map(p=>{
+    const pKey=normName(p.name);
+    const naouriVal=p.naouri||0;
+    const branchRems=branches.map(b=>(p[b]||0)-(issMapAll[b][pKey]||0));
+    const total=naouriVal+branchRems.reduce((s,r)=>s+r,0);
+    return[p.name,p.sku,getCat(p.name),naouriVal,...branchRems,total];
+  });
+  // Totals row
+  const remTotals=['TOTAL','','',
+    data.reduce((s,p)=>s+(p.naouri||0),0),
+    ...branches.map(b=>data.reduce((s,p)=>{const pKey=normName(p.name);return s+(p[b]||0)-(issMapAll[b][pKey]||0);},0)),
+    data.reduce((s,p)=>{const pKey=normName(p.name);const n=p.naouri||0;return s+n+branches.reduce((ss,b)=>ss+(p[b]||0)-(issMapAll[b][pKey]||0),0);},0)
+  ];
+
+  // ---- Sheet 2: Issued ----
+  const issHeaders=['Product','SKU','Category',...branches.map(b=>branchNames[b]),'Total Issued'];
+  const issRows=data.map(p=>{
+    const pKey=normName(p.name);
+    const branchIss=branches.map(b=>issMapAll[b][pKey]||0);
+    const total=branchIss.reduce((s,v)=>s+v,0);
+    return[p.name,p.sku,getCat(p.name),...branchIss,total];
+  });
+  const issTotals=['TOTAL','','',...branches.map(b=>data.reduce((s,p)=>s+(issMapAll[b][normName(p.name)]||0),0)),
+    data.reduce((s,p)=>{const pKey=normName(p.name);return s+branches.reduce((ss,b)=>ss+(issMapAll[b][pKey]||0),0);},0)];
+
+  // Build workbook
+  const wb=XLSX.utils.book_new();
+
+  const wsRem=XLSX.utils.aoa_to_sheet([
+    [`Monthly Remaining Report — ${reportTitle}`],
+    [],
+    remHeaders,
+    ...remRows,
+    [],
+    remTotals
+  ]);
+  XLSX.utils.book_append_sheet(wb,wsRem,'Remaining');
+
+  const wsIss=XLSX.utils.aoa_to_sheet([
+    [`Monthly Issued Report — ${reportTitle}`],
+    [],
+    issHeaders,
+    ...issRows,
+    [],
+    issTotals
+  ]);
+  XLSX.utils.book_append_sheet(wb,wsIss,'Issued');
+
+  const fileName=`Inventory_Report_${now.getFullYear()}_${String(now.getMonth()+1).padStart(2,'0')}.xlsx`;
+  XLSX.writeFile(wb,fileName);
+  toast(`✅ Report exported: ${fileName}`);
+}
+
+// ======== BUDGET ========
+const BUDGET_GROUPS = [
+  {key:'CC',       label:'Cotton Caps',                  icon:'🧢', skus:['CC-2024-001'],                                                                        csvAliases:['cap','cotton cap']},
+  {key:'THS',      label:'T-Shirt Half Sleeve',          icon:'👕', skus:['THS-2024-001','THS-2024-002','THS-2024-003','THS-2024-004','THS-2024-005','THS-2024-006','THS-2024-007','THS-2024-008'], csvAliases:['t shirt half sleeve','t-shirt half sleeve']},
+  {key:'TLS',      label:'T-Shirt Long Sleeve',          icon:'👕', skus:['TLS-2024-001','TLS-2024-002','TLS-2024-003','TLS-2024-004','TLS-2024-005','TLS-2024-006','TLS-2024-007','TLS-2024-008'],               csvAliases:['t shirt long sleeve s','t shirt long sleeve m','t shirt long sleeve l','t shirt long sleeve xl','t shirt long sleeve xxl','t shirt long sleeve xxxl','t shirt long sleeve xxxxl','t shirt long sleeve xxxxxl']},
+  {key:'TLSP',     label:'T-Shirt LS T-Patroller',       icon:'👕', skus:['TLSP-2024-001','TLSP-2024-002','TLSP-2024-003','TLSP-2024-004','TLSP-2024-005','TLSP-2024-006','TLSP-2024-007'],                       csvAliases:['t shirt long sleeve t patroller','t shirt long sleeves t patroller','t patroller','t-patroller','t patrollers','t-patrollers']},
+  {key:'HIJAB_THS',label:'HIJAB T-Shirt',                icon:'🧕', skus:['HIJAB0001','HIJAB0002','HIJAB0003','HIJAB0005','HIJAB0006'],                           csvAliases:['hijabi shirt','hijab shirt','hijab t shirt']},
+  {key:'DVH',      label:'Double Visor Helmet',          icon:'⛑️', skus:['DVH-2024-003','DVH-2024-004','DVHNON0003','DVHNON0004'],                              csvAliases:['helmet','double visor helmet']},
+  {key:'MBG',      label:'Motorbike Gloves',             icon:'🧤', skus:['MBG0003','MBG0004','MBG0005'],                                                        csvAliases:['motorbike glove','glove']},
+  {key:'HJ',       label:'Heavy Jacket (Padded)',        icon:'🧥', skus:['HJ-2024-001','HJ-2024-002','HJ-2024-003','HJ-2024-004','HJ-2024-005','HJ-2024-006','HJ-2024-007','HJ-2024-008'], csvAliases:['padded jacket','heavy jacket']},
+  {key:'WJ',       label:'Winter Jacket',                icon:'🧥', skus:['WJ0001','WJ0002','WJ0003','WJ0004','WJ0005','WJ0006'],                                  csvAliases:['winter jacket']},
+  {key:'LJ',       label:'Light Jacket',                 icon:'🧥', skus:['LJ-2024-003','LJ-2024-004'],                                                         csvAliases:['light jacket']},
+  {key:'JTP',      label:'Jacket T-Patroller',           icon:'🧥', skus:['JTP-2024-001','JTP-2024-002','JTP-2024-003','JTP-2024-004','JTP-2024-005','JTP-2024-006','JTP-2024-007'], csvAliases:['jacket t patroller','jacket t-patroller']},
+  {key:'HIJAB_WJ', label:'HIJAB Padded Winter Jacket',   icon:'🧕', skus:['HIJAB0007','HIJAB0008','HIJAB0009','HIJAB0010','HIJAB0011','HIJAB0012'],               csvAliases:['hijabi padded jacket','hijab padded jacket','hijab padded winter jacket']},
+  {key:'BAG',      label:'Thermal Bag (Small)',          icon:'👜', skus:['DB-2024-001'],                                                                        csvAliases:['thermal bag']},
+  {key:'BPACK',    label:'Backpack Bag',                 icon:'🎒', skus:['DB-2024-002'],                                                                        csvAliases:['backpack bag','big backpack']},
+  {key:'CH',       label:'Cup Holder',                   icon:'☕', skus:[],                                                                                    csvAliases:['cup holder']},
+];
+
+const DEFAULT_PRICES = {
+  CC:       1.11,
+  THS:      2.16,
+  TLS:      2.71,
+  TLSP:     2.75,
+  HIJAB_THS:3.462,
+  DVH:      11.98,
+  MBG:      2.08,
+  HJ:       12.62,
+  WJ:       5.68,
+  LJ:       6.34,
+  JTP:      6.34,
+  HIJAB_WJ: 12.3,
+  BAG:      3.19,
+  BPACK:    11.03,
+  CH:       0.69,
+};
+
+let BUDGET_PRICES = {...DEFAULT_PRICES};
+let BUDGET_QTY_3PL = {};
+let BUDGET_TARGET = 0;
+let _budgetLoaded = false;
+
+function loadBudgetData(){
+  return db.ref('inv2026/budget').get().then(snap=>{
+    if(snap.exists()){
+      const d=snap.val();
+      if(d.prices) BUDGET_PRICES={...DEFAULT_PRICES,...d.prices};
+      if(d.qty3pl) BUDGET_QTY_3PL={...d.qty3pl};
+      BUDGET_TARGET=d.target||0;
+    }
+    _budgetLoaded=true;
+  });
+}
+
+function saveBudgetData(){
+  const targetVal=parseFloat(document.getElementById('budget-target-input').value)||0;
+  BUDGET_TARGET=targetVal;
+  BUDGET_GROUPS.forEach(g=>{
+    const inp=document.getElementById(`bprice-${g.key}`);
+    if(inp) BUDGET_PRICES[g.key]=parseFloat(inp.value)||0;
+    const inp3=document.getElementById(`bprice3pl-${g.key}`);
+    if(inp3) BUDGET_QTY_3PL[g.key]=parseInt(inp3.value)||0;
+  });
+  db.ref('inv2026/budget').set({prices:BUDGET_PRICES,qty3pl:BUDGET_QTY_3PL,target:BUDGET_TARGET})
+    .then(()=>{ toast('✅ Budget saved'); _refreshBudgetUI(); })
+    .catch(e=>toast('❌ Save failed: '+e.message));
+}
+
+function _buildIssuedMap(){
+  // Returns {normName: totalIssued} summed across ALL branches
+  const branches=['amman','irbid','zarqa','aqaba'];
+  const BRANCH_COLS_MAP={amman:[1,2],irbid:[3,4],zarqa:[5,6],aqaba:[7,8]};
+  const map={};
+  if(!SHEET_ROWS||SHEET_ROWS.length<3) return map;
+  branches.forEach(b=>{
+    const [nhIdx,repIdx]=BRANCH_COLS_MAP[b];
+    SHEET_ROWS.slice(2).forEach(r=>{
+      if(!r[0]||r[0].toLowerCase()==='grand total'||r[0]==='Item') return;
+      if(r[0].toLowerCase().startsWith('reused')) return; // exclude reused items
+      const name=normName(r[0]||'');
+      
+      const total=(parseInt(r[nhIdx])||0)+(parseInt(r[repIdx])||0);
+      if(name&&total>0) map[name]=(map[name]||0)+total;
+    });
+  });
+  return map;
+}
+
+function _getGroupIssuedQty(group, issMap){
+  const matched=new Set();
+  let total=0;
+
+  // 1. Try exact match via SEED names
+  group.skus.forEach(sku=>{
+    const seed=SEED.find(s=>s.sku===sku);
+    if(seed){
+      const k=normName(seed.name);
+      if(!matched.has(k)&&issMap[k]){
+        matched.add(k);
+        total+=issMap[k];
+      }
+    }
+  });
+
+  // 2. Fallback: prefix match via csvAliases (catches different naming in CSV)
+  if(group.csvAliases){
+    group.csvAliases.forEach(alias=>{
+      const base=normName(alias);
+      Object.keys(issMap).forEach(k=>{
+        if(!matched.has(k)&&(k===base||k.startsWith(base+' '))){
+          matched.add(k);
+          total+=issMap[k];
+        }
+      });
+    });
+  }
+
+  return total;
+}
+
+function showCSVNames(){
+  const box=document.getElementById('budget-debug');
+  if(!SHEET_ROWS||SHEET_ROWS.length<3){
+    box.innerHTML='⚠️ No CSV loaded. Go to Issuances tab and upload the CSV first.';
+    box.style.display='block'; return;
+  }
+  const names=[...new Set(
+    SHEET_ROWS.slice(2)
+      .map(r=>r[0]||'')
+      .filter(n=>n&&n.toLowerCase()!=='grand total'&&n!=='Item'&&n.trim()!=='')
+  )].sort();
+  box.innerHTML=
+    `<div style="color:#faf089;margin-bottom:8px;">📋 Unique item names in CSV (${names.length} items):</div>`+
+    names.map((n,i)=>`<span style="color:#e2e8f0;">${i+1}. "${n}"</span>`).join('<br>');
+  box.style.display='block';
+}
+
+function showBudgetDebug(){
+  const box=document.getElementById('budget-debug');
+  if(box.style.display!=='none'){ box.style.display='none'; return; }
+  const issMap=_buildIssuedMap();
+  const keys=Object.keys(issMap).sort();
+  if(keys.length===0){
+    box.innerHTML='⚠️ issMap is EMPTY — Issuances CSV not loaded yet.';
+    box.style.display='block'; return;
+  }
+
+  // Section 1: per-group computed qty
+  const groupLines=BUDGET_GROUPS.map(g=>{
+    const qty=_getGroupIssuedQty(g,issMap);
+    const color=qty>0?'#68d391':'#fc8181';
+    return `<span style="color:${color}">${qty>0?'✓':'✗'} [${g.key}] ${g.label} → qty=${qty}</span>`;
+  });
+
+  // Section 2: raw issMap keys
+  const matchedKeys=new Set();
+  BUDGET_GROUPS.forEach(g=>{
+    (g.csvAliases||[]).forEach(alias=>{
+      const base=normName(alias);
+      keys.forEach(k=>{ if(k===base||k.startsWith(base+' ')) matchedKeys.add(k); });
+    });
+    g.skus.forEach(sku=>{
+      const seed=SEED.find(s=>s.sku===sku);
+      if(seed&&issMap[normName(seed.name)]) matchedKeys.add(normName(seed.name));
+    });
+  });
+  const rawLines=keys.map(k=>{
+    const hit=matchedKeys.has(k);
+    const color=hit?'#68d391':'#fc8181';
+    return `<span style="color:${color}">${hit?'✓':'✗'} "${k}" = ${issMap[k]}</span>`;
+  });
+
+  box.innerHTML=
+    `<div style="color:#faf089;margin-bottom:6px;font-size:12px;">▶ Group Results:</div>`+
+    groupLines.join('<br>')+
+    `<div style="color:#faf089;margin:10px 0 6px;font-size:12px;">▶ Raw CSV Keys (${keys.length}) — ✓ matched / ✗ unmatched:</div>`+
+    rawLines.join('<br>');
+  box.style.display='block';
+}
+
+function renderBudgetPage(){
+  if(!_budgetLoaded){
+    loadBudgetData().then(()=>_refreshBudgetUI());
+  } else {
+    _refreshBudgetUI();
+  }
+}
+
+function _refreshBudgetUI(){
+  const issMap=_buildIssuedMap();
+  const tbody=document.getElementById('budget-table-body');
+  if(!tbody) return;
+
+  let totalQty=0, totalCost=0;
+  const rows=BUDGET_GROUPS.map(g=>{
+    const price=BUDGET_PRICES[g.key]||0;
+    const qty3pl=BUDGET_QTY_3PL[g.key]||0;
+    const qty=_getGroupIssuedQty(g,issMap);
+    const cost=price*(qty+qty3pl);
+    totalQty+=qty; totalCost+=cost;
+    return {g,price,qty3pl,qty,cost};
+  });
+
+  tbody.innerHTML=rows.map(({g,price,qty3pl,qty,cost},i)=>`
+  <tr style="background:${i%2===0?'white':'#f7fafc'};">
+    <td style="padding:9px 12px;font-weight:600;">${g.icon} ${g.label}</td>
+    <td style="text-align:center;padding:9px 12px;">
+      <input type="number" id="bprice-${g.key}" value="${price}" min="0" step="0.01"
+        style="width:90px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit;text-align:center;"
+        oninput="liveUpdateBudgetRow('${g.key}')">
+    </td>
+    <td style="text-align:center;padding:9px 12px;">
+      <input type="number" id="bprice3pl-${g.key}" value="${qty3pl||''}" min="0" step="1" placeholder="—"
+        style="width:90px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit;text-align:center;background:#fffbf0;"
+        oninput="liveUpdateBudgetRow('${g.key}')">
+    </td>
+    <td style="text-align:center;padding:9px 12px;font-weight:600;color:${qty===0?'var(--gray)':'var(--text)'};">${qty.toLocaleString()}</td>
+    <td id="bcost-${g.key}" style="text-align:center;padding:9px 12px;font-weight:700;color:var(--blue);">${cost.toFixed(3)}</td>
+  </tr>`).join('');
+
+  const total3pl=BUDGET_GROUPS.reduce((s,g)=>{
+    const inp3=document.getElementById(`bprice3pl-${g.key}`);
+    return s+(parseInt(inp3?.value)||0);
+  },0);
+  document.getElementById('budget-foot-3pl').textContent=total3pl>0?total3pl.toLocaleString():'—';
+  document.getElementById('budget-foot-qty').textContent=totalQty.toLocaleString();
+  document.getElementById('budget-foot-cost').textContent=totalCost.toFixed(3)+' JOD';
+
+  // Summary cards
+  const target=BUDGET_TARGET;
+  const remaining=target-totalCost;
+  const pct=target>0?Math.min(100,totalCost/target*100):0;
+  const overBudget=remaining<0;
+
+  document.getElementById('budget-summary-cards').innerHTML=`
+    <div class="card" style="border-left:4px solid var(--blue);text-align:center;padding:18px;">
+      <div id="bcard-cost" style="font-size:26px;font-weight:800;color:var(--blue);">${totalCost.toFixed(3)}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;margin-top:4px;">Total Issued Cost (JOD)</div>
+    </div>
+    <div class="card" style="border-left:4px solid #a0aec0;text-align:center;padding:18px;">
+      <div id="bcard-target" style="font-size:26px;font-weight:800;color:#4a5568;">${target>0?target.toFixed(3):'—'}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;margin-top:4px;">Expense Target (JOD)</div>
+    </div>
+    <div id="bcard-rem-wrap" class="card" style="border-left:4px solid ${overBudget?'#e53e3e':'#27ae60'};text-align:center;padding:18px;">
+      <div id="bcard-rem" style="font-size:26px;font-weight:800;color:${overBudget?'#e53e3e':'#27ae60'};">${target>0?(overBudget?'▲ ':'▼ ')+Math.abs(remaining).toFixed(3):'—'}</div>
+      <div id="bcard-rem-label" style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;margin-top:4px;">${overBudget?'Over Budget':'Remaining Budget'} (JOD)</div>
+    </div>
+    <div id="bcard-pct-wrap" class="card" style="border-left:4px solid ${pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60'};text-align:center;padding:18px;">
+      <div id="bcard-pct" style="font-size:26px;font-weight:800;color:${pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60'};">${target>0?pct.toFixed(1)+'%':'—'}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;margin-top:4px;">Budget Used</div>
+    </div>`;
+
+  // Progress bar
+  const progCard=document.getElementById('budget-progress-card');
+  if(target>0){
+    progCard.hidden=false;
+    document.getElementById('budget-bar').style.width=pct+'%';
+    document.getElementById('budget-bar').style.background=pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60';
+    document.getElementById('budget-pct-label').textContent=pct.toFixed(1)+'%';
+    document.getElementById('budget-target-label').textContent='Target: '+target.toFixed(3)+' JOD';
+  } else { progCard.hidden=true; }
+
+  // Target input
+  const ti=document.getElementById('budget-target-input');
+  if(ti&&target>0&&!ti.value) ti.value=target;
+}
+
+function liveUpdateBudgetRow(key){
+  const inp=document.getElementById(`bprice-${key}`);
+  const inp3=document.getElementById(`bprice3pl-${key}`);
+  const price=parseFloat(inp?.value)||0;
+  const qty3pl=parseInt(inp3?.value)||0;
+  const issMap=_buildIssuedMap();
+  const g=BUDGET_GROUPS.find(x=>x.key===key);
+  const qty=g?_getGroupIssuedQty(g,issMap):0;
+  const cost=price*(qty+qty3pl);
+  const cell=document.getElementById(`bcost-${key}`);
+  if(cell) cell.textContent=cost.toFixed(3);
+  liveUpdateBudgetBar();
+}
+
+function liveUpdateBudgetBar(){
+  const issMap=_buildIssuedMap();
+  let total=0, totalQtyLive=0, live3pl=0;
+  BUDGET_GROUPS.forEach(g=>{
+    const inp=document.getElementById(`bprice-${g.key}`);
+    const inp3=document.getElementById(`bprice3pl-${g.key}`);
+    const price=parseFloat(inp?.value)||0;
+    const qty3pl=parseInt(inp3?.value)||0;
+    const qty=_getGroupIssuedQty(g,issMap);
+    total+=price*(qty+qty3pl);
+    totalQtyLive+=qty;
+    live3pl+=qty3pl;
+  });
+  const fc=document.getElementById('budget-foot-cost');
+  if(fc) fc.textContent=total.toFixed(3)+' JOD';
+  const fq=document.getElementById('budget-foot-qty');
+  if(fq) fq.textContent=totalQtyLive.toLocaleString();
+  const f3=document.getElementById('budget-foot-3pl');
+  if(f3) f3.textContent=live3pl>0?live3pl.toLocaleString():'—';
+  const target=parseFloat(document.getElementById('budget-target-input')?.value)||0;
+  const pct=target>0?Math.min(100,total/target*100):0;
+  const remaining=target-total;
+  const overBudget=remaining<0;
+  const bar=document.getElementById('budget-bar');
+  const pc=document.getElementById('budget-pct-label');
+  const progCard=document.getElementById('budget-progress-card');
+  if(target>0){
+    progCard.hidden=false;
+    if(bar){ bar.style.width=pct+'%'; bar.style.background=pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60'; }
+    if(pc) pc.textContent=pct.toFixed(1)+'%';
+    document.getElementById('budget-target-label').textContent='Target: '+target.toFixed(3)+' JOD';
+  } else { progCard.hidden=true; }
+  const el_cost=document.getElementById('bcard-cost');
+  if(el_cost) el_cost.textContent=total.toFixed(3);
+  const el_target=document.getElementById('bcard-target');
+  if(el_target) el_target.textContent=target>0?target.toFixed(3):'—';
+  const el_rem=document.getElementById('bcard-rem');
+  if(el_rem){
+    el_rem.textContent=target>0?(overBudget?'▲ ':'▼ ')+Math.abs(remaining).toFixed(3):'—';
+    el_rem.style.color=overBudget?'#e53e3e':'#27ae60';
+  }
+  const el_rem_wrap=document.getElementById('bcard-rem-wrap');
+  if(el_rem_wrap) el_rem_wrap.style.borderLeftColor=overBudget?'#e53e3e':'#27ae60';
+  const el_rem_label=document.getElementById('bcard-rem-label');
+  if(el_rem_label) el_rem_label.textContent=(overBudget?'Over Budget':'Remaining Budget')+' (JOD)';
+  const el_pct=document.getElementById('bcard-pct');
+  if(el_pct){
+    el_pct.textContent=target>0?pct.toFixed(1)+'%':'—';
+    el_pct.style.color=pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60';
+  }
+  const el_pct_wrap=document.getElementById('bcard-pct-wrap');
+  if(el_pct_wrap) el_pct_wrap.style.borderLeftColor=pct>=100?'#e53e3e':pct>=80?'#e67e22':'#27ae60';
+}
+
+function exportBudgetReport(){
+  if(typeof XLSX==='undefined'){ toast('❌ XLSX library not loaded'); return; }
+  const issMap=_buildIssuedMap();
+  const now=new Date();
+  const dateLabel=now.toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const target=BUDGET_TARGET||parseFloat(document.getElementById('budget-target-input')?.value)||0;
+
+  const headers=['Product Group','Unit Price (JOD)','3PLs (Qty)','Total Issued','Total Cost (JOD)'];
+  let totalQty=0,totalCost=0,total3pl=0;
+  const dataRows=BUDGET_GROUPS.map(g=>{
+    const price=BUDGET_PRICES[g.key]||0;
+    const qty3pl=BUDGET_QTY_3PL[g.key]||0;
+    const qty=_getGroupIssuedQty(g,issMap);
+    const cost=price*(qty+qty3pl);
+    totalQty+=qty; totalCost+=cost; total3pl+=qty3pl;
+    return[g.label, price, qty3pl||'', qty, parseFloat(cost.toFixed(3))];
+  });
+
+  const aoa=[
+    [`Budget Report — ${dateLabel}`],
+    target>0?[`Expense Target: ${target.toFixed(3)} JOD  |  Total Issued Cost: ${totalCost.toFixed(3)} JOD  |  ${totalCost<=target?'Remaining: '+(target-totalCost).toFixed(3)+' JOD':'OVER BUDGET by '+(totalCost-target).toFixed(3)+' JOD'}`]:[],
+    [],
+    headers,
+    ...dataRows,
+    [],
+    ['TOTAL','',totalQty,parseFloat(totalCost.toFixed(3))]
+  ].filter(r=>r.length>0);
+
+  const ws=XLSX.utils.aoa_to_sheet(aoa);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Budget');
+  XLSX.writeFile(wb,`Budget_Report_${now.getFullYear()}_${String(now.getMonth()+1).padStart(2,'0')}.xlsx`);
+  toast('✅ Budget report exported');
+}
+
+// ======== REPORTS ARCHIVE ========
+let _archiveSnapshots = {};
+
+function renderArchivePage(){
+  db.ref('inv2026/snapshots').get().then(snap=>{
+    const container = document.getElementById('archive-cards');
+    const selA = document.getElementById('cmpMonthA');
+    const selB = document.getElementById('cmpMonthB');
+
+    if(!snap.exists()){
+      container.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray);font-size:14px;">No saved snapshots yet. Go to Stock OnHand and click 💾 Save Snapshot for a month.</div>';
+      return;
+    }
+
+    _archiveSnapshots = snap.val();
+    const months = Object.keys(_archiveSnapshots).sort().reverse();
+
+    [selA, selB].forEach(sel=>{
+      const prev = sel.value;
+      sel.innerHTML='<option value="">— select —</option>';
+      months.forEach(m=>{
+        const opt=document.createElement('option');
+        opt.value=m;
+        opt.textContent=_fmtMonthLabel(m);
+        sel.appendChild(opt);
+      });
+      if(prev) sel.value=prev;
+    });
+
+    container.innerHTML = months.map(m=>{
+      const s = _archiveSnapshots[m];
+      const stock = s.stock||{};
+      const sheetRows = s.sheetRows||[];
+      const {totalRem, totalIss} = _calcTotals(stock, sheetRows);
+      const savedAt = s.savedAt ? new Date(s.savedAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+      const period = s.periodLabel || '—';
+
+      return `
+      <div class="card" style="border-left:4px solid var(--blue);padding:18px 20px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+          <div>
+            <div style="font-size:17px;font-weight:700;color:var(--text);">${_fmtMonthLabel(m)}</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:2px;">${period}</div>
+          </div>
+          <button onclick="exportArchiveMonth('${m}')" title="Export this month"
+            style="padding:5px 11px;background:var(--green);color:white;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">
+            📥 Export
+          </button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+          <div style="background:#f7fafc;border-radius:8px;padding:10px 12px;text-align:center;">
+            <div style="font-size:22px;font-weight:800;color:var(--blue);">${totalRem.toLocaleString()}</div>
+            <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;">Total Remaining</div>
+          </div>
+          <div style="background:#f7fafc;border-radius:8px;padding:10px 12px;text-align:center;">
+            <div style="font-size:22px;font-weight:800;color:#e67e22;">${totalIss.toLocaleString()}</div>
+            <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.4px;">Total Issued</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--gray);">💾 Saved: ${savedAt}</div>
+      </div>`;
+    }).join('');
+  }).catch(e=>{ console.error(e); toast('❌ Failed to load archive'); });
+}
+
+function _fmtMonthLabel(m){
+  const [y,mo]=m.split('-').map(Number);
+  return new Date(y,mo-1,1).toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+}
+
+function _calcTotals(stock, sheetRows){
+  const branches=['amman','irbid','zarqa','aqaba'];
+  const BRANCH_COLS_MAP={amman:[1,2],irbid:[3,4],zarqa:[5,6],aqaba:[7,8]};
+  const issMap={};
+  branches.forEach(b=>{
+    const [nhIdx,repIdx]=BRANCH_COLS_MAP[b];
+    (sheetRows||[]).slice(2).forEach(r=>{
+      if(!r[0]||r[0].toLowerCase()==='grand total'||r[0]==='Item') return;
+      const name=normName(r[0]||'');
+      const total=(parseInt(r[nhIdx])||0)+(parseInt(r[repIdx])||0);
+      if(name&&total>0) issMap[name]=(issMap[name]||0)+total;
+    });
+  });
+
+  let totalRem=0, totalIss=0;
+  SEED.forEach(p=>{
+    const pKey=normName(p.name);
+    const s=stock[p.sku]||{};
+    const naouri=s.naouri||0;
+    const branchOnH=branches.reduce((sum,b)=>sum+(s[b]||0),0);
+    const iss=issMap[pKey]||0;
+    totalRem+=naouri+branchOnH-iss;
+    totalIss+=iss;
+  });
+  return {totalRem, totalIss};
+}
+
+function exportArchiveMonth(month){
+  const s = _archiveSnapshots[month];
+  if(!s){ toast('❌ Snapshot not loaded'); return; }
+  _doExport(s.stock||{}, s.sheetRows||[], month, s.periodLabel||null);
+}
+
+function runComparison(){
+  const mA = document.getElementById('cmpMonthA').value;
+  const mB = document.getElementById('cmpMonthB').value;
+  const out = document.getElementById('compare-result');
+  if(!mA||!mB){ out.innerHTML='<div style="color:#e53e3e;font-size:13px;">Please select two months to compare.</div>'; return; }
+  if(mA===mB){ out.innerHTML='<div style="color:#e53e3e;font-size:13px;">Please select two different months.</div>'; return; }
+  const sA=_archiveSnapshots[mA], sB=_archiveSnapshots[mB];
+  if(!sA||!sB){ out.innerHTML='<div style="color:#e53e3e;font-size:13px;">One or both snapshots not loaded. Please re-open the Archive tab.</div>'; return; }
+
+  const branches=['amman','irbid','zarqa','aqaba'];
+  const BRANCH_COLS_MAP={amman:[1,2],irbid:[3,4],zarqa:[5,6],aqaba:[7,8]};
+
+  function buildIssMap(sheetRows){
+    const map={};
+    branches.forEach(b=>{
+      const [nhIdx,repIdx]=BRANCH_COLS_MAP[b];
+      (sheetRows||[]).slice(2).forEach(r=>{
+        if(!r[0]||r[0].toLowerCase()==='grand total'||r[0]==='Item') return;
+        const name=normName(r[0]||'');
+        const total=(parseInt(r[nhIdx])||0)+(parseInt(r[repIdx])||0);
+        if(name&&total>0) map[name]=(map[name]||0)+total;
+      });
+    });
+    return map;
+  }
+
+  const issA=buildIssMap(sA.sheetRows), issB=buildIssMap(sB.sheetRows);
+
+  const rows = SEED.map(p=>{
+    const key=normName(p.name);
+    const stA=sA.stock[p.sku]||{}, stB=sB.stock[p.sku]||{};
+    const remA=(stA.naouri||0)+branches.reduce((s,b)=>s+(stA[b]||0),0)-(issA[key]||0);
+    const remB=(stB.naouri||0)+branches.reduce((s,b)=>s+(stB[b]||0),0)-(issB[key]||0);
+    const diff=remB-remA;
+    const color=diff>0?'#27ae60':diff<0?'#e53e3e':'#a0aec0';
+    const arrow=diff>0?'▲':diff<0?'▼':'–';
+    return {name:p.name,sku:p.sku,remA,remB,diff,color,arrow};
+  }).filter(r=>r.remA!==0||r.remB!==0);
+
+  const totalA=rows.reduce((s,r)=>s+r.remA,0);
+  const totalB=rows.reduce((s,r)=>s+r.remB,0);
+  const totalDiff=totalB-totalA;
+  const totalColor=totalDiff>0?'#27ae60':totalDiff<0?'#e53e3e':'#a0aec0';
+
+  out.innerHTML=`
+  <div style="overflow-x:auto;">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text);">
+      Comparing Remaining: <span style="color:var(--blue)">${_fmtMonthLabel(mA)}</span> → <span style="color:var(--blue)">${_fmtMonthLabel(mB)}</span>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead>
+        <tr style="background:#f7fafc;">
+          <th style="text-align:left;padding:8px 10px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.4px;">Product</th>
+          <th style="text-align:center;padding:8px 10px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--blue);">${_fmtMonthLabel(mA)}</th>
+          <th style="text-align:center;padding:8px 10px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;color:var(--blue);">${_fmtMonthLabel(mB)}</th>
+          <th style="text-align:center;padding:8px 10px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;">Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.map((r,i)=>`
+        <tr style="background:${i%2===0?'white':'#f7fafc'};">
+          <td style="padding:7px 10px;border-bottom:1px solid var(--border);">${r.name}</td>
+          <td style="text-align:center;padding:7px 10px;border-bottom:1px solid var(--border);font-weight:600;">${r.remA}</td>
+          <td style="text-align:center;padding:7px 10px;border-bottom:1px solid var(--border);font-weight:600;">${r.remB}</td>
+          <td style="text-align:center;padding:7px 10px;border-bottom:1px solid var(--border);font-weight:700;color:${r.color};">${r.arrow} ${Math.abs(r.diff)}</td>
+        </tr>`).join('')}
+        <tr style="background:#edf2f7;font-weight:800;">
+          <td style="padding:9px 10px;">TOTAL</td>
+          <td style="text-align:center;padding:9px 10px;">${totalA.toLocaleString()}</td>
+          <td style="text-align:center;padding:9px 10px;">${totalB.toLocaleString()}</td>
+          <td style="text-align:center;padding:9px 10px;color:${totalColor};">${totalDiff>0?'▲ ':'▼ '}${Math.abs(totalDiff).toLocaleString()}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>`;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  syncFromFirebase();
+  const d=new Date();
+  const el=document.getElementById('reportMonth');
+  if(el){ el.value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; checkSnapshotExists(); }
+});
+</script>
+</div></div><!-- /main-content /app-layout -->
+  <!-- إضافة حاسبة الميزانية المتوقعة التلقائية -->
+<script>
+setTimeout(() => {
+  // 1. إضافة واجهة الجدول في قسم الميزانية تلقائياً
+  const budgetPage = document.getElementById('page-budget');
+  if (budgetPage) {
+    const expectedSection = document.createElement('div');
+    expectedSection.innerHTML = `
+      <div class="card" style="margin-top:20px;">
+        <div class="card-header" style="border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:0;">
+          <h2 style="font-size:15px;">🔮 حاسبة الميزانية المتوقعة (Forecasting)</h2>
+          <span style="font-size:11px;color:var(--gray);">قم بإدخال الكمية المتوقعة يدوياً لمعرفة التكلفة الإجمالية بناءً على الأسعار المعتمدة</span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product Group</th>
+                <th style="text-align:center">Unit Price (JOD)</th>
+                <th style="text-align:center">Expected Qty (الكمية)</th>
+                <th style="text-align:center">Expected Total (المجموع)</th>
+              </tr>
+            </thead>
+            <tbody id="budget-expected-body"></tbody>
+            <tfoot>
+              <tr style="background:#edf2f7;font-weight:800;">
+                <td colspan="2" style="padding:10px 12px;font-size:14px;">GRAND TOTAL EXPECTED</td>
+                <td id="budget-expected-foot-qty" style="text-align:center;padding:10px 12px;font-size:14px;">0</td>
+                <td id="budget-expected-foot-cost" style="text-align:center;padding:10px 12px;font-size:14px;color:var(--red);">0.000 JOD</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    `;
+    budgetPage.appendChild(expectedSection);
+  }
+
+  // 2. دوال الحساب وتحديث الأرقام
+  window.renderExpectedBudget = function() {
+    const tbody = document.getElementById('budget-expected-body');
+    if (!tbody) return;
+    tbody.innerHTML = BUDGET_GROUPS.map((g, i) => {
+      const price = BUDGET_PRICES[g.key] || 0;
+      return `<tr style="background:${i % 2 === 0 ? 'white' : '#f7fafc'};">
+        <td style="padding:9px 12px;font-weight:600;">${g.icon} ${g.label}</td>
+        <td id="exp-price-${g.key}" style="text-align:center;padding:9px 12px;">${price.toFixed(3)}</td>
+        <td style="text-align:center;padding:9px 12px;">
+          <input type="number" id="exp-qty-${g.key}" value="0" min="0" step="1"
+            style="width:90px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit;text-align:center;"
+            oninput="calcExpectedBudget()">
+        </td>
+        <td id="exp-total-${g.key}" style="text-align:center;padding:9px 12px;font-weight:700;color:var(--red);">0.000</td>
+      </tr>`;
+    }).join('');
+    window.calcExpectedBudget();
+  };
+
+  window.calcExpectedBudget = function() {
+    let totalQty = 0, totalCost = 0;
+    BUDGET_GROUPS.forEach(g => {
+      const price = BUDGET_PRICES[g.key] || 0;
+      const priceTd = document.getElementById(`exp-price-${g.key}`);
+      if(priceTd) priceTd.textContent = price.toFixed(3);
+      
+      const qtyInput = document.getElementById(`exp-qty-${g.key}`);
+      const qty = parseInt(qtyInput?.value) || 0;
+      
+      const rowTotal = price * qty;
+      totalQty += qty; totalCost += rowTotal;
+      
+      const totalTd = document.getElementById(`exp-total-${g.key}`);
+      if (totalTd) totalTd.textContent = rowTotal.toFixed(3);
+    });
+    const fQ = document.getElementById('budget-expected-foot-qty');
+    const fC = document.getElementById('budget-expected-foot-cost');
+    if(fQ) fQ.textContent = totalQty.toLocaleString();
+    if(fC) fC.textContent = totalCost.toFixed(3) + ' JOD';
+  };
+
+  // 3. ربط التحديثات مع الجدول الأصلي لتعمل معاً بنجاح
+  const oldRefresh = window._refreshBudgetUI;
+  window._refreshBudgetUI = function() {
+    if(oldRefresh) oldRefresh();
+    window.renderExpectedBudget();
+  };
+
+  const oldUpdate = window.liveUpdateBudgetRow;
+  window.liveUpdateBudgetRow = function(key) {
+    if(oldUpdate) oldUpdate(key);
+    window.calcExpectedBudget();
+  };
+
+  // تشغيل أولي بعد تحميل الصفحة
+  setTimeout(window.renderExpectedBudget, 500);
+}, 1000);
+</script>
+</body>
+</html>
