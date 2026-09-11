@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talabat Inventory Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f4f6fb;
+            color: #1e293b;
+        }
+
+        /* Glassmorphism & Soft Shadows */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.02);
+        }
+
+        .glass-card {
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px -5px rgba(255, 94, 0, 0.1);
+            border-color: rgba(255, 94, 0, 0.3);
+        }
+
+        /* Active Navigation Link */
+        .nav-active {
+            background: #fff5f0;
+            color: #ff5e00;
+            font-weight: 700;
+            border-right: 4px solid #ff5e00;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff5e00;
+        }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden">
+
+    <!-- Vertical Sidebar -->
+    <aside class="w-64 bg-white border-r border-slate-200/80 flex flex-col justify-between z-20 flex-shrink-0">
+        <div>
+            <!-- Talabat Logo Header -->
+            <div class="h-20 flex items-center px-6 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-[#ff5e00] rounded-xl flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-orange-500/20">
+                        t
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-slate-900 text-base leading-tight">Inventory Hub</h1>
+                        <span class="text-[11px] font-semibold text-slate-400">Talabat Operations</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="p-4 space-y-1.5 text-sm font-medium">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-slate-50 transition-colors">
+                    <i class="fa-solid fa-chart-pie w-5 text-slate-400"></i> Overview
+                </a>
+                <a href="#" class="nav-active flex items-center gap-3 px-4 py-3 text-[#ff5e00] rounded-xl transition-colors">
+                    <i class="fa-solid fa-location-dot w-5 text-[#ff5e00]"></i> Locations
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-slate-50 transition-colors">
+                    <i class="fa-solid fa-boxes-stacked w-5 text-slate-400"></i> Stock OnHand
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-slate-50 transition-colors">
+                    <i class="fa-solid fa-warehouse w-5 text-slate-400"></i> Main WH
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-slate-50 transition-colors">
+                    <i class="fa-solid fa-file-invoice w-5 text-slate-400"></i> Issuances
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-slate-50 transition-colors">
+                    <i class="fa-solid fa-truck-ramp-box w-5 text-slate-400"></i> Dispatch
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-slate-50 transition-colors">
+                    <i class="fa-solid fa-box-archive w-5 text-slate-400"></i> Reports Archive
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-slate-600 rounded-xl hover:bg-slate-50 transition-colors">
+                    <i class="fa-solid fa-wallet w-5 text-slate-400"></i> Budget
+                </a>
+            </nav>
+        </div>
+
+        <!-- User Profile Footer -->
+        <div class="p-4 border-t border-slate-100">
+            <div class="flex items-center gap-3 px-3 py-2 rounded-xl bg-slate-50">
+                <div class="w-9 h-9 bg-[#ff5e00]/10 text-[#ff5e00] font-bold rounded-lg flex items-center justify-center text-sm border border-[#ff5e00]/20">
+                    AU
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-xs font-bold text-slate-800 truncate">Admin User</p>
+                    <p class="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Online
+                    </p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+
+        <!-- Top Header Navigation -->
+        <header class="h-16 bg-white/80 backdrop-blur-md border-b border-slate-200/80 px-8 flex items-center justify-between z-10">
+            <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+                <span>Talabat Inventory Dashboard</span>
+                <i class="fa-solid fa-chevron-right text-[10px] text-slate-300"></i>
+                <span class="text-slate-800">Locations Hub</span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold border border-emerald-200/60">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live
+                </div>
+                <button class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-rotate text-[11px]"></i> Refresh
+                </button>
+                <button class="px-3 py-1.5 bg-[#ff5e00] hover:bg-orange-600 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-arrows-rotate text-[11px]"></i> Sync Sheet
+                </button>
+                <span class="text-[11px] font-medium text-slate-400 border-l border-slate-200 pl-3">Updated at 14:51</span>
+            </div>
+        </header>
+
+        <!-- Dynamic Main Workspace -->
+        <main class="flex-1 overflow-y-auto p-8 space-y-8">
+
+            <!-- Hero Banner: Talabat Logistics 3D Visual Center -->
+            <div class="glass-panel rounded-3xl p-8 relative overflow-hidden text-center border border-slate-200/60">
+                <!-- Outer Badges -->
+                <div class="absolute top-6 left-6 px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full shadow-md shadow-emerald-500/20">
+                    +500 Active
+                </div>
+
+                <!-- Main Branding Block -->
+                <div class="relative z-10 max-w-xl mx-auto space-y-3">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-50 text-[#ff5e00] rounded-full text-xs font-bold tracking-wide uppercase border border-orange-100">
+                        <i class="fa-solid fa-bolt"></i> Logistics Operations Hub
+                    </div>
+                    <h2 class="text-4xl font-extrabold text-slate-900 tracking-tight">
+                        talabat <span class="text-[#ff5e00]">Inventory Monitor</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
+                        Live delivery materials snapshot across all regional hubs & dark stores.
+                    </p>
+                </div>
+
+                <!-- 3D Logistics Elements Representation Grid -->
+                <div class="mt-8 pt-6 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-5 gap-4 relative z-10">
+                    <!-- Item 1: Delivery Bag -->
+                    <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center hover:bg-orange-50/50 hover:border-orange-200 transition-all">
+                        <div class="w-12 h-12 bg-orange-500 text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-orange-500/30 mb-2">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">Rider Bag</span>
+                        <span class="text-[10px] text-slate-400 font-medium">Standard</span>
+                    </div>
+
+                    <!-- Item 2: Forklift Unloading -->
+                    <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center hover:bg-orange-50/50 hover:border-orange-200 transition-all">
+                        <div class="w-12 h-12 bg-slate-800 text-white rounded-xl flex items-center justify-center text-xl shadow-md mb-2">
+                            <i class="fa-solid fa-[#ff5e00] fa-truck-ramp-box"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">Loading Hub</span>
+                        <span class="text-[10px] text-slate-400 font-medium">Operations</span>
+                    </div>
+
+                    <!-- Item 3: Supply Truck -->
+                    <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center hover:bg-orange-50/50 hover:border-orange-200 transition-all">
+                        <div class="w-12 h-12 bg-[#ff5e00] text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-orange-500/30 mb-2">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">Restock Truck</span>
+                        <span class="text-[10px] text-slate-400 font-medium">Main Dispatch</span>
+                    </div>
+
+                    <!-- Item 4: T-Shirt Uniform -->
+                    <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center hover:bg-orange-50/50 hover:border-orange-200 transition-all">
+                        <div class="w-12 h-12 bg-orange-500 text-white rounded-xl flex items-center justify-center text-xl shadow-md shadow-orange-500/30 mb-2">
+                            <i class="fa-solid fa-shirt"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">Rider Uniform</span>
+                        <span class="text-[10px] text-slate-400 font-medium">T-Shirt (Orange)</span>
+                    </div>
+
+                    <!-- Item 5: Winter Jacket -->
+                    <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center hover:bg-orange-50/50 hover:border-orange-200 transition-all">
+                        <div class="w-12 h-12 bg-slate-900 text-white rounded-xl flex items-center justify-center text-xl shadow-md mb-2">
+                            <i class="fa-solid fa-vest-patches text-orange-500"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">Rider Jacket</span>
+                        <span class="text-[10px] text-slate-400 font-medium">Weatherproof</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Locations Grid Section -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-[#ff5e00]"></i> Branch Locations
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-1">Detailed stock breakdown per branch location.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                    
+                    <!-- Amman Card -->
+                    <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-extrabold text-slate-900 text-base">Amman</h4>
+                                <span class="text-[11px] text-slate-400 font-semibold">40 SKUs in stock</span>
+                            </div>
+                            <a href="#" class="text-xs font-bold text-[#ff5e00] hover:underline flex items-center gap-1">
+                                View <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">On Hand</p>
+                                <p class="text-xl font-extrabold text-slate-900 mt-0.5">6,700</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Issued</p>
+                                <p class="text-xl font-extrabold text-[#ff5e00] mt-0.5">513</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Irbid Card -->
+                    <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-extrabold text-slate-900 text-base">Irbid</h4>
+                                <span class="text-[11px] text-slate-400 font-semibold">31 SKUs in stock</span>
+                            </div>
+                            <a href="#" class="text-xs font-bold text-[#ff5e00] hover:underline flex items-center gap-1">
+                                View <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">On Hand</p>
+                                <p class="text-xl font-extrabold text-slate-900 mt-0.5">1,656</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Issued</p>
+                                <p class="text-xl font-extrabold text-[#ff5e00] mt-0.5">78</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zarqa Card -->
+                    <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-extrabold text-slate-900 text-base">Zarqa</h4>
+                                <span class="text-[11px] text-slate-400 font-semibold">18 SKUs in stock</span>
+                            </div>
+                            <a href="#" class="text-xs font-bold text-[#ff5e00] hover:underline flex items-center gap-1">
+                                View <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">On Hand</p>
+                                <p class="text-xl font-extrabold text-slate-900 mt-0.5">1,007</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Issued</p>
+                                <p class="text-xl font-extrabold text-[#ff5e00] mt-0.5">90</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aqaba Card -->
+                    <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="font-extrabold text-slate-900 text-base">Aqaba</h4>
+                                <span class="text-[11px] text-slate-400 font-semibold">28 SKUs in stock</span>
+                            </div>
+                            <a href="#" class="text-xs font-bold text-[#ff5e00] hover:underline flex items-center gap-1">
+                                View <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </a>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">On Hand</p>
+                                <p class="text-xl font-extrabold text-slate-900 mt-0.5">1,207</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Issued</p>
+                                <p class="text-xl font-extrabold text-[#ff5e00] mt-0.5">47</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>
