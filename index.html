@@ -4455,80 +4455,34 @@ setTimeout(() => {
     mainContent.appendChild(fleetPage);
   }
 
-  // تحميل البيانات المخزنة محلياً
-  window.FLEET_DATA = JSON.parse(localStorage.getItem('inv2026_fleet') || '[]');
-
-  // دالة المزامنة السحابية المباشرة مع Firebase Realtime Database
+// تفعيل تبويب Fleet والمزامنة الفورية مع السحابة
   window.syncFleetFromFirebase = function() {
-    const FIREBASE_URL = "https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/inv2026/fleet.json";
-
-    fetch(FIREBASE_URL)
+    fetch("https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/inv2026/fleet.json")
       .then(res => res.json())
       .then(data => {
         if (data) {
-          const remoteRecords = Object.values(data).flatMap(entry => Array.isArray(entry) ? entry : [entry]);
-          window.FLEET_DATA = remoteRecords;
+          window.FLEET_DATA = Object.values(data).flatMap(entry => Array.isArray(entry) ? entry : [entry]);
           localStorage.setItem('inv2026_fleet', JSON.stringify(window.FLEET_DATA));
-          renderFleetTable();
-          if (typeof toast === 'function') toast('✅ تم تحديث البيانات من السحابة بنجاح');
+          if (typeof renderFleetTable === 'function') renderFleetTable();
         }
-      })
-      .catch(err => console.error("⚠️ خطأ المزامنة:", err));
+      });
   };
 
-  // عرض صفحة Fleet وتحديث القوائم
+  // إظهار الصفحة عند النقر
   window.showFleetPage = function() {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active', 'anim-up'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('page-fleet').classList.add('active', 'anim-up');
-    document.getElementById('tab-fleet-btn').classList.add('active');
     
-    document.getElementById('fleet-date').value = new Date().toISOString().slice(0,10);
-    const skuSelect = document.getElementById('fleet-sku');
-    if (skuSelect && skuSelect.options.length === 0 && typeof SEED !== 'undefined') {
-      skuSelect.innerHTML = '<option value="">— اختر الصنف —</option>' + SEED.map(s => `<option value="${s.sku}">${s.name}</option>`).join('');
-    }
+    const page = document.getElementById('page-fleet');
+    const btn = document.getElementById('tab-fleet-btn');
+    if (page) page.classList.add('active');
+    if (btn) btn.classList.add('active');
+    
     syncFleetFromFirebase();
   };
 
-  // توثيق تسليم فردي (دون المساس برصيد المخزون)
-  window.issueToRider = function() {
-    const rId = document.getElementById('fleet-rider-id').value.trim();
-    const rName = document.getElementById('fleet-rider-name').value.trim();
-    const branch = document.getElementById('fleet-branch').value;
-    const sku = document.getElementById('fleet-sku').value;
-    const qty = parseInt(document.getElementById('fleet-qty').value) || 0;
-    const date = document.getElementById('fleet-date').value;
-
-    if (!rId || !sku || qty < 1) return toast('⚠️ يرجى إدخال البيانات كاملة');
-
-    const itemName = (typeof SEED !== 'undefined' && SEED.find(s => s.sku === sku)) ? SEED.find(s => s.sku === sku).name : sku;
-    
-    FLEET_DATA.unshift({ id: Date.now(), date, riderId: rId, riderName: rName, branch, sku, itemName, qty, isReturned: false });
-    localStorage.setItem('inv2026_fleet', JSON.stringify(FLEET_DATA));
-    
-    toast(`📝 تم توثيق التسليم بالسجل`);
-    renderFleetTable();
-    document.getElementById('fleet-rider-id').value = '';
-    document.getElementById('fleet-qty').value = '1';
-  };
-
-  // رسم وتحديث جدول البيانات
-  window.renderFleetTable = function() {
-    const tbody = document.getElementById('fleet-table-body');
-    if (!tbody) return;
-
-    const search = (document.getElementById('fleet-search')?.value || '').toLowerCase();
-    let filtered = FLEET_DATA;
-    if (search) filtered = filtered.filter(r => (r.riderId && r.riderId.toString().toLowerCase().includes(search)) || (r.riderName && r.riderName.toLowerCase().includes(search)));
-
-    const activeIssued = filtered.filter(r => !r.isReturned).reduce((s, r) => s + parseInt(r.qty||0), 0);
-    const totalReturned = filtered.filter(r => r.isReturned).reduce((s, r) => s + parseInt(r.qty||0), 0);
-    
-    if (document.getElementById('fleet-total-issued')) document.getElementById('fleet-total-issued').textContent = activeIssued.toLocaleString();
-    if (document.getElementById('fleet-total-returned')) document.getElementById('fleet-total-returned').textContent = totalReturned.toLocaleString();
-<div class="nav-item" onclick="showFleetPageCustom()">
-  <span>🏍️</span> Fleet (المناديب)
-</div>
+  // المزامنة التلقائية عند التحميل وكل 5 دقائق
+  syncFleetFromFirebase();
+  setInterval(syncFleetFromFirebase, 300000);
 </body>
 </html>
