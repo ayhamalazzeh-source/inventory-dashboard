@@ -4367,6 +4367,200 @@ setTimeout(() => {
 
   setTimeout(window.renderExpectedBudget, 500);
 }, 1000);
+  <!-- ================================================================= -->
+<!-- نظام توثيق عهد المناديب والمزامنة السحابية الحية (Fleet Automation) -->
+<!-- ================================================================= -->
+<script>
+setTimeout(() => {
+  // 1. إضافة تبويب Fleet إلى القائمة الجانبية
+  const sidebar = document.querySelector('.sidebar');
+  if (sidebar && !document.getElementById('tab-fleet-btn')) {
+    const fleetTab = document.createElement('div');
+    fleetTab.id = 'tab-fleet-btn';
+    fleetTab.className = 'tab';
+    fleetTab.innerHTML = '<span>🏍️</span> Fleet (المناديب)';
+    fleetTab.onclick = () => showFleetPage();
+    
+    const opsSection = Array.from(sidebar.querySelectorAll('.sidebar-section')).find(el => el.textContent.includes('Operations'));
+    if (opsSection) sidebar.insertBefore(fleetTab, opsSection.nextSibling);
+    else sidebar.appendChild(fleetTab);
+  }
+
+  // 2. إنشاء هيكل صفحة Fleet داخل الواجهة الرئيسية
+  const mainContent = document.querySelector('.main-content');
+  if (mainContent && !document.getElementById('page-fleet')) {
+    const fleetPage = document.createElement('div');
+    fleetPage.id = 'page-fleet';
+    fleetPage.className = 'page';
+    fleetPage.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+        <div class="page-hero" style="--hc:#e67e22;margin-bottom:0;flex:1;min-width:300px;">
+          <div class="page-hero-info">
+            <h2>🏍️ سجل توثيق عهد المناديب (Automated Audit Log)</h2>
+            <p>تتبع مدخلات ومخرجات عهد السائقين آلياً عبر السحابة. النظام للتوثيق الإداري فقط ولا يتدخل بحسابات المخزون والميزانية.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button onclick="syncFleetFromFirebase()" style="background:#1a202c;color:white;border:none;padding:12px 16px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+            🔄 مزامنة فورية مع السحابة
+          </button>
+        </div>
+      </div>
+
+      <div class="dispatch-layout">
+        <div class="inb-form" style="margin-bottom:0;">
+          <h3>➕ توثيق تسليم فردي (يدوي)</h3>
+          <div class="form-grid">
+            <div class="form-group"><label>رقم المندوب</label><input type="text" id="fleet-rider-id"></div>
+            <div class="form-group"><label>اسم المندوب</label><input type="text" id="fleet-rider-name"></div>
+            <div class="form-group"><label>الفرع</label><select id="fleet-branch"><option value="amman">Amman</option><option value="irbid">Irbid</option><option value="zarqa">Zarqa</option><option value="aqaba">Aqaba</option></select></div>
+            <div class="form-group"><label>الصنف</label><select id="fleet-sku"></select></div>
+            <div class="form-group"><label>الكمية</label><input type="number" id="fleet-qty" value="1" min="1"></div>
+            <div class="form-group"><label>التاريخ</label><input type="date" id="fleet-date"></div>
+          </div>
+          <button class="btn-inbound" style="width:100%;margin-top:16px;background:#e67e22;" onclick="issueToRider()">📝 توثيق التسليم بالسجل</button>
+        </div>
+
+        <div class="inb-summary">
+          <div class="inb-summary-header" style="background:#e67e22;"><h3>🔍 استعلام عهد السائقين</h3></div>
+          <div style="padding:16px;">
+            <input type="text" id="fleet-search" placeholder="ادخل رقم المندوب..." class="search-box" style="width:100%;margin-bottom:12px;" oninput="renderFleetTable()">
+            <div style="font-size:12px;color:var(--gray);">قطع مسجلة بعهد السائقين: <span id="fleet-total-issued" style="font-weight:bold;color:var(--text);">0</span></div>
+            <div style="font-size:12px;color:var(--gray);margin-top:4px;">إجمالي المرتجعات (توالف): <span id="fleet-total-returned" style="font-weight:bold;color:var(--red);">0</span></div>
+            <button onclick="clearFleetHistory()" style="width:100%;padding:8px;margin-top:12px;background:white;border:1px solid #fed7d7;color:#c53030;border-radius:8px;cursor:pointer;font-weight:bold;">🗑️ مسح جميع السجلات المحلية</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <div class="card-header"><h2>📋 سجل مدخلات ومخرجات المناديب المحدث سحابياً</h2></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>التاريخ</th>
+                <th>رقم المندوب</th>
+                <th>اسم المندوب</th>
+                <th>الفرع</th>
+                <th>القطعة</th>
+                <th style="text-align:center">الكمية</th>
+                <th style="text-align:center">الحالة الإدارية</th>
+              </tr>
+            </thead>
+            <tbody id="fleet-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    mainContent.appendChild(fleetPage);
+  }
+
+  // تحميل البيانات المخزنة محلياً
+  window.FLEET_DATA = JSON.parse(localStorage.getItem('inv2026_fleet') || '[]');
+
+  // دالة المزامنة السحابية المباشرة مع Firebase Realtime Database
+  window.syncFleetFromFirebase = function() {
+    const FIREBASE_URL = "https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/inv2026/fleet.json";
+
+    fetch(FIREBASE_URL)
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          const remoteRecords = Object.values(data).flatMap(entry => Array.isArray(entry) ? entry : [entry]);
+          window.FLEET_DATA = remoteRecords;
+          localStorage.setItem('inv2026_fleet', JSON.stringify(window.FLEET_DATA));
+          renderFleetTable();
+          if (typeof toast === 'function') toast('✅ تم تحديث البيانات من السحابة بنجاح');
+        }
+      })
+      .catch(err => console.error("⚠️ خطأ المزامنة:", err));
+  };
+
+  // عرض صفحة Fleet وتحديث القوائم
+  window.showFleetPage = function() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active', 'anim-up'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-fleet').classList.add('active', 'anim-up');
+    document.getElementById('tab-fleet-btn').classList.add('active');
+    
+    document.getElementById('fleet-date').value = new Date().toISOString().slice(0,10);
+    const skuSelect = document.getElementById('fleet-sku');
+    if (skuSelect && skuSelect.options.length === 0 && typeof SEED !== 'undefined') {
+      skuSelect.innerHTML = '<option value="">— اختر الصنف —</option>' + SEED.map(s => `<option value="${s.sku}">${s.name}</option>`).join('');
+    }
+    syncFleetFromFirebase();
+  };
+
+  // توثيق تسليم فردي (دون المساس برصيد المخزون)
+  window.issueToRider = function() {
+    const rId = document.getElementById('fleet-rider-id').value.trim();
+    const rName = document.getElementById('fleet-rider-name').value.trim();
+    const branch = document.getElementById('fleet-branch').value;
+    const sku = document.getElementById('fleet-sku').value;
+    const qty = parseInt(document.getElementById('fleet-qty').value) || 0;
+    const date = document.getElementById('fleet-date').value;
+
+    if (!rId || !sku || qty < 1) return toast('⚠️ يرجى إدخال البيانات كاملة');
+
+    const itemName = (typeof SEED !== 'undefined' && SEED.find(s => s.sku === sku)) ? SEED.find(s => s.sku === sku).name : sku;
+    
+    FLEET_DATA.unshift({ id: Date.now(), date, riderId: rId, riderName: rName, branch, sku, itemName, qty, isReturned: false });
+    localStorage.setItem('inv2026_fleet', JSON.stringify(FLEET_DATA));
+    
+    toast(`📝 تم توثيق التسليم بالسجل`);
+    renderFleetTable();
+    document.getElementById('fleet-rider-id').value = '';
+    document.getElementById('fleet-qty').value = '1';
+  };
+
+  // رسم وتحديث جدول البيانات
+  window.renderFleetTable = function() {
+    const tbody = document.getElementById('fleet-table-body');
+    if (!tbody) return;
+
+    const search = (document.getElementById('fleet-search')?.value || '').toLowerCase();
+    let filtered = FLEET_DATA;
+    if (search) filtered = filtered.filter(r => (r.riderId && r.riderId.toString().toLowerCase().includes(search)) || (r.riderName && r.riderName.toLowerCase().includes(search)));
+
+    const activeIssued = filtered.filter(r => !r.isReturned).reduce((s, r) => s + parseInt(r.qty||0), 0);
+    const totalReturned = filtered.filter(r => r.isReturned).reduce((s, r) => s + parseInt(r.qty||0), 0);
+    
+    if (document.getElementById('fleet-total-issued')) document.getElementById('fleet-total-issued').textContent = activeIssued.toLocaleString();
+    if (document.getElementById('fleet-total-returned')) document.getElementById('fleet-total-returned').textContent = totalReturned.toLocaleString();
+
+    tbody.innerHTML = filtered.length ? filtered.slice(0, 500).map(r => {
+      const isRet = r.isReturned;
+      return `
+      <tr style="${isRet ? 'opacity:0.65; background:#fff5f5;' : ''}">
+        <td>${r.date || '—'}</td>
+        <td style="font-weight:bold;color:var(--blue);${isRet ? 'text-decoration:line-through;' : ''}">${r.riderId}</td>
+        <td>${r.riderName || '—'}</td>
+        <td><span class="badge b-gray">${(r.branch || 'AMMAN').toUpperCase()}</span></td>
+        <td>${r.itemName || r.sku}</td>
+        <td class="num" style="color:var(--red);font-weight:bold;text-align:center;">${r.qty}</td>
+        <td style="text-align:center;">
+          ${isRet 
+            ? '<span class="badge b-red">مرتجع / توالف (توثيق)</span>' 
+            : '<span class="badge b-green">قائمة بعهدته</span>'}
+        </td>
+      </tr>
+    `}).join('') : '<tr><td colspan="7" class="empty-state">لا يوجد سجلات توثيق حالياً</td></tr>';
+  };
+
+  // مسح السجلات المحلية
+  window.clearFleetHistory = function() {
+    if (confirm('هل أنت تأكد من مسح السجلات المحلية؟')) {
+      FLEET_DATA = [];
+      localStorage.removeItem('inv2026_fleet');
+      renderFleetTable();
+    }
+  };
+
+  // المزامنة التلقائية الدورية كل 5 دقائق
+  setInterval(syncFleetFromFirebase, 300000);
+
+}, 1500);
+</script>
 </script>
 </body>
 </html>
