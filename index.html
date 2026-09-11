@@ -4431,98 +4431,87 @@ setTimeout(() => {
           </div>
         </div>
       </div>
-
- <!-- ================================================================= -->
-<!-- نظام Fleet المكتمل تلقائياً (جانبي + واجهة + مزامنة سحابية) -->
-<!-- ================================================================= -->
+<!-- نظام إظهار Fleet القسري والتلقائي -->
 <script>
-(function() {
-  // 1. إضافة زر Fleet إلى القائمة الجانبية فوراً
-  function addSidebarButton() {
+(function forceInjectFleet() {
+  function applyInjection() {
     if (document.getElementById('tab-fleet-btn')) return;
-    
-    const sidebar = document.querySelector('.sidebar') || document.querySelector('aside');
+
+    // 1. العثور على القائمة الجانبية بأي مسمى محتمل في تصميمك
+    const sidebar = document.querySelector('.sidebar') || 
+                    document.querySelector('.nav') || 
+                    document.querySelector('.sidebar-menu') || 
+                    document.querySelector('aside') || 
+                    document.querySelector('[class*="side"]') || 
+                    document.querySelector('[class*="nav"]');
+
     if (!sidebar) return;
 
+    // 2. إنشاء زر Fleet المطابق لتصميم الداشبورد
     const fleetBtn = document.createElement('div');
     fleetBtn.id = 'tab-fleet-btn';
-    fleetBtn.className = 'tab-item';
-    fleetBtn.style.cssText = 'padding:12px 16px; margin:4px 8px; cursor:pointer; font-weight:bold; display:flex; align-items:center; gap:8px; border-radius:8px; color:#4a5568; font-size:13px;';
-    fleetBtn.innerHTML = '<span>🏍️</span> Fleet (المناديب)';
+    fleetBtn.style.cssText = 'padding:10px 16px; margin:6px 8px; cursor:pointer; font-weight:bold; display:flex; align-items:center; gap:8px; border-radius:8px; color:#4a5568; font-size:13px; background:#f7fafc; border:1px solid #e2e8f0; transition:all 0.2s;';
+    fleetBtn.innerHTML = '<span style="font-size:16px;">🏍️</span> Fleet (المناديب)';
 
     fleetBtn.onclick = function() {
-      document.querySelectorAll('.page, [id^="page-"]').forEach(p => p.style.display = 'none');
-      document.querySelectorAll('.tab, .tab-item').forEach(t => t.classList.remove('active'));
+      // إخفاء كل الصفحات
+      document.querySelectorAll('.page, [id^="page-"], .tab-content').forEach(p => p.style.display = 'none');
       
       let page = document.getElementById('page-fleet');
-      if (page) page.style.display = 'block';
-      fleetBtn.classList.add('active');
-      fleetBtn.style.background = '#feebc8';
+      if (!page) {
+        page = document.createElement('div');
+        page.id = 'page-fleet';
+        page.style.cssText = 'padding:20px; background:#f8fafc; min-height:80vh;';
+        page.innerHTML = `
+          <div style="background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <h2 style="margin:0; color:#2d3748;">🏍️ سجل عهد المناديب (Fleet Audit Log)</h2>
+              <p style="margin:5px 0 0; color:#718096; font-size:13px;">مزامنة تلقائية حية لتقارير Boolanga مع Firebase</p>
+            </div>
+            <button onclick="syncFleetFromFirebase()" style="background:#e67e22; color:white; border:none; padding:10px 18px; border-radius:8px; font-weight:bold; cursor:pointer;">🔄 مزامنة السحابة</button>
+          </div>
+          <div style="background:white; padding:15px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:15px;">
+            <input type="text" id="fleet-search" placeholder="🔍 ابحث برقم المندوب أو الاسم..." oninput="renderFleetTable()" style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:8px; outline:none;">
+          </div>
+          <div style="background:white; border-radius:12px; padding:15px; box-shadow:0 2px 8px rgba(0,0,0,0.05); overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:right;">
+              <thead>
+                <tr style="border-bottom:2px solid #e2e8f0; color:#4a5568; background:#edf2f7;">
+                  <th style="padding:10px;">التاريخ</th>
+                  <th style="padding:10px;">رقم المندوب</th>
+                  <th style="padding:10px;">اسم المندوب</th>
+                  <th style="padding:10px;">الفرع</th>
+                  <th style="padding:10px;">القطعة</th>
+                  <th style="padding:10px; text-align:center;">الكمية</th>
+                  <th style="padding:10px; text-align:center;">الحالة</th>
+                </tr>
+              </thead>
+              <tbody id="fleet-table-body"></tbody>
+            </table>
+          </div>
+        `;
+        const main = document.querySelector('.main-content') || document.querySelector('main') || document.body;
+        main.appendChild(page);
+      }
       
+      page.style.display = 'block';
       syncFleetFromFirebase();
     };
 
-    sidebar.appendChild(fleetBtn);
+    // إدراج الزر في بداية القائمة الجانبية مباشرة لضمان ظهوره
+    sidebar.insertBefore(fleetBtn, sidebar.firstChild);
   }
 
-  // 2. بناء واجهة صفحة Fleet داخل الداشبورد
-  function buildFleetPage() {
-    if (document.getElementById('page-fleet')) return;
-
-    const main = document.querySelector('.main-content') || document.querySelector('main') || document.body;
-    const page = document.createElement('div');
-    page.id = 'page-fleet';
-    page.className = 'page';
-    page.style.display = 'none';
-    page.innerHTML = `
-      <div style="padding:24px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
-          <div>
-            <h2 style="margin:0; font-size:20px; color:#2d3748;">🏍️ سجل عهد المناديب (Fleet Audit Log)</h2>
-            <p style="margin:4px 0 0 0; font-size:13px; color:#718096;">توثيق الحركات اليومية المسحوبة أوتوماتيكياً عبر السحابة (Firebase)</p>
-          </div>
-          <button onclick="syncFleetFromFirebase()" style="padding:10px 18px; background:#e67e22; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px;">
-            🔄 مزامنة فورية
-          </button>
-        </div>
-
-        <div style="background:white; padding:16px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.04); margin-bottom:20px;">
-          <input type="text" id="fleet-search" placeholder="🔍 ابحث برقم المندوب أو الاسم..." oninput="renderFleetTable()" style="width:100%; padding:10px 14px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px;">
-        </div>
-
-        <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.04); overflow-x:auto;">
-          <table style="width:100%; border-collapse:collapse; text-align:right; font-size:13px;">
-            <thead>
-              <tr style="border-bottom:2px solid #edf2f7; color:#718096; background:#f7fafc;">
-                <th style="padding:12px;">التاريخ</th>
-                <th style="padding:12px;">رقم المندوب</th>
-                <th style="padding:12px;">اسم المندوب</th>
-                <th style="padding:12px;">الفرع</th>
-                <th style="padding:12px;">القطعة</th>
-                <th style="padding:12px; text-align:center;">الكمية</th>
-                <th style="padding:12px; text-align:center;">الحالة</th>
-              </tr>
-            </thead>
-            <tbody id="fleet-table-body"></tbody>
-          </table>
-        </div>
-      </div>
-    `;
-    main.appendChild(page);
-  }
-
-  // 3. المزامنة والعرض من Firebase
   window.syncFleetFromFirebase = function() {
     fetch("https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/inv2026/fleet.json")
-      .then(res => res.json())
+      .then(r => r.json())
       .then(data => {
         if (data) {
-          window.FLEET_DATA = Object.values(data).flatMap(entry => Array.isArray(entry) ? entry : [entry]);
+          window.FLEET_DATA = Object.values(data).flatMap(e => Array.isArray(e) ? e : [e]);
           localStorage.setItem('inv2026_fleet', JSON.stringify(window.FLEET_DATA));
           renderFleetTable();
         }
-      })
-      .catch(err => console.error(err));
+      });
   };
 
   window.renderFleetTable = function() {
@@ -4549,21 +4538,9 @@ setTimeout(() => {
     `).join('') : '<tr><td colspan="7" style="padding:20px; text-align:center; color:#a0aec0;">لا توجد سجلات حالياً</td></tr>';
   };
 
-  // تشغيل الحقن التلقائي عند فتح الصفحة
-  function init() {
-    addSidebarButton();
-    buildFleetPage();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-  setInterval(init, 1000);
+  // تشغيل الحقن بشكل متكرر لضمان التثبيت بعد اكتمال تحميل عناصر الصفحة
+  setInterval(applyInjection, 500);
 })();
 </script>
-</body>
-</html>
 </body>
 </html>
