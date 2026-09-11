@@ -16,15 +16,28 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:var(--text);font-size:14px;}
 
-  header{position:relative;overflow:hidden;box-shadow:0 6px 28px rgba(0,0,0,.35);color:white;background:linear-gradient(120deg,#2a0a0b 0%,#411517 35%,#8a2c0a 70%,#FF5900 100%);}
+  /* ── Hero banner ── */
+  .tlb-hero{background:linear-gradient(135deg,#fff8f4 0%,#fff 40%,#fff5f0 100%);border-bottom:1px solid #ffe0cc;position:relative;overflow:hidden;}
+  .tlb-hero-inner{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:160px;}
+  .tlb-hero-left,.tlb-hero-right{flex-shrink:0;}
+  .tlb-hero-center{text-align:center;flex:1;padding:0 10px;}
+  .tlb-hero-brand{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px;}
+  .tlb-hero-brand span{font-size:32px;font-weight:900;color:#FF5900;letter-spacing:-1px;font-family:'Segoe UI',Arial,sans-serif;}
+  .tlb-hero-title{font-size:15px;font-weight:600;color:#555;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:6px;}
+  .tlb-hero-sub{font-size:10px;color:#aaa;margin-top:6px;letter-spacing:.3px;}
   .badge-header{background:rgba(255,255,255,.18);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;}
 
-  nav{background:white;border-bottom:2px solid var(--border);padding:0 28px;display:flex;gap:4px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto;}
-  .tab{padding:13px 20px;cursor:pointer;font-size:13px;font-weight:600;color:var(--gray);border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
-  .tab.active{color:var(--red);border-bottom-color:var(--red);}
-  .tab:hover{color:var(--red);}
-
-  .page{display:none;padding:24px 28px;max-width:1300px;margin:auto;}
+  /* ── Sidebar layout ── */
+  .app-layout{display:flex;min-height:100vh;}
+  .sidebar{width:210px;background:white;border-right:1.5px solid var(--border);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column;box-shadow:2px 0 8px rgba(0,0,0,.04);}
+  .sidebar-logo{padding:16px 16px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+  .sidebar-logo span{font-size:13px;font-weight:800;color:#FF5900;}
+  .sidebar-section{padding:10px 12px 4px;font-size:10px;font-weight:700;color:var(--gray);letter-spacing:.8px;text-transform:uppercase;}
+  .tab{display:flex;align-items:center;gap:9px;padding:10px 16px;cursor:pointer;font-size:13px;font-weight:600;color:var(--gray);border-left:3px solid transparent;transition:all .2s;white-space:nowrap;border-radius:0 8px 8px 0;margin:1px 8px 1px 0;}
+  .tab.active{color:#FF5900;border-left-color:#FF5900;background:#fff3ee;}
+  .tab:hover:not(.active){color:#FF5900;background:#fff8f5;}
+  .main-content{flex:1;min-width:0;background:#f0f4f8;}
+  .page{display:none;padding:24px 28px;max-width:1260px;margin:auto;}
   .page.active{display:block;}
 
   .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:22px;}
@@ -319,268 +332,224 @@
   <span class="ta-label"></span>
 </div>
 
-<header>
-  <!-- Background layers -->
-  <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.055) 1px,transparent 1px);background-size:22px 22px;pointer-events:none;z-index:0;"></div>
-  <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:500px;height:200px;background:radial-gradient(ellipse,rgba(255,89,0,0.22) 0%,transparent 70%);pointer-events:none;z-index:0;"></div>
-  <div style="position:absolute;inset:0;background:repeating-linear-gradient(110deg,transparent,transparent 40px,rgba(255,255,255,0.012) 40px,rgba(255,255,255,0.012) 80px);pointer-events:none;z-index:0;"></div>
+<div class="tlb-hero">
+  <div class="tlb-hero-inner">
 
-  <!-- Controls row (top-right) -->
-  <div style="position:absolute;top:10px;right:20px;z-index:2;display:flex;gap:8px;align-items:center;">
-    <span id="fb-status" style="display:flex;align-items:center;gap:5px;font-size:11px;padding:4px 10px;border-radius:8px;background:rgba(255,255,255,0.1);">
-      <span id="fb-dot" style="width:7px;height:7px;border-radius:50%;background:#fbbf24;display:inline-block;"></span>
-      <span id="fb-label">Connecting...</span>
-    </span>
-    <button id="refresh-btn" onclick="refreshAllData()" style="background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.28);color:white;padding:4px 12px;border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;">
-      <span id="refresh-icon">🔄</span> Refresh
-    </button>
-    <button id="sync-now-btn" onclick="syncNow()" style="background:rgba(255,89,0,0.28);border:1px solid rgba(255,89,0,0.55);color:white;padding:4px 12px;border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;" title="Sync issuance data from Google Sheets">
-      <span id="sync-icon">⚡</span> <span id="sync-label">Sync Sheet</span>
-    </button>
-    <span id="last-updated" style="font-size:10px;opacity:0.6;">—</span>
-    <button onclick="resetToSeed()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);color:white;padding:4px 10px;border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit;">↩ Reset</button>
-  </div>
+    <!-- LEFT illustrations: bag + boxes + forklift -->
+    <div class="tlb-hero-left" aria-hidden="true">
+      <svg width="260" height="155" viewBox="0 0 260 155" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bagGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7A35"/><stop offset="100%" stop-color="#CC3D00"/></linearGradient>
+          <linearGradient id="bagSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#FF5900"/></linearGradient>
+          <linearGradient id="boxTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5C87A"/><stop offset="100%" stop-color="#D4A04A"/></linearGradient>
+          <linearGradient id="boxFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B55A"/><stop offset="100%" stop-color="#C48B30"/></linearGradient>
+          <linearGradient id="boxSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C48B30"/><stop offset="100%" stop-color="#A86E1A"/></linearGradient>
+          <linearGradient id="forkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#CC4400"/></linearGradient>
+          <linearGradient id="truckBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#f0f0f0"/></linearGradient>
+          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#00000033"/>
+          </filter>
+        </defs>
 
-  <!-- Centered main content: [left SVG] [title] [right SVG] -->
-  <div style="display:flex;align-items:center;justify-content:center;padding:18px 20px 14px;position:relative;z-index:1;gap:0;">
+        <!-- ── DELIVERY BAG ── -->
+        <g transform="translate(8,8)" filter="url(#shadow)">
+          <!-- Shadow ellipse -->
+          <ellipse cx="44" cy="122" rx="34" ry="5" fill="rgba(0,0,0,0.12)"/>
+          <!-- Handle -->
+          <path d="M24,24 C24,8 64,8 64,24" stroke="#882200" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M24,24 C24,10 64,10 64,24" stroke="#FF7040" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <!-- Bag front face -->
+          <rect x="8" y="24" width="72" height="80" rx="8" fill="url(#bagGrad)"/>
+          <!-- Zipper area -->
+          <rect x="8" y="24" width="72" height="18" rx="8" fill="#CC3D00"/>
+          <rect x="8" y="36" width="72" height="6" fill="#CC3D00"/>
+          <!-- Zipper line -->
+          <line x1="14" y1="33" x2="74" y2="33" stroke="#FF8050" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.6"/>
+          <!-- Zipper pull -->
+          <rect x="41" y="19" width="6" height="10" rx="2" fill="#5a1000"/>
+          <rect x="42" y="14" width="4" height="8" rx="2" fill="#3a0800"/>
+          <!-- Quilted seams -->
+          <line x1="8" y1="50" x2="80" y2="50" stroke="rgba(0,0,0,0.18)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <line x1="8" y1="65" x2="80" y2="65" stroke="rgba(0,0,0,0.18)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <line x1="8" y1="80" x2="80" y2="80" stroke="rgba(0,0,0,0.18)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <!-- Logo plate -->
+          <rect x="14" y="70" width="60" height="26" rx="5" fill="white"/>
+          <text x="44" y="88" text-anchor="middle" font-size="14" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial,sans-serif">talabat</text>
+          <!-- Side depth shading -->
+          <rect x="8" y="42" width="6" height="62" rx="3" fill="rgba(0,0,0,0.14)"/>
+          <rect x="74" y="42" width="6" height="62" rx="3" fill="rgba(255,255,255,0.08)"/>
+          <!-- Highlight shine -->
+          <ellipse cx="25" cy="28" rx="8" ry="3" fill="rgba(255,255,255,0.22)" transform="rotate(-10,25,28)"/>
+        </g>
 
-    <!-- LEFT ILLUSTRATION: Shelf + Bag + Loading + Jacket -->
-    <svg width="360" height="96" viewBox="0 0 360 96" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+        <!-- ── OPEN BOX (scattered) ── -->
+        <g transform="translate(106,62)">
+          <!-- box shadow -->
+          <ellipse cx="35" cy="80" rx="28" ry="5" fill="rgba(0,0,0,0.1)"/>
+          <!-- Front face -->
+          <path d="M8,30 L8,78 L62,78 L62,30 Z" fill="url(#boxFront)"/>
+          <!-- Top face (open) -->
+          <path d="M8,30 L35,18 L62,30 L35,42 Z" fill="url(#boxTop)"/>
+          <!-- Side face -->
+          <path d="M62,30 L62,78 L72,68 L72,20 Z" fill="url(#boxSide)"/>
+          <!-- Open flap left -->
+          <path d="M8,30 L8,14 L35,2 L35,18 Z" fill="#DDB060" opacity="0.85"/>
+          <!-- Open flap right -->
+          <path d="M62,30 L62,14 L35,2 L35,18 Z" fill="#C89040" opacity="0.9"/>
+          <!-- Tape stripe -->
+          <rect x="30" y="30" width="10" height="48" fill="rgba(255,200,100,0.4)"/>
+          <!-- Cardboard lines front -->
+          <line x1="8" y1="42" x2="62" y2="42" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+          <line x1="8" y1="55" x2="62" y2="55" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+          <line x1="8" y1="68" x2="62" y2="68" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+        </g>
 
-      <!-- ===== 1. WAREHOUSE SHELF ===== -->
-      <g transform="translate(2,4)">
-        <!-- Shelf frame - bright white poles -->
-        <rect x="0"  y="4"  width="4"  height="86" rx="2" fill="white" opacity="0.9"/>
-        <rect x="68" y="4"  width="4"  height="86" rx="2" fill="white" opacity="0.9"/>
-        <!-- Shelf boards -->
-        <rect x="0"  y="4"  width="72" height="4"  rx="2" fill="white" opacity="0.9"/>
-        <rect x="0"  y="36" width="72" height="4"  rx="2" fill="white" opacity="0.85"/>
-        <rect x="0"  y="66" width="72" height="4"  rx="2" fill="white" opacity="0.85"/>
-        <!-- Top shelf: boxes -->
-        <rect x="5"  y="8"  width="18" height="26" rx="2" fill="#FF5900"/>
-        <line x1="5"  y1="21" x2="23" y2="21" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-        <rect x="25" y="8"  width="14" height="26" rx="2" fill="white" opacity="0.85"/>
-        <rect x="41" y="11" width="16" height="23" rx="2" fill="#CFFF00" opacity="0.9"/>
-        <text x="49" y="24" text-anchor="middle" font-size="7" fill="rgba(0,0,0,0.5)" font-weight="700" font-family="Arial">S</text>
-        <rect x="59" y="8"  width="8"  height="26" rx="2" fill="#FF5900" opacity="0.7"/>
-        <!-- Mid shelf: boxes -->
-        <rect x="5"  y="40" width="20" height="24" rx="2" fill="white" opacity="0.8"/>
-        <rect x="27" y="40" width="16" height="24" rx="2" fill="#FF5900"/>
-        <line x1="27" y1="52" x2="43" y2="52" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-        <rect x="45" y="43" width="14" height="21" rx="2" fill="#CFFF00" opacity="0.85"/>
-        <!-- Bottom shelf: boxes -->
-        <rect x="5"  y="70" width="22" height="20" rx="2" fill="#FF5900" opacity="0.85"/>
-        <rect x="29" y="70" width="16" height="20" rx="2" fill="white" opacity="0.75"/>
-        <rect x="47" y="72" width="18" height="18" rx="2" fill="#FF5900" opacity="0.6"/>
-      </g>
+        <!-- ── SMALL BOX ── -->
+        <g transform="translate(170,10)">
+          <ellipse cx="28" cy="66" rx="22" ry="4" fill="rgba(0,0,0,0.09)"/>
+          <path d="M8,22 L8,64 L48,64 L48,22 Z" fill="url(#boxFront)"/>
+          <path d="M8,22 L28,12 L48,22 L28,32 Z" fill="url(#boxTop)"/>
+          <path d="M48,22 L48,64 L58,56 L58,14 Z" fill="url(#boxSide)"/>
+          <line x1="26" y1="22" x2="26" y2="64" stroke="rgba(255,200,100,0.5)" stroke-width="6"/>
+          <line x1="8" y1="43" x2="48" y2="43" stroke="rgba(255,200,100,0.5)" stroke-width="4"/>
+        </g>
 
-      <!-- ===== 2. LOADING / UNLOADING SCENE ===== -->
-      <g transform="translate(80, 8)">
-        <!-- Platform/dock floor -->
-        <rect x="0" y="80" width="68" height="5" rx="2" fill="rgba(255,255,255,0.5)"/>
-        <!-- Forklift body -->
-        <rect x="28" y="50" width="34" height="30" rx="3" fill="rgba(255,255,255,0.75)"/>
-        <!-- Forklift cabin -->
-        <rect x="38" y="36" width="24" height="22" rx="3" fill="rgba(255,255,255,0.65)"/>
-        <!-- Forklift window -->
-        <rect x="41" y="39" width="18" height="12" rx="2" fill="#411517" opacity="0.6"/>
-        <!-- Forklift mast (vertical pole) -->
-        <rect x="26" y="8"  width="5"  height="50" rx="2" fill="rgba(255,255,255,0.75)"/>
-        <!-- Fork arms -->
-        <rect x="4"  y="54" width="26" height="4"  rx="2" fill="rgba(255,255,255,0.85)"/>
-        <rect x="4"  y="61" width="26" height="4"  rx="2" fill="rgba(255,255,255,0.85)"/>
-        <!-- Box on fork -->
-        <rect x="2"  y="36" width="26" height="18" rx="2" fill="#FF5900"/>
-        <line x1="2"  y1="45" x2="28" y2="45" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-        <line x1="15" y1="36" x2="15" y2="54" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-        <!-- Wheels -->
-        <circle cx="36" cy="82" r="6" fill="#1a0808"/>
-        <circle cx="36" cy="82" r="3" fill="rgba(255,255,255,0.5)"/>
-        <circle cx="54" cy="82" r="6" fill="#1a0808"/>
-        <circle cx="54" cy="82" r="3" fill="rgba(255,255,255,0.5)"/>
-        <!-- Down arrow (unloading) -->
-        <line x1="58" y1="14" x2="58" y2="30" stroke="#CFFF00" stroke-width="2.5" stroke-linecap="round"/>
-        <polyline points="52,24 58,32 64,24" stroke="#CFFF00" stroke-width="2.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-        <!-- Up arrow (loading) -->
-        <line x1="68" y1="30" x2="68" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        <polyline points="62,20 68,12 74,20" stroke="white" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-      </g>
+        <!-- ── TINY BOX floating ── -->
+        <g transform="translate(200,80)" opacity="0.85">
+          <path d="M4,12 L4,36 L30,36 L30,12 Z" fill="#E8B55A"/>
+          <path d="M4,12 L17,6 L30,12 L17,18 Z" fill="#F5C87A"/>
+          <path d="M30,12 L30,36 L38,30 L38,8 Z" fill="#C48B30"/>
+        </g>
 
-      <!-- ===== 3. TALABAT THERMAL DELIVERY BAG ===== -->
-      <g transform="translate(158, 1)">
-        <ellipse cx="46" cy="93" rx="34" ry="4" fill="rgba(0,0,0,0.2)"/>
-        <!-- Bag body solid -->
-        <rect x="12" y="22" width="68" height="66" rx="7" fill="#FF5900"/>
-        <!-- Zipper flap -->
-        <rect x="12" y="22" width="68" height="13" rx="5" fill="#c44000"/>
-        <line x1="16" y1="29" x2="76" y2="29" stroke="rgba(0,0,0,0.3)" stroke-width="1.5" stroke-dasharray="5,3"/>
-        <!-- Zipper pull -->
-        <rect x="43" y="17" width="8"  height="12" rx="3" fill="#1a0808"/>
-        <rect x="45" y="13" width="4"  height="7"  rx="2" fill="#2a0a0b"/>
-        <!-- Handle solid dark -->
-        <path d="M28 22 C28 5 64 5 64 22" stroke="#1a0808" stroke-width="8" fill="none" stroke-linecap="round"/>
-        <!-- Handle shine -->
-        <path d="M30 22 C30 8 62 8 62 22" stroke="rgba(255,255,255,0.15)" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <!-- Quilted lines -->
-        <line x1="12" y1="43" x2="80" y2="43" stroke="rgba(0,0,0,0.18)" stroke-width="1.5" stroke-dasharray="6,4"/>
-        <line x1="12" y1="56" x2="80" y2="56" stroke="rgba(0,0,0,0.18)" stroke-width="1.5" stroke-dasharray="6,4"/>
-        <line x1="12" y1="69" x2="80" y2="69" stroke="rgba(0,0,0,0.18)" stroke-width="1.5" stroke-dasharray="6,4"/>
-        <!-- White logo plate -->
-        <rect x="18" y="57" width="56" height="26" rx="4" fill="white"/>
-        <text x="46" y="75" text-anchor="middle" font-size="13" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial,sans-serif">talabat</text>
-        <!-- Depth shadows -->
-        <rect x="12" y="35" width="4"  height="53" rx="2" fill="rgba(0,0,0,0.1)"/>
-        <rect x="76" y="35" width="4"  height="53" rx="2" fill="rgba(0,0,0,0.07)"/>
-        <!-- Label sticker -->
-        <rect x="18" y="36" width="22" height="14" rx="2" fill="rgba(255,255,255,0.7)"/>
-        <line x1="20" y1="40" x2="38" y2="40" stroke="#FF5900" stroke-width="1" opacity="0.6"/>
-        <line x1="20" y1="44" x2="34" y2="44" stroke="#FF5900" stroke-width="1" opacity="0.4"/>
-      </g>
-
-      <!-- ===== 4. TALABAT JACKET ===== -->
-      <g transform="translate(242, 2)">
-        <ellipse cx="55" cy="93" rx="42" ry="4" fill="rgba(0,0,0,0.18)"/>
-        <!-- Jacket body solid orange -->
-        <path d="M16,28 L5,60 L8,90 L102,90 L105,60 L94,28 Z" fill="#FF5900"/>
-        <!-- Left sleeve -->
-        <path d="M16,28 L4,24 L-2,58 L16,60 Z" fill="#FF5900"/>
-        <rect x="-2" y="52" width="18" height="8" rx="2" fill="#c44000"/>
-        <!-- Right sleeve -->
-        <path d="M94,28 L106,24 L112,58 L94,60 Z" fill="#FF5900"/>
-        <rect x="94" y="52" width="18" height="8" rx="2" fill="#c44000"/>
-        <!-- Left collar (dark) -->
-        <path d="M16,28 Q24,15 33,10 Q44,24 52,29 L50,50 Q30,46 16,50 Z" fill="#c44000"/>
-        <!-- Right collar (dark) -->
-        <path d="M94,28 Q86,15 77,10 Q66,24 58,29 L60,50 Q80,46 94,50 Z" fill="#c44000"/>
-        <!-- Collar inner V -->
-        <path d="M33,12 Q55,34 77,12" stroke="rgba(0,0,0,0.15)" stroke-width="1.2" fill="none"/>
-        <!-- Zipper center -->
-        <line x1="55" y1="29" x2="55" y2="90" stroke="rgba(0,0,0,0.22)" stroke-width="1.5" stroke-dasharray="4,3"/>
-        <rect x="51" y="28" width="8"  height="5"  rx="2" fill="#c44000"/>
-        <rect x="53" y="23" width="4"  height="8"  rx="1.5" fill="#1a0808"/>
-        <!-- Left chest pocket -->
-        <rect x="22" y="55" width="20" height="16" rx="2" fill="rgba(0,0,0,0.15)"/>
-        <line x1="22" y1="62" x2="42" y2="62" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
-        <!-- Right chest: talabat badge -->
-        <rect x="65" y="55" width="28" height="16" rx="3" fill="white"/>
-        <text x="79" y="67" text-anchor="middle" font-size="8" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial,sans-serif">talabat</text>
-        <!-- Bottom hem -->
-        <rect x="8" y="86" width="94" height="4" rx="2" fill="#c44000"/>
-        <!-- Seam lines -->
-        <line x1="16" y1="28" x2="16" y2="60" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
-        <line x1="94" y1="28" x2="94" y2="60" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
-      </g>
-
-    </svg>
-
-    <!-- CENTER TITLE -->
-    <div style="text-align:center;padding:0 24px;flex-shrink:0;">
-      <div style="font-size:28px;font-weight:900;letter-spacing:-.5px;line-height:1;text-shadow:0 3px 12px rgba(0,0,0,0.35);">Inventory Monitor</div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:7px;">
-        <div style="width:28px;height:1.5px;background:rgba(255,255,255,0.35);border-radius:1px;"></div>
-        <span style="font-size:11px;opacity:0.72;font-weight:500;letter-spacing:.5px;">NAOURI &nbsp;·&nbsp; 5 LOCATIONS &nbsp;·&nbsp; AUTO-SAVED</span>
-        <div style="width:28px;height:1.5px;background:rgba(255,255,255,0.35);border-radius:1px;"></div>
-      </div>
-      <div style="margin-top:9px;">
-        <span class="badge-header" style="font-size:12px;padding:4px 14px;">🗓 2026</span>
-      </div>
+      </svg>
     </div>
 
-    <!-- RIGHT ILLUSTRATION: Delivery truck + shelf + Budget coins -->
-    <svg width="280" height="92" viewBox="0 0 280 92" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+    <!-- CENTER: brand + title -->
+    <div class="tlb-hero-center">
+      <div class="tlb-hero-brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="2" y="8" width="20" height="13" rx="2.5" fill="#FF5900"/>
+          <rect x="7" y="3" width="10" height="7" rx="1.5" fill="#FF7A35"/>
+          <rect x="9" y="10" width="6" height="6" rx="1" fill="white"/>
+        </svg>
+        <span>talabat</span>
+      </div>
+      <div class="tlb-hero-title">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex-shrink:0"><rect x="2" y="5" width="16" height="12" rx="2" fill="#888"/><rect x="6" y="2" width="8" height="5" rx="1" fill="#aaa"/><rect x="8" y="8" width="4" height="5" rx="0.5" fill="white"/></svg>
+        Inventory Monitor
+      </div>
+      <div class="tlb-hero-sub">Naouri Warehouse &nbsp;·&nbsp; 5 Locations &nbsp;·&nbsp; Auto-saved &nbsp;·&nbsp; 2026</div>
+    </div>
 
-      <!-- Delivery truck -->
-      <g transform="translate(4,12)" opacity="0.9">
-        <!-- cargo body -->
-        <rect x="0"  y="14" width="82" height="40" rx="3"  fill="rgba(255,255,255,0.7)"/>
-        <rect x="0"  y="14" width="82" height="7"  rx="3"  fill="rgba(255,255,255,0.88)"/>
-        <text x="9" y="41" font-size="11" font-weight="800" fill="#FF5900" font-family="'Segoe UI',Arial,sans-serif">talabat</text>
-        <rect x="0"  y="46" width="82" height="3"  fill="rgba(255,89,0,0.3)"/>
-        <!-- cab -->
-        <rect x="63" y="6"  width="34" height="48" rx="4"  fill="rgba(255,255,255,0.85)"/>
-        <rect x="67" y="10" width="26" height="18" rx="2"  fill="#411517" opacity="0.68"/>
-        <rect x="63" y="46" width="34" height="4"  fill="#FF5900"/>
-        <!-- wheels -->
-        <circle cx="20" cy="58" r="9"   fill="#2a0a0b"/>
-        <circle cx="20" cy="58" r="5"   fill="rgba(255,255,255,0.5)"/>
-        <circle cx="20" cy="58" r="2"   fill="#2a0a0b"/>
-        <circle cx="70" cy="58" r="9"   fill="#2a0a0b"/>
-        <circle cx="70" cy="58" r="5"   fill="rgba(255,255,255,0.5)"/>
-        <circle cx="70" cy="58" r="2"   fill="#2a0a0b"/>
-        <!-- road -->
-        <rect x="-4" y="66" width="106" height="2" rx="1" fill="rgba(255,255,255,0.16)"/>
-        <!-- speed lines -->
-        <line x1="-14" y1="30" x2="-4" y2="30" stroke="rgba(255,255,255,0.28)" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="-18" y1="40" x2="-6" y2="40" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-linecap="round"/>
-      </g>
+    <!-- RIGHT illustrations: truck + jacket + tshirt -->
+    <div class="tlb-hero-right" aria-hidden="true">
+      <svg width="260" height="155" viewBox="0 0 260 155" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="shirtGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7A35"/><stop offset="100%" stop-color="#FF5900"/></linearGradient>
+          <linearGradient id="shirtShadow" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#FF5900"/></linearGradient>
+          <linearGradient id="jacketGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#E04000"/></linearGradient>
+          <linearGradient id="truckW" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#e8e8e8"/></linearGradient>
+          <filter id="shadow2" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#00000033"/>
+          </filter>
+        </defs>
 
-      <!-- Budget / Coins illustration -->
-      <g transform="translate(115, 4)">
-        <!-- Drop shadow -->
-        <ellipse cx="34" cy="88" rx="30" ry="5" fill="rgba(0,0,0,0.14)"/>
+        <!-- ── T-SHIRT ── -->
+        <g transform="translate(0,5)" filter="url(#shadow2)">
+          <!-- Shadow -->
+          <ellipse cx="52" cy="126" rx="42" ry="6" fill="rgba(0,0,0,0.1)"/>
+          <!-- Main body -->
+          <path d="M22,28 L22,118 L82,118 L82,28 Q70,36 52,34 Q34,36 22,28 Z" fill="url(#shirtGrad)"/>
+          <!-- Left sleeve -->
+          <path d="M22,28 Q10,20 2,30 L10,52 L22,46 Z" fill="#FF6020"/>
+          <path d="M2,30 L10,52 L10,56 L2,34 Z" fill="#CC3D00" opacity="0.5"/>
+          <!-- Right sleeve -->
+          <path d="M82,28 Q94,20 102,30 L94,52 L82,46 Z" fill="#FF6020"/>
+          <path d="M102,30 L94,52 L94,56 L102,34 Z" fill="#CC3D00" opacity="0.5"/>
+          <!-- Collar -->
+          <path d="M36,28 Q52,42 68,28" stroke="#CC3D00" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M36,28 Q52,18 68,28" fill="#FF7A35"/>
+          <!-- Logo plate -->
+          <rect x="26" y="68" width="52" height="22" rx="4" fill="rgba(255,255,255,0.95)"/>
+          <text x="52" y="84" text-anchor="middle" font-size="13" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
+          <!-- Seam lines -->
+          <line x1="22" y1="46" x2="82" y2="46" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+          <!-- Highlight -->
+          <path d="M26,32 Q38,38 52,36" stroke="rgba(255,255,255,0.3)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </g>
 
-        <!-- Coin stack 3 (bottom) -->
-        <ellipse cx="34" cy="76" rx="28" ry="8"   fill="#a07008"/>
-        <rect    x="6"   y="54" width="56" height="22" fill="#d4920e"/>
-        <ellipse cx="34" cy="54" rx="28" ry="8"   fill="#f5c518"/>
-        <text x="34" y="58" text-anchor="middle" font-size="7" font-weight="800" fill="rgba(120,80,0,0.75)" font-family="Arial">JOD</text>
+        <!-- ── JACKET ── -->
+        <g transform="translate(110,4)" filter="url(#shadow2)">
+          <!-- Shadow -->
+          <ellipse cx="58" cy="127" rx="48" ry="6" fill="rgba(0,0,0,0.1)"/>
+          <!-- Jacket body -->
+          <path d="M20,30 L8,95 L12,118 L104,118 L108,95 L96,30 Z" fill="url(#jacketGrad)"/>
+          <!-- Left sleeve -->
+          <path d="M20,30 L5,26 L-2,70 L20,74 Z" fill="#FF6020"/>
+          <rect x="-2" y="64" width="22" height="10" rx="3" fill="#CC3D00"/>
+          <!-- Right sleeve -->
+          <path d="M96,30 L111,26 L118,70 L96,74 Z" fill="#FF6020"/>
+          <rect x="96" y="64" width="22" height="10" rx="3" fill="#CC3D00"/>
+          <!-- Left collar -->
+          <path d="M20,30 Q30,14 40,8 Q52,24 58,30 L56,56 Q34,52 20,56 Z" fill="#CC3D00"/>
+          <!-- Right collar -->
+          <path d="M96,30 Q86,14 76,8 Q64,24 58,30 L60,56 Q82,52 96,56 Z" fill="#CC3D00"/>
+          <!-- Collar inner shading -->
+          <path d="M40,10 Q58,32 76,10" stroke="rgba(0,0,0,0.12)" stroke-width="1.5" fill="none"/>
+          <!-- Zipper line -->
+          <line x1="58" y1="30" x2="58" y2="118" stroke="rgba(0,0,0,0.2)" stroke-width="2" stroke-dasharray="5,3"/>
+          <!-- Zipper pull -->
+          <rect x="54" y="28" width="8" height="6" rx="2" fill="#CC3D00"/>
+          <rect x="56" y="22" width="4" height="9" rx="1.5" fill="#881800"/>
+          <!-- Left pocket -->
+          <rect x="24" y="68" width="24" height="20" rx="3" fill="rgba(0,0,0,0.12)"/>
+          <!-- Right badge -->
+          <rect x="68" y="68" width="32" height="20" rx="4" fill="white"/>
+          <text x="84" y="82" text-anchor="middle" font-size="9" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
+          <!-- Bottom hem -->
+          <rect x="12" y="114" width="92" height="5" rx="2.5" fill="#CC3D00"/>
+          <!-- Seams -->
+          <line x1="20" y1="30" x2="20" y2="74" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+          <line x1="96" y1="30" x2="96" y2="74" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+          <!-- Highlight -->
+          <path d="M24,36 Q46,48 58,42" stroke="rgba(255,255,255,0.25)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </g>
 
-        <!-- Coin stack 2 (middle) -->
-        <ellipse cx="34" cy="48" rx="28" ry="8"   fill="#a07008"/>
-        <rect    x="6"   y="26" width="56" height="22" fill="#d4920e"/>
-        <ellipse cx="34" cy="26" rx="28" ry="8"   fill="#f5c518"/>
-        <text x="34" y="30" text-anchor="middle" font-size="7" font-weight="800" fill="rgba(120,80,0,0.75)" font-family="Arial">JOD</text>
+        <!-- ── SMALL BOX top right ── -->
+        <g transform="translate(218,10)" opacity="0.9">
+          <ellipse cx="25" cy="58" rx="20" ry="4" fill="rgba(0,0,0,0.09)"/>
+          <path d="M6,20 L6,56 L44,56 L44,20 Z" fill="#E8B55A"/>
+          <path d="M6,20 L25,10 L44,20 L25,30 Z" fill="#F5C87A"/>
+          <path d="M44,20 L44,56 L52,50 L52,14 Z" fill="#C48B30"/>
+          <line x1="23" y1="20" x2="23" y2="56" stroke="rgba(255,200,100,0.5)" stroke-width="5"/>
+          <line x1="6" y1="38" x2="44" y2="38" stroke="rgba(255,200,100,0.5)" stroke-width="3"/>
+        </g>
 
-        <!-- Coin stack 1 (top) -->
-        <ellipse cx="34" cy="20" rx="28" ry="8"   fill="#a07008"/>
-        <rect    x="6"   y="4"  width="56" height="16" fill="#d4920e"/>
-        <ellipse cx="34" cy="4"  rx="28" ry="8"   fill="#f5c518"/>
-        <!-- JOD symbol on top coin -->
-        <text x="34" y="8" text-anchor="middle" font-size="8" font-weight="900" fill="rgba(100,65,0,0.82)" font-family="Arial">JOD</text>
-        <!-- coin shine -->
-        <ellipse cx="22" cy="2"  rx="8"  ry="3"   fill="rgba(255,255,255,0.28)" transform="rotate(-15,22,2)"/>
-      </g>
-
-      <!-- Budget bar chart -->
-      <g transform="translate(170, 8)" opacity="0.88">
-        <!-- Chart area bg -->
-        <rect x="0" y="0" width="106" height="76" rx="5" fill="rgba(0,0,0,0.12)"/>
-        <!-- Axis lines -->
-        <line x1="12" y1="8"  x2="12" y2="64" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
-        <line x1="12" y1="64" x2="102" y2="64" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
-        <!-- Bar 1 -->
-        <rect x="18" y="38" width="14" height="26" rx="3" fill="rgba(255,255,255,0.4)"/>
-        <!-- Bar 2 -->
-        <rect x="38" y="22" width="14" height="42" rx="3" fill="#FF5900"/>
-        <!-- Bar 3 -->
-        <rect x="58" y="14" width="14" height="50" rx="3" fill="rgba(207,255,0,0.75)"/>
-        <!-- Bar 4 -->
-        <rect x="78" y="30" width="14" height="34" rx="3" fill="rgba(255,255,255,0.4)"/>
-        <!-- Trend line -->
-        <polyline points="25,38 45,22 65,14 85,30" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
-        <!-- Trend dots -->
-        <circle cx="25" cy="38" r="2.5" fill="white" opacity="0.7"/>
-        <circle cx="45" cy="22" r="2.5" fill="white" opacity="0.7"/>
-        <circle cx="65" cy="14" r="2.5" fill="white" opacity="0.7"/>
-        <!-- Label -->
-        <text x="53" y="75" text-anchor="middle" font-size="8" font-weight="700" fill="rgba(255,255,255,0.6)" font-family="Arial" letter-spacing="1">BUDGET</text>
-      </g>
-
-    </svg>
+      </svg>
+    </div>
 
   </div>
-</header>
+</div>
 
-<nav>
-  <div class="tab active" onclick="show('overview')">🏠 Overview</div>
-  <div class="tab" onclick="show('locations')">📍 Locations</div>
-  <div class="tab" onclick="show('products')">📋 Stock OnHand</div>
-  <div class="tab" onclick="show('mainwh')">🏭 Main WH</div>
-  <div class="tab" onclick="show('sheetdata')">📋 Issuances</div>
-  <div class="tab" onclick="show('dispatch')">🚚 Dispatch</div>
-  <div class="tab" onclick="show('archive')">🗂️ Reports Archive</div>
-  <div class="tab" onclick="show('budget')">💰 Budget</div>
-</nav>
+<div class="app-layout">
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" fill="#FF5900" opacity="0.9"/><rect x="6" y="3" width="12" height="6" rx="1.5" fill="#FF5900" opacity="0.6"/><rect x="9" y="10" width="6" height="7" rx="1" fill="white"/></svg>
+    <span>Inventory</span>
+  </div>
+  <div class="sidebar-section">Monitoring</div>
+  <div class="tab active" onclick="show('overview')"><span>🏠</span> Overview</div>
+  <div class="tab" onclick="show('locations')"><span>📍</span> Locations</div>
+  <div class="tab" onclick="show('products')"><span>📦</span> Stock OnHand</div>
+  <div class="sidebar-section">Operations</div>
+  <div class="tab" onclick="show('mainwh')"><span>🏭</span> Main WH</div>
+  <div class="tab" onclick="show('dispatch')"><span>🚚</span> Dispatch</div>
+  <div class="tab" onclick="show('sheetdata')"><span>📋</span> Issuances</div>
+  <div class="sidebar-section">Reports</div>
+  <div class="tab" onclick="show('archive')"><span>🗂️</span> Archive</div>
+  <div class="tab" onclick="show('budget')"><span>💰</span> Budget</div>
+</aside>
+<div class="main-content">
 
 <!-- OVERVIEW -->
 <div id="page-overview" class="page active">
@@ -3323,7 +3292,7 @@ function show(id){
   if(meta){ void page.offsetWidth; page.classList.add(meta.anim); }
   // Show announcement banner
   showTabAnnounce(id);
-  const tabs=['overview','locations','products','mainwh','sheetdata','dispatch','archive','budget'];
+  const tabs=['overview','locations','products','mainwh','dispatch','sheetdata','archive','budget'];
   document.querySelectorAll('.tab')[tabs.indexOf(id)]?.classList.add('active');
   if(id==='overview')  renderOverview();
   if(id==='locations') renderLocPage();
@@ -4281,5 +4250,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(el){ el.value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; checkSnapshotExists(); }
 });
 </script>
+</div></div><!-- /main-content /app-layout -->
 </body>
 </html>
