@@ -1905,7 +1905,7 @@ function _renderOvEmployees(){
 
 function _getBranchCosts(){
   const BRANCH_COLS_MAP={amman:[1,2],irbid:[3,4],zarqa:[5,6],aqaba:[7,8]};
-  const costs={amman:0,irbid:0,zarqa:0,aqaba:0};
+  const costs={amman:0,irbid:0,zarqa:0,aqaba:0,'3pl':0};
   if(!SHEET_ROWS||SHEET_ROWS.length<3) return costs;
   Object.entries(BRANCH_COLS_MAP).forEach(([branch,[ni,ri]])=>{
     SHEET_ROWS.slice(2).forEach(r=>{
@@ -1921,6 +1921,13 @@ function _getBranchCosts(){
       }
     });
   });
+  // Add 3PL costs
+  if(BUDGET_GROUPS&&BUDGET_PRICES&&BUDGET_QTY_3PL){
+    BUDGET_GROUPS.forEach(g=>{
+      const qty3pl=BUDGET_QTY_3PL[g.key]||0;
+      if(qty3pl>0) costs['3pl']+=(BUDGET_PRICES[g.key]||0)*qty3pl;
+    });
+  }
   return costs;
 }
 
@@ -1990,9 +1997,11 @@ function _renderOvBudget(){
   const branchCosts=_getBranchCosts();
   const maxBranchCost=Math.max(...Object.values(branchCosts),0.01);
   const centerEl=document.getElementById('ov-center-costs');
-  if(centerEl) centerEl.innerHTML=['amman','irbid','zarqa','aqaba'].map(b=>{
+  const branchKeys=['amman','irbid','zarqa','aqaba'];
+  const maxAllCost=Math.max(...Object.values(branchCosts),0.01);
+  if(centerEl) centerEl.innerHTML=branchKeys.map(b=>{
     const cost=branchCosts[b]||0;
-    const pct=cost/maxBranchCost*100;
+    const pct=cost/maxAllCost*100;
     return`<div style="margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
         <span style="font-weight:700;font-size:13px">${LOC_ICONS[b]} ${LOC_NAMES[b]}</span>
@@ -2002,8 +2011,18 @@ function _renderOvBudget(){
         <div style="height:100%;width:${pct.toFixed(1)}%;background:${LOC_COLORS[b]};border-radius:999px;transition:width .5s"></div>
       </div>
     </div>`;
-  }).join('')+`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:12px">
-    <span style="color:var(--gray);font-weight:600">Total Branches</span>
+  }).join('')+`
+  <div style="margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+      <span style="font-weight:700;font-size:13px">🏢 3PLs</span>
+      <span style="font-size:13px;font-weight:800;color:#805ad5">${(branchCosts['3pl']||0).toFixed(2)} JOD</span>
+    </div>
+    <div style="height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden">
+      <div style="height:100%;width:${((branchCosts['3pl']||0)/maxAllCost*100).toFixed(1)}%;background:#805ad5;border-radius:999px;transition:width .5s"></div>
+    </div>
+  </div>
+  <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:12px">
+    <span style="color:var(--gray);font-weight:600">Grand Total</span>
     <span style="font-weight:800;color:var(--text)">${Object.values(branchCosts).reduce((s,v)=>s+v,0).toFixed(2)} JOD</span>
   </div>`;
 
