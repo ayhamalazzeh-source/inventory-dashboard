@@ -4528,38 +4528,117 @@ setTimeout(() => {
     if (document.getElementById('fleet-total-issued')) document.getElementById('fleet-total-issued').textContent = activeIssued.toLocaleString();
     if (document.getElementById('fleet-total-returned')) document.getElementById('fleet-total-returned').textContent = totalReturned.toLocaleString();
 
-    tbody.innerHTML = filtered.length ? filtered.slice(0, 500).map(r => {
-      const isRet = r.isReturned;
-      return `
-      <tr style="${isRet ? 'opacity:0.65; background:#fff5f5;' : ''}">
-        <td>${r.date || '—'}</td>
-        <td style="font-weight:bold;color:var(--blue);${isRet ? 'text-decoration:line-through;' : ''}">${r.riderId}</td>
-        <td>${r.riderName || '—'}</td>
-        <td><span class="badge b-gray">${(r.branch || 'AMMAN').toUpperCase()}</span></td>
-        <td>${r.itemName || r.sku}</td>
-        <td class="num" style="color:var(--red);font-weight:bold;text-align:center;">${r.qty}</td>
-        <td style="text-align:center;">
-          ${isRet 
-            ? '<span class="badge b-red">مرتجع / توالف (توثيق)</span>' 
-            : '<span class="badge b-green">قائمة بعهدته</span>'}
-        </td>
-      </tr>
-    `}).join('') : '<tr><td colspan="7" class="empty-state">لا يوجد سجلات توثيق حالياً</td></tr>';
-  };
+  <!-- نظام Fleet التلقائي المباشر -->
+<script>
+function initFleetSystem() {
+  if (document.getElementById('tab-fleet-btn')) return;
 
-  // مسح السجلات المحلية
-  window.clearFleetHistory = function() {
-    if (confirm('هل أنت تأكد من مسح السجلات المحلية؟')) {
-      FLEET_DATA = [];
-      localStorage.removeItem('inv2026_fleet');
-      renderFleetTable();
-    }
-  };
+  // إضافة الزر للقائمة الجانبية
+  const sidebar = document.querySelector('.sidebar');
+  if (sidebar) {
+    const fleetBtn = document.createElement('div');
+    fleetBtn.id = 'tab-fleet-btn';
+    fleetBtn.className = 'tab';
+    fleetBtn.style.cssText = 'padding:12px 16px; cursor:pointer; font-weight:bold; display:flex; align-items:center; gap:8px;';
+    fleetBtn.innerHTML = '<span>🏍️</span> Fleet (المناديب)';
+    fleetBtn.onclick = showFleetPage;
+    sidebar.appendChild(fleetBtn);
+  }
 
-  // المزامنة التلقائية الدورية كل 5 دقائق
-  setInterval(syncFleetFromFirebase, 300000);
+  // إضافة الصفحة للواجهة
+  const main = document.querySelector('.main-content') || document.body;
+  const page = document.createElement('div');
+  page.id = 'page-fleet';
+  page.className = 'page';
+  page.style.display = 'none';
+  page.innerHTML = `
+    <div style="padding:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2>🏍️ عهد المناديب (Fleet Audit Log)</h2>
+        <button onclick="syncFleetFromFirebase()" style="padding:10px 18px; background:#e67e22; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
+          🔄 مزامنة السحابة (Firebase)
+        </button>
+      </div>
 
-}, 1500);
+      <div style="background:white; padding:16px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:20px;">
+        <input type="text" id="fleet-search" placeholder="ابحث برقم المندوب..." oninput="renderFleetTable()" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:14px;">
+      </div>
+
+      <div style="background:white; border-radius:12px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <table style="width:100%; border-collapse:collapse; text-align:left;">
+          <thead>
+            <tr style="border-bottom:2px solid #eee;">
+              <th style="padding:10px;">التاريخ</th>
+              <th style="padding:10px;">رقم المندوب</th>
+              <th style="padding:10px;">اسم المندوب</th>
+              <th style="padding:10px;">الفرع</th>
+              <th style="padding:10px;">القطعة</th>
+              <th style="padding:10px; text-align:center;">الكمية</th>
+              <th style="padding:10px; text-align:center;">الحالة</th>
+            </tr>
+          </thead>
+          <tbody id="fleet-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  `;
+  main.appendChild(page);
+}
+
+window.FLEET_DATA = JSON.parse(localStorage.getItem('inv2026_fleet') || '[]');
+
+function showFleetPage() {
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  
+  const p = document.getElementById('page-fleet');
+  const t = document.getElementById('tab-fleet-btn');
+  if (p) p.style.display = 'block';
+  if (t) t.classList.add('active');
+
+  syncFleetFromFirebase();
+}
+
+function syncFleetFromFirebase() {
+  fetch("https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/inv2026/fleet.json")
+    .then(r => r.json())
+    .then(data => {
+      if (data) {
+        window.FLEET_DATA = Object.values(data).flatMap(e => Array.isArray(e) ? e : [e]);
+        localStorage.setItem('inv2026_fleet', JSON.stringify(window.FLEET_DATA));
+        renderFleetTable();
+      }
+    })
+    .catch(err => console.error(err));
+}
+
+function renderFleetTable() {
+  const tbody = document.getElementById('fleet-table-body');
+  if (!tbody) return;
+  const q = (document.getElementById('fleet-search')?.value || '').toLowerCase();
+  let list = window.FLEET_DATA;
+  if (q) list = list.filter(r => (r.riderId && r.riderId.toString().toLowerCase().includes(q)));
+
+  tbody.innerHTML = list.length ? list.slice(0, 300).map(r => `
+    <tr style="border-bottom:1px solid #eee; ${r.isReturned ? 'background:#fff5f5; opacity:0.7;' : ''}">
+      <td style="padding:10px;">${r.date || '—'}</td>
+      <td style="padding:10px; font-weight:bold; color:#2b6cb0;">${r.riderId}</td>
+      <td style="padding:10px;">${r.riderName || '—'}</td>
+      <td style="padding:10px;">${(r.branch || 'AMMAN').toUpperCase()}</td>
+      <td style="padding:10px;">${r.itemName || r.sku}</td>
+      <td style="padding:10px; text-align:center; font-weight:bold;">${r.qty}</td>
+      <td style="padding:10px; text-align:center;">
+        ${r.isReturned ? '<span style="color:#c53030; font-weight:bold;">مرتجع / توالف</span>' : '<span style="color:#2f855a; font-weight:bold;">قائمة بعهدته</span>'}
+      </td>
+    </tr>
+  `).join('') : '<tr><td colspan="7" style="padding:20px; text-align:center;">لا توجد سجلات</td></tr>';
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initFleetSystem);
+} else {
+  initFleetSystem();
+}
 </script>
 </body>
 </html>
