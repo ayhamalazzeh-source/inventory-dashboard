@@ -225,7 +225,7 @@
   .email-modal-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:white;z-index:1;}
   .email-preview{padding:24px;font-family:'Segoe UI',Arial,sans-serif;font-size:13px;line-height:1.7;color:#1a202c;}
   .email-preview table{border-collapse:collapse;width:auto;margin:16px 0;}
-  .email-preview th{background:#f4ede0;padding:8px 16px;border:1px solid #ccc;font-weight:700;text-align:center;}
+  .email-preview th{background:#F4EDE3;padding:8px 16px;border:1px solid #ccc;font-weight:700;text-align:center;}
   .email-preview td{padding:7px 16px;border:1px solid #ccc;text-align:center;}
   .email-sig{margin-top:20px;font-size:13px;}
   .email-sig strong{color:#e63946;}
@@ -3217,31 +3217,31 @@ function showEmailDraft(branch, dateStr, entries, is3pl=false){
   const dateOnly   = dateStr.split(' ')[0]; // DD/MM/YYYY
 
   _emailSubject = is3pl
-    ? `3PL Outbound; ${branchName} ${dateOnly}`
-    : `Outbound; ${branchName} ${dateOnly}`;
+    ? `Outbound 3PL - ${dateOnly} (${branch})`
+    : `Outbound - ${branchName} - ${dateOnly}`;
 
   const rows = entries.map(([sku, qty])=>{
     const p = SEED.find(s=>s.sku===sku)||{name:sku};
     return `<tr><td>${sku}</td><td>${p.name}</td><td>${qty}</td></tr>`;
   }).join('');
 
+  const table = `
+    <table>
+      <thead><tr><th>SKU</th><th>Item Name</th><th>QYT</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+
   const html = is3pl ? `
-    <p>Dear Team,</p>
-    <p>Please prepare the following items for dispatch to our 3PL partner <strong>${branchName}</strong> on <strong>${dateOnly}</strong>.</p>
-    <p>Please find the required quantities in the table below.</p>
-    <table>
-      <thead><tr><th>SKU</th><th>Item Name</th><th>QTY</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
+    <p>Dear Raad,</p>
+    <p>We need your support to prepare the <strong>${branchName}</strong> order by <strong>${dateOnly}</strong><br>
+    Below are the order quantities.</p>
+    ${table}
+    <p>Please note that the order will be picked up from our 3PL side.</p>
     <p>Regards,</p>` : `
-    <p>Dear Team,</p>
-    <p>We need your assistance in preparing and delivering the order to <strong>${branchName}</strong> by <strong>${dateOnly} at 10:00 AM</strong>.<br>
-    This delivery also requires a return trip.</p>
-    <p>Please find the required quantities in the table below.</p>
-    <table>
-      <thead><tr><th>SKU</th><th>Item Name</th><th>QTY</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>
+    <p>Dear Raad,</p>
+    <p>We need your assistance in preparing and delivering the order to <strong>${branchName}</strong> by <strong>${dateOnly}</strong> at 10:00 AM.<br>
+    Please find the required quantities in the table below.</p>
+    ${table}
     <p>Regards,</p>`;
 
   document.getElementById('email-subject-display').textContent = _emailSubject;
