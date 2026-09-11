@@ -18,9 +18,10 @@
 
   /* ── Hero banner ── */
   .tlb-hero{background:linear-gradient(135deg,#fff8f4 0%,#fff 40%,#fff5f0 100%);border-bottom:1px solid #ffe0cc;position:relative;overflow:hidden;}
-  .tlb-hero-inner{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:186px;}
-  .tlb-hero-left,.tlb-hero-right{flex-shrink:0;}
-  .tlb-hero-center{text-align:center;flex:1;padding:0 8px;}
+  .tlb-hero-inner{display:flex;align-items:center;justify-content:space-between;padding:0 0;height:186px;}
+  .tlb-hero-left,.tlb-hero-right{flex:1;min-width:0;overflow:hidden;display:flex;align-items:stretch;}
+  .tlb-hero-left svg,.tlb-hero-right svg{width:100%;height:220px;}
+  .tlb-hero-center{text-align:center;flex:0 0 260px;padding:0 2px;}
   .tlb-hero-brand{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:0;}
   .tlb-hero-brand span{font-size:32px;font-weight:900;color:#FF5900;letter-spacing:-1px;font-family:'Segoe UI',Arial,sans-serif;}
   .tlb-wordmark-wrap{position:relative;display:inline-block;line-height:1;margin:0 0 2px;}
@@ -342,104 +343,170 @@
 <div class="tlb-hero">
   <div class="tlb-hero-inner">
 
-    <!-- LEFT: Upload arrow + boxes + truck -->
+    <!-- LEFT: Truck · Bag · Loading -->
     <div class="tlb-hero-left" aria-hidden="true">
-      <svg width="280" height="170" viewBox="0 0 280 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 520 220" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="bF" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B55A"/><stop offset="100%" stop-color="#C48B30"/></linearGradient>
-          <linearGradient id="bT" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5C87A"/><stop offset="100%" stop-color="#D4A04A"/></linearGradient>
-          <linearGradient id="bS" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C48B30"/><stop offset="100%" stop-color="#A86E1A"/></linearGradient>
-          <linearGradient id="trC" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#eee"/></linearGradient>
-          <linearGradient id="trOr" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7A35"/><stop offset="100%" stop-color="#CC3D00"/></linearGradient>
-          <filter id="sh"><feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-color="#00000028"/></filter>
-          <filter id="sh2"><feDropShadow dx="1" dy="3" stdDeviation="4" flood-color="#00000030"/></filter>
+          <linearGradient id="trBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#e8e8e8"/></linearGradient>
+          <linearGradient id="trOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#CC3D00"/></linearGradient>
+          <linearGradient id="trGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b3d9f5" stop-opacity="0.8"/><stop offset="100%" stop-color="#6fb3e0" stop-opacity="0.5"/></linearGradient>
+          <linearGradient id="bagBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7030"/><stop offset="100%" stop-color="#BF3000"/></linearGradient>
+          <linearGradient id="bagDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#8B2000"/></linearGradient>
+          <linearGradient id="boxF" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B55A"/><stop offset="100%" stop-color="#C48B30"/></linearGradient>
+          <linearGradient id="boxT" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5C87A"/><stop offset="100%" stop-color="#D4A04A"/></linearGradient>
+          <linearGradient id="boxSd" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C48B30"/><stop offset="100%" stop-color="#A06010"/></linearGradient>
+          <radialGradient id="tireShine" cx="35%" cy="30%" r="60%"><stop offset="0%" stop-color="#666"/><stop offset="100%" stop-color="#111"/></radialGradient>
+          <filter id="shadow"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#00000030"/></filter>
+          <filter id="shadowSm"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000025"/></filter>
         </defs>
 
-        <!-- ── DELIVERY TRUCK ── -->
-        <g transform="translate(8,68)" filter="url(#sh2)">
-          <!-- Cargo box -->
-          <rect x="0" y="10" width="120" height="58" rx="3" fill="url(#trC)"/>
-          <rect x="0" y="10" width="120" height="10" rx="3" fill="#f0f0f0"/>
-          <text x="14" y="44" font-size="16" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
-          <rect x="0" y="54" width="120" height="5" fill="rgba(255,89,0,0.2)"/>
+        <!-- ═══ TRUCK (detailed) ═══ -->
+        <g transform="translate(10, 30)" filter="url(#shadow)">
+          <!-- Ground shadow -->
+          <ellipse cx="185" cy="175" rx="160" ry="10" fill="rgba(0,0,0,0.12)"/>
+          <!-- Cargo container -->
+          <rect x="0" y="30" width="220" height="120" rx="4" fill="url(#trBody)"/>
+          <!-- Container top edge -->
+          <rect x="0" y="30" width="220" height="6" rx="3" fill="#d0d0d0"/>
+          <!-- talabat branding stripe on cargo -->
+          <rect x="0" y="118" width="220" height="26" rx="0" fill="url(#trOrange)"/>
+          <!-- talabat text on cargo -->
+          <text x="22" y="88" font-size="28" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial,sans-serif" letter-spacing="-1">talabat</text>
+          <!-- Door lines on cargo -->
+          <line x1="110" y1="36" x2="110" y2="118" stroke="#ccc" stroke-width="2"/>
+          <line x1="158" y1="36" x2="158" y2="118" stroke="#ccc" stroke-width="2"/>
+          <!-- Rivets -->
+          <circle cx="5" cy="40" r="3" fill="#bbb"/><circle cx="5" cy="60" r="3" fill="#bbb"/><circle cx="5" cy="80" r="3" fill="#bbb"/><circle cx="5" cy="100" r="3" fill="#bbb"/>
+          <circle cx="215" cy="40" r="3" fill="#bbb"/><circle cx="215" cy="60" r="3" fill="#bbb"/>
+
           <!-- Cab -->
-          <rect x="98" y="0" width="50" height="68" rx="5" fill="url(#trC)"/>
-          <rect x="103" y="5" width="40" height="26" rx="3" fill="#3a1505" opacity="0.7"/>
-          <rect x="98" y="56" width="50" height="7" fill="url(#trOr)"/>
-          <!-- Orange stripe -->
-          <rect x="0" y="62" width="148" height="6" rx="2" fill="url(#trOr)"/>
+          <rect x="188" y="10" width="90" height="136" rx="8" fill="url(#trBody)"/>
+          <!-- Cab front slope -->
+          <path d="M188,10 L228,0 L278,10" fill="#e0e0e0"/>
+          <!-- Windshield -->
+          <rect x="196" y="16" width="74" height="52" rx="5" fill="url(#trGlass)"/>
+          <!-- Windshield reflection -->
+          <path d="M200,20 L234,16 L234,30 L200,36 Z" fill="rgba(255,255,255,0.35)"/>
+          <!-- Cab door -->
+          <rect x="196" y="76" width="74" height="56" rx="3" fill="#e8e8e8"/>
+          <rect x="200" y="80" width="66" height="44" rx="3" fill="#f5f5f5"/>
+          <!-- Door handle -->
+          <rect x="254" y="105" width="12" height="5" rx="2.5" fill="#bbb"/>
+          <!-- Side mirror -->
+          <rect x="184" y="20" width="10" height="18" rx="3" fill="#ccc"/>
+          <!-- Cab stripe -->
+          <rect x="188" y="118" width="90" height="18" rx="0" fill="url(#trOrange)"/>
+          <!-- Lights -->
+          <rect x="260" y="12" width="16" height="10" rx="2" fill="#fffde0"/>
+          <rect x="260" y="12" width="16" height="10" rx="2" fill="rgba(255,220,100,0.6)"/>
+          <!-- Front bumper -->
+          <rect x="188" y="134" width="90" height="12" rx="4" fill="#d0d0d0"/>
+          <!-- Exhaust pipe -->
+          <rect x="186" y="0" width="6" height="28" rx="3" fill="#aaa"/>
+
           <!-- Wheels -->
-          <circle cx="28" cy="76" r="13" fill="#2a1000"/>
-          <circle cx="28" cy="76" r="8"  fill="#555"/>
-          <circle cx="28" cy="76" r="4"  fill="#2a1000"/>
-          <circle cx="28" cy="76" r="2"  fill="#fff" opacity="0.4"/>
-          <circle cx="88" cy="76" r="13" fill="#2a1000"/>
-          <circle cx="88" cy="76" r="8"  fill="#555"/>
-          <circle cx="88" cy="76" r="4"  fill="#2a1000"/>
-          <circle cx="88" cy="76" r="2"  fill="#fff" opacity="0.4"/>
-          <circle cx="130" cy="76" r="13" fill="#2a1000"/>
-          <circle cx="130" cy="76" r="8"  fill="#555"/>
-          <circle cx="130" cy="76" r="4"  fill="#2a1000"/>
-          <circle cx="130" cy="76" r="2"  fill="#fff" opacity="0.4"/>
-          <!-- Road line -->
-          <line x1="-10" y1="89" x2="160" y2="89" stroke="#ddd" stroke-width="2"/>
-          <!-- Speed lines -->
-          <line x1="-18" y1="36" x2="-4" y2="36" stroke="#FF5900" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/>
-          <line x1="-22" y1="48" x2="-6" y2="48" stroke="#FF5900" stroke-width="1.5" stroke-linecap="round" opacity="0.25"/>
+          <g transform="translate(30, 142)">
+            <circle cx="0" cy="0" r="24" fill="#1a1a1a"/>
+            <circle cx="0" cy="0" r="16" fill="url(#tireShine)"/>
+            <circle cx="0" cy="0" r="8" fill="#222"/>
+            <circle cx="0" cy="0" r="4" fill="#555"/>
+            <!-- Lug nuts -->
+            <circle cx="0" cy="-12" r="3" fill="#888"/>
+            <circle cx="10" cy="-6" r="3" fill="#888"/>
+            <circle cx="10" cy="6" r="3" fill="#888"/>
+            <circle cx="0" cy="12" r="3" fill="#888"/>
+            <circle cx="-10" cy="6" r="3" fill="#888"/>
+            <circle cx="-10" cy="-6" r="3" fill="#888"/>
+          </g>
+          <g transform="translate(126, 142)">
+            <circle cx="0" cy="0" r="24" fill="#1a1a1a"/>
+            <circle cx="0" cy="0" r="16" fill="url(#tireShine)"/>
+            <circle cx="0" cy="0" r="8" fill="#222"/>
+            <circle cx="0" cy="0" r="4" fill="#555"/>
+            <circle cx="0" cy="-12" r="3" fill="#888"/>
+            <circle cx="10" cy="-6" r="3" fill="#888"/>
+            <circle cx="10" cy="6" r="3" fill="#888"/>
+            <circle cx="0" cy="12" r="3" fill="#888"/>
+            <circle cx="-10" cy="6" r="3" fill="#888"/>
+            <circle cx="-10" cy="-6" r="3" fill="#888"/>
+          </g>
+          <g transform="translate(236, 142)">
+            <circle cx="0" cy="0" r="24" fill="#1a1a1a"/>
+            <circle cx="0" cy="0" r="16" fill="url(#tireShine)"/>
+            <circle cx="0" cy="0" r="8" fill="#222"/>
+            <circle cx="0" cy="0" r="4" fill="#555"/>
+            <circle cx="0" cy="-12" r="3" fill="#888"/>
+            <circle cx="10" cy="-6" r="3" fill="#888"/>
+            <circle cx="10" cy="6" r="3" fill="#888"/>
+            <circle cx="0" cy="12" r="3" fill="#888"/>
+            <circle cx="-10" cy="6" r="3" fill="#888"/>
+            <circle cx="-10" cy="-6" r="3" fill="#888"/>
+          </g>
+          <!-- Road -->
+          <line x1="-20" y1="166" x2="310" y2="166" stroke="#d0d0d0" stroke-width="3"/>
+          <line x1="-20" y1="168" x2="310" y2="168" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
         </g>
 
-        <!-- ── OPEN BOX with UP arrow (upload) ── -->
-        <g transform="translate(170,30)" filter="url(#sh)">
-          <ellipse cx="40" cy="104" rx="32" ry="5" fill="rgba(0,0,0,0.08)"/>
-          <!-- box front -->
-          <path d="M8,40 L8,102 L72,102 L72,40 Z" fill="url(#bF)"/>
-          <!-- box top face -->
-          <path d="M8,40 L40,24 L72,40 L40,56 Z" fill="url(#bT)"/>
-          <!-- box side -->
-          <path d="M72,40 L72,102 L84,92 L84,30 Z" fill="url(#bS)"/>
-          <!-- open flaps -->
-          <path d="M8,40 L8,22 L40,6 L40,24 Z" fill="#DDB060" opacity="0.8"/>
-          <path d="M72,40 L72,22 L40,6 L40,24 Z" fill="#C89040" opacity="0.85"/>
-          <!-- tape -->
-          <rect x="35" y="40" width="10" height="62" fill="rgba(255,200,100,0.35)"/>
-          <!-- seams front -->
-          <line x1="8" y1="55" x2="72" y2="55" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
-          <line x1="8" y1="72" x2="72" y2="72" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
-          <line x1="8" y1="88" x2="72" y2="88" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
-          <!-- UP ARROW (upload) -->
-          <line x1="40" y1="3" x2="40" y2="28" stroke="#FF5900" stroke-width="3" stroke-linecap="round" opacity="0.0"/>
+        <!-- ═══ DELIVERY BAG (detailed) ═══ -->
+        <g transform="translate(320, 18)" filter="url(#shadowSm)">
+          <ellipse cx="60" cy="200" rx="50" ry="7" fill="rgba(0,0,0,0.1)"/>
+          <!-- Handle left -->
+          <path d="M28,36 C28,10 92,10 92,36" stroke="#6B1800" stroke-width="12" fill="none" stroke-linecap="round"/>
+          <path d="M28,36 C28,14 92,14 92,36" stroke="#FF5020" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <!-- Handle shine -->
+          <path d="M36,30 C40,16 80,16 84,30" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Bag body -->
+          <rect x="8" y="36" width="104" height="152" rx="10" fill="url(#bagBody)"/>
+          <!-- Zipper flap top -->
+          <rect x="8" y="36" width="104" height="28" rx="10" fill="url(#bagDark)"/>
+          <rect x="8" y="56" width="104" height="8" fill="url(#bagDark)"/>
+          <!-- Zipper teeth -->
+          <line x1="16" y1="50" x2="104" y2="50" stroke="#FF6030" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+          <!-- Zipper pull -->
+          <rect x="55" y="28" width="10" height="16" rx="4" fill="#3a0800"/>
+          <rect x="57" y="20" width="6" height="12" rx="3" fill="#220400"/>
+          <!-- Quilted horizontal seams -->
+          <line x1="8" y1="80"  x2="112" y2="80"  stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <line x1="8" y1="104" x2="112" y2="104" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <line x1="8" y1="128" x2="112" y2="128" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <line x1="8" y1="152" x2="112" y2="152" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <!-- Side depth shading -->
+          <rect x="8"   y="64" width="10" height="124" rx="5" fill="rgba(0,0,0,0.18)"/>
+          <rect x="102" y="64" width="10" height="124" rx="5" fill="rgba(255,255,255,0.06)"/>
+          <!-- White logo plate -->
+          <rect x="18" y="110" width="84" height="36" rx="7" fill="white"/>
+          <text x="60" y="134" text-anchor="middle" font-size="20" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial,sans-serif">talabat</text>
+          <!-- Highlight shine on body -->
+          <ellipse cx="32" cy="44" rx="14" ry="5" fill="rgba(255,255,255,0.22)" transform="rotate(-8,32,44)"/>
+          <!-- Bottom rounded shadow -->
+          <rect x="8" y="172" width="104" height="16" rx="0 0 10 10" fill="rgba(0,0,0,0.12)"/>
         </g>
 
-        <!-- ── UPLOAD ARROW floating ── -->
-        <g transform="translate(200,5)">
-          <circle cx="28" cy="28" r="22" fill="#FF5900" opacity="0.12"/>
-          <line x1="28" y1="38" x2="28" y2="16" stroke="#FF5900" stroke-width="3" stroke-linecap="round"/>
-          <polyline points="18,26 28,14 38,26" stroke="#FF5900" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-          <text x="28" y="55" text-anchor="middle" font-size="8" fill="#FF5900" font-weight="700" font-family="Arial">INBOUND</text>
+        <!-- ═══ INBOUND / OUTBOUND (stylish) ═══ -->
+        <g transform="translate(328, 0)">
+          <!-- INBOUND box -->
+          <rect x="0" y="0" width="78" height="28" rx="14" fill="rgba(255,89,0,0.1)"/>
+          <line x1="24" y1="20" x2="24" y2="8"  stroke="#FF5900" stroke-width="3" stroke-linecap="round"/>
+          <polyline points="16,15 24,6 32,15" stroke="#FF5900" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+          <text x="44" y="18" font-size="10" fill="#FF5900" font-weight="700" font-family="Arial">INBOUND</text>
         </g>
-
-        <!-- ── DOWNLOAD ARROW floating ── -->
-        <g transform="translate(234,5)">
-          <circle cx="20" cy="28" r="18" fill="#2a9d8f" opacity="0.12"/>
-          <line x1="20" y1="16" x2="20" y2="38" stroke="#2a9d8f" stroke-width="3" stroke-linecap="round"/>
-          <polyline points="10,28 20,40 30,28" stroke="#2a9d8f" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-          <text x="20" y="55" text-anchor="middle" font-size="8" fill="#2a9d8f" font-weight="700" font-family="Arial">OUTBOUND</text>
+        <g transform="translate(328, 32)">
+          <!-- OUTBOUND box -->
+          <rect x="0" y="0" width="90" height="28" rx="14" fill="rgba(42,157,143,0.1)"/>
+          <line x1="24" y1="8"  x2="24" y2="20" stroke="#2a9d8f" stroke-width="3" stroke-linecap="round"/>
+          <polyline points="16,13 24,22 32,13" stroke="#2a9d8f" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+          <text x="44" y="18" font-size="10" fill="#2a9d8f" font-weight="700" font-family="Arial">OUTBOUND</text>
         </g>
 
       </svg>
     </div>
 
-    <!-- CENTER: talabat wordmark + title -->
+    <!-- CENTER -->
     <div class="tlb-hero-center">
       <div class="tlb-hero-brand">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="iconGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#FF8040"/>
-              <stop offset="100%" stop-color="#CC3D00"/>
-            </linearGradient>
-          </defs>
-          <rect x="2" y="10" width="28" height="18" rx="3.5" fill="url(#iconGrad)"/>
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs><linearGradient id="iG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#CC3D00"/></linearGradient></defs>
+          <rect x="2" y="10" width="28" height="18" rx="3.5" fill="url(#iG)"/>
           <rect x="9" y="4" width="14" height="9" rx="2" fill="#FF7A35"/>
           <rect x="12" y="13" width="8" height="9" rx="1.5" fill="white"/>
         </svg>
@@ -449,85 +516,129 @@
         <svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex-shrink:0"><rect x="2" y="5" width="16" height="12" rx="2" fill="#888"/><rect x="6" y="2" width="8" height="5" rx="1" fill="#aaa"/><rect x="8" y="8" width="4" height="5" rx="0.5" fill="white"/></svg>
         Inventory Monitor
       </div>
-      <div class="tlb-hero-sub">Naouri Warehouse &nbsp;·&nbsp; 5 Locations &nbsp;·&nbsp; Auto-saved &nbsp;·&nbsp; 2026</div>
+      <div class="tlb-hero-sub">Naouri Warehouse &nbsp;·&nbsp; 5 Locations &nbsp;·&nbsp; 2026</div>
     </div>
 
-    <!-- RIGHT: jacket + tshirt + budget coins -->
+    <!-- RIGHT: Jacket · Coins · Box loading -->
     <div class="tlb-hero-right" aria-hidden="true">
-      <svg width="280" height="170" viewBox="0 0 280 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 520 220" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="jG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#E04000"/></linearGradient>
-          <linearGradient id="sG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7A35"/><stop offset="100%" stop-color="#FF5900"/></linearGradient>
-          <linearGradient id="coinG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFD966"/><stop offset="100%" stop-color="#B8860B"/></linearGradient>
-          <linearGradient id="coinS" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4A017"/><stop offset="100%" stop-color="#8B6000"/></linearGradient>
-          <filter id="sh3"><feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-color="#00000028"/></filter>
-          <filter id="sh4"><feDropShadow dx="1" dy="3" stdDeviation="4" flood-color="#00000030"/></filter>
+          <linearGradient id="jkBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#E03800"/></linearGradient>
+          <linearGradient id="jkDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#8B2200"/></linearGradient>
+          <linearGradient id="jkSlv"  x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#FF6020"/></linearGradient>
+          <linearGradient id="coinTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFE066"/><stop offset="100%" stop-color="#D4A010"/></linearGradient>
+          <linearGradient id="coinSide" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C89010"/><stop offset="100%" stop-color="#906000"/></linearGradient>
+          <linearGradient id="bxF2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B55A"/><stop offset="100%" stop-color="#C48B30"/></linearGradient>
+          <linearGradient id="bxT2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5C87A"/><stop offset="100%" stop-color="#D4A04A"/></linearGradient>
+          <linearGradient id="bxS2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C48B30"/><stop offset="100%" stop-color="#906010"/></linearGradient>
+          <filter id="sh7"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#00000030"/></filter>
+          <filter id="sh8"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000025"/></filter>
         </defs>
 
-        <!-- ── JACKET ── -->
-        <g transform="translate(0,6)" filter="url(#sh4)">
-          <ellipse cx="58" cy="152" rx="48" ry="6" fill="rgba(0,0,0,0.08)"/>
-          <path d="M20,30 L8,95 L12,144 L104,144 L108,95 L96,30 Z" fill="url(#jG)"/>
-          <!-- sleeves -->
-          <path d="M20,30 L4,24 L-4,72 L20,78 Z" fill="#FF6020"/>
-          <rect x="-4" y="66" width="24" height="12" rx="4" fill="#CC3D00"/>
-          <path d="M96,30 L112,24 L120,72 L96,78 Z" fill="#FF6020"/>
-          <rect x="96" y="66" width="24" height="12" rx="4" fill="#CC3D00"/>
-          <!-- collars -->
-          <path d="M20,30 Q30,14 40,8 Q52,24 58,30 L56,58 Q34,54 20,58 Z" fill="#CC3D00"/>
-          <path d="M96,30 Q86,14 76,8 Q64,24 58,30 L60,58 Q82,54 96,58 Z" fill="#CC3D00"/>
-          <!-- zipper -->
-          <line x1="58" y1="30" x2="58" y2="144" stroke="rgba(0,0,0,0.18)" stroke-width="2" stroke-dasharray="5,3"/>
-          <rect x="54" y="28" width="8" height="7" rx="2" fill="#CC3D00"/>
-          <rect x="56" y="21" width="4" height="10" rx="1.5" fill="#881800"/>
-          <!-- pockets -->
-          <rect x="22" y="72" width="26" height="22" rx="4" fill="rgba(0,0,0,0.12)"/>
-          <rect x="68" y="72" width="34" height="22" rx="4" fill="white"/>
-          <text x="85" y="87" text-anchor="middle" font-size="9" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
-          <rect x="12" y="140" width="92" height="6" rx="3" fill="#CC3D00"/>
-          <!-- seams + highlight -->
-          <line x1="20" y1="30" x2="20" y2="78" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-          <line x1="96" y1="30" x2="96" y2="78" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-          <path d="M24,36 Q46,50 58,44" stroke="rgba(255,255,255,0.28)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- ═══ JACKET (detailed) ═══ -->
+        <g transform="translate(8, 4)" filter="url(#sh7)">
+          <ellipse cx="84" cy="214" rx="76" ry="8" fill="rgba(0,0,0,0.1)"/>
+          <!-- Body -->
+          <path d="M28,38 L10,120 L16,206 L152,206 L158,120 L140,38 Z" fill="url(#jkBody)"/>
+          <!-- Left sleeve -->
+          <path d="M28,38 L6,30 L-8,100 L28,108 Z" fill="#FF6020"/>
+          <!-- Left sleeve seam -->
+          <line x1="28" y1="38" x2="28" y2="108" stroke="rgba(0,0,0,0.1)" stroke-width="2"/>
+          <!-- Left cuff -->
+          <rect x="-8" y="90" width="36" height="18" rx="6" fill="url(#jkDark)"/>
+          <!-- Right sleeve -->
+          <path d="M140,38 L162,30 L176,100 L140,108 Z" fill="#FF6020"/>
+          <line x1="140" y1="38" x2="140" y2="108" stroke="rgba(0,0,0,0.1)" stroke-width="2"/>
+          <!-- Right cuff -->
+          <rect x="140" y="90" width="36" height="18" rx="6" fill="url(#jkDark)"/>
+          <!-- Left collar -->
+          <path d="M28,38 Q42,18 56,10 Q72,30 84,38 L80,72 Q52,68 28,72 Z" fill="url(#jkDark)"/>
+          <!-- Right collar -->
+          <path d="M140,38 Q126,18 112,10 Q96,30 84,38 L88,72 Q116,68 140,72 Z" fill="url(#jkDark)"/>
+          <!-- Collar inner V shape -->
+          <path d="M56,12 Q84,36 112,12" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/>
+          <!-- Zipper line -->
+          <line x1="84" y1="38" x2="84" y2="206" stroke="rgba(0,0,0,0.2)" stroke-width="2.5" stroke-dasharray="6,4"/>
+          <!-- Zipper pull -->
+          <rect x="79" y="34" width="10" height="9" rx="3" fill="url(#jkDark)"/>
+          <rect x="81" y="24" width="6" height="13" rx="2" fill="#4a0e00"/>
+          <!-- Left chest pocket -->
+          <rect x="34" y="96" width="34" height="28" rx="5" fill="rgba(0,0,0,0.15)"/>
+          <line x1="34" y1="108" x2="68" y2="108" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+          <!-- Right chest badge (white) -->
+          <rect x="100" y="96" width="44" height="28" rx="5" fill="white"/>
+          <text x="122" y="115" text-anchor="middle" font-size="11" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
+          <!-- Bottom hem -->
+          <rect x="16" y="200" width="136" height="8" rx="4" fill="url(#jkDark)"/>
+          <!-- Body highlight -->
+          <path d="M34,46 Q60,62 84,56" stroke="rgba(255,255,255,0.28)" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <!-- Stitching lines body -->
+          <line x1="28" y1="72" x2="28" y2="120" stroke="rgba(0,0,0,0.06)" stroke-width="1.5"/>
+          <line x1="140" y1="72" x2="140" y2="120" stroke="rgba(0,0,0,0.06)" stroke-width="1.5"/>
         </g>
 
-        <!-- ── T-SHIRT ── -->
-        <g transform="translate(118,8)" filter="url(#sh3)">
-          <ellipse cx="54" cy="140" rx="44" ry="5" fill="rgba(0,0,0,0.08)"/>
-          <path d="M22,28 L22,132 L86,132 L86,28 Q70,38 54,36 Q38,38 22,28 Z" fill="url(#sG)"/>
-          <path d="M22,28 Q8,20 2,30 L10,54 L22,48 Z" fill="#FF6020"/>
-          <path d="M86,28 Q100,20 106,30 L98,54 L86,48 Z" fill="#FF6020"/>
-          <path d="M36,28 Q54,42 72,28" stroke="#CC3D00" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <path d="M36,28 Q54,18 72,28" fill="#FF7A35"/>
-          <rect x="28" y="74" width="52" height="24" rx="4" fill="rgba(255,255,255,0.95)"/>
-          <text x="54" y="91" text-anchor="middle" font-size="13" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
-          <path d="M26,34 Q42,42 54,38" stroke="rgba(255,255,255,0.3)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- ═══ COIN STACK BUDGET (detailed) ═══ -->
+        <g transform="translate(186, 10)" filter="url(#sh8)">
+          <ellipse cx="56" cy="208" rx="52" ry="8" fill="rgba(0,0,0,0.1)"/>
+          <!-- 6 coin layers from bottom to top -->
+          <!-- Layer 6 (bottom) -->
+          <ellipse cx="56" cy="198" rx="50" ry="12" fill="#7a5200"/>
+          <rect x="6" y="170" width="100" height="28" fill="url(#coinSide)"/>
+          <ellipse cx="56" cy="170" rx="50" ry="12" fill="url(#coinTop)"/>
+          <text x="56" y="175" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
+          <!-- Layer 5 -->
+          <ellipse cx="56" cy="158" rx="50" ry="12" fill="#7a5200"/>
+          <rect x="6" y="130" width="100" height="28" fill="url(#coinSide)"/>
+          <ellipse cx="56" cy="130" rx="50" ry="12" fill="url(#coinTop)"/>
+          <text x="56" y="135" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
+          <!-- Layer 4 -->
+          <ellipse cx="56" cy="118" rx="50" ry="12" fill="#7a5200"/>
+          <rect x="6" y="90" width="100" height="28" fill="url(#coinSide)"/>
+          <ellipse cx="56" cy="90" rx="50" ry="12" fill="url(#coinTop)"/>
+          <text x="56" y="95" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
+          <!-- Layer 3 -->
+          <ellipse cx="56" cy="78" rx="50" ry="12" fill="#7a5200"/>
+          <rect x="6" y="50" width="100" height="28" fill="url(#coinSide)"/>
+          <ellipse cx="56" cy="50" rx="50" ry="12" fill="url(#coinTop)"/>
+          <text x="56" y="55" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
+          <!-- Layer 2 -->
+          <ellipse cx="56" cy="38" rx="50" ry="12" fill="#7a5200"/>
+          <rect x="6" y="14" width="100" height="24" fill="url(#coinSide)"/>
+          <ellipse cx="56" cy="14" rx="50" ry="12" fill="url(#coinTop)"/>
+          <!-- shine top coin -->
+          <ellipse cx="36" cy="8" rx="16" ry="6" fill="rgba(255,255,255,0.42)" transform="rotate(-16,36,8)"/>
+          <text x="56" y="19" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
+          <!-- BUDGET label -->
+          <text x="56" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#906000" font-family="'Segoe UI',Arial" letter-spacing="2">BUDGET</text>
         </g>
 
-        <!-- ── BUDGET COIN STACK ── -->
-        <g transform="translate(222,20)" filter="url(#sh3)">
-          <!-- shadow -->
-          <ellipse cx="32" cy="140" rx="28" ry="5" fill="rgba(0,0,0,0.1)"/>
-          <!-- Stack 3 (bottom) -->
-          <ellipse cx="32" cy="128" rx="26" ry="7" fill="#8B6000"/>
-          <rect x="6" y="108" width="52" height="20" fill="#B8860B"/>
-          <ellipse cx="32" cy="108" rx="26" ry="7" fill="url(#coinG)"/>
-          <!-- Stack 2 -->
-          <ellipse cx="32" cy="100" rx="26" ry="7" fill="#8B6000"/>
-          <rect x="6" y="80" width="52" height="20" fill="#B8860B"/>
-          <ellipse cx="32" cy="80" rx="26" ry="7" fill="url(#coinG)"/>
-          <!-- Stack 1 (top) -->
-          <ellipse cx="32" cy="72" rx="26" ry="7" fill="#8B6000"/>
-          <rect x="6" y="52" width="52" height="20" fill="#B8860B"/>
-          <ellipse cx="32" cy="52" rx="26" ry="7" fill="url(#coinG)"/>
-          <!-- JOD text -->
-          <text x="32" y="56" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(80,50,0,0.75)" font-family="Arial">JOD</text>
-          <text x="32" y="84" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(80,50,0,0.75)" font-family="Arial">JOD</text>
-          <text x="32" y="112" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(80,50,0,0.75)" font-family="Arial">JOD</text>
-          <!-- shine on top coin -->
-          <ellipse cx="20" cy="48" rx="9" ry="3.5" fill="rgba(255,255,255,0.35)" transform="rotate(-15,20,48)"/>
-          <!-- budget label -->
-          <text x="32" y="158" text-anchor="middle" font-size="9" font-weight="700" fill="#B8860B" font-family="Arial">BUDGET</text>
+        <!-- ═══ OPEN BOX loading scene ═══ -->
+        <g transform="translate(326, 28)" filter="url(#sh8)">
+          <ellipse cx="90" cy="190" rx="80" ry="8" fill="rgba(0,0,0,0.09)"/>
+          <!-- Big open box -->
+          <path d="M18,76 L18,182 L162,182 L162,76 Z" fill="url(#bxF2)"/>
+          <!-- Box top face -->
+          <path d="M18,76 L90,48 L162,76 L90,104 Z" fill="url(#bxT2)"/>
+          <!-- Box right side -->
+          <path d="M162,76 L162,182 L186,166 L186,60 Z" fill="url(#bxS2)"/>
+          <!-- Open flap left -->
+          <path d="M18,76 L18,42 L90,14 L90,48 Z" fill="#DDB060" opacity="0.85"/>
+          <!-- Open flap right -->
+          <path d="M162,76 L162,42 L90,14 L90,48 Z" fill="#C89040" opacity="0.9"/>
+          <!-- Tape stripe -->
+          <rect x="82" y="76" width="16" height="106" fill="rgba(255,210,120,0.35)"/>
+          <rect x="18" y="120" width="144" height="16" fill="rgba(255,210,120,0.28)"/>
+          <!-- Seam lines front -->
+          <line x1="18" y1="104" x2="162" y2="104" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+          <line x1="18" y1="136" x2="162" y2="136" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+          <line x1="18" y1="162" x2="162" y2="162" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+          <!-- Cardboard texture lines -->
+          <line x1="18" y1="89" x2="162" y2="89" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+          <!-- UP arrow inside box (loading) -->
+          <line x1="90" y1="162" x2="90" y2="120" stroke="#FF5900" stroke-width="4" stroke-linecap="round"/>
+          <polyline points="74,136 90,118 106,136" stroke="#FF5900" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+          <!-- "LOAD" text -->
+          <text x="90" y="178" text-anchor="middle" font-size="11" font-weight="700" fill="rgba(140,80,0,0.6)" font-family="Arial" letter-spacing="2">LOAD</text>
         </g>
 
       </svg>
@@ -1425,7 +1536,33 @@
     </div>
   </div>
 </div>
-
+<!-- Expected Budget Calculator -->
+  <div class="card" style="margin-top:20px;">
+    <div class="card-header" style="border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:0;">
+      <h2 style="font-size:15px;">🔮 حاسبة الميزانية المتوقعة</h2>
+      <span style="font-size:11px;color:var(--gray);">أدخل الكمية المتوقعة لكل صنف لحساب التكلفة بناءً على الأسعار المعتمدة</span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Product Group</th>
+            <th style="text-align:center">Unit Price (JOD)</th>
+            <th style="text-align:center">Expected Qty (الكمية)</th>
+            <th style="text-align:center">Expected Total (المجموع)</th>
+          </tr>
+        </thead>
+        <tbody id="budget-expected-body"></tbody>
+        <tfoot>
+          <tr style="background:#edf2f7;font-weight:800;">
+            <td colspan="2" style="padding:10px 12px;font-size:14px;">GRAND TOTAL EXPECTED</td>
+            <td id="budget-expected-foot-qty" style="text-align:center;padding:10px 12px;font-size:14px;">0</td>
+            <td id="budget-expected-foot-cost" style="text-align:center;padding:10px 12px;font-size:14px;color:var(--red);">0.000 JOD</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
 <!-- EMAIL MODAL -->
 <div id="email-modal" class="email-modal-overlay" style="display:none;">
   <div class="email-modal">
@@ -1461,7 +1598,52 @@
 </div>
 
 <div id="toast"></div>
+function renderExpectedBudget() {
+  const tbody = document.getElementById('budget-expected-body');
+  if (!tbody) return;
 
+  tbody.innerHTML = BUDGET_GROUPS.map((g, i) => {
+    const price = BUDGET_PRICES[g.key] || 0;
+    return `
+    <tr style="background:${i % 2 === 0 ? 'white' : '#f7fafc'};">
+      <td style="padding:9px 12px;font-weight:600;">${g.icon} ${g.label}</td>
+      <td id="exp-price-${g.key}" style="text-align:center;padding:9px 12px;">${price.toFixed(3)}</td>
+      <td style="text-align:center;padding:9px 12px;">
+        <input type="number" id="exp-qty-${g.key}" value="0" min="0" step="1"
+          style="width:90px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit;text-align:center;"
+          oninput="calcExpectedBudget()">
+      </td>
+      <td id="exp-total-${g.key}" style="text-align:center;padding:9px 12px;font-weight:700;color:var(--red);">0.000</td>
+    </tr>`;
+  }).join('');
+  calcExpectedBudget();
+}
+
+function calcExpectedBudget() {
+  let totalQty = 0;
+  let totalCost = 0;
+
+  BUDGET_GROUPS.forEach(g => {
+    const price = BUDGET_PRICES[g.key] || 0;
+    const priceTd = document.getElementById(`exp-price-${g.key}`);
+    if(priceTd) priceTd.textContent = price.toFixed(3);
+
+    const qtyInput = document.getElementById(`exp-qty-${g.key}`);
+    const qty = parseInt(qtyInput?.value) || 0;
+
+    const rowTotal = price * qty;
+    totalQty += qty;
+    totalCost += rowTotal;
+
+    const totalTd = document.getElementById(`exp-total-${g.key}`);
+    if (totalTd) totalTd.textContent = rowTotal.toFixed(3);
+  });
+
+  const footQty = document.getElementById('budget-expected-foot-qty');
+  const footCost = document.getElementById('budget-expected-foot-cost');
+  if(footQty) footQty.textContent = totalQty.toLocaleString();
+  if(footCost) footCost.textContent = totalCost.toFixed(3) + ' JOD';
+}
 <script>
 // ======== FIREBASE REST API (replaces WebSocket SDK) ========
 const FB_BASE = 'https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app';
@@ -3964,7 +4146,7 @@ function _refreshBudgetUI(){
   const ti=document.getElementById('budget-target-input');
   if(ti&&target>0&&!ti.value) ti.value=target;
 }
-
+renderExpectedBudget();
 function liveUpdateBudgetRow(key){
   const inp=document.getElementById(`bprice-${key}`);
   const inp3=document.getElementById(`bprice3pl-${key}`);
@@ -3978,7 +4160,7 @@ function liveUpdateBudgetRow(key){
   if(cell) cell.textContent=cost.toFixed(3);
   liveUpdateBudgetBar();
 }
-
+calcExpectedBudget();
 function liveUpdateBudgetBar(){
   const issMap=_buildIssuedMap();
   let total=0, totalQtyLive=0, live3pl=0;
