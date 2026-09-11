@@ -18,13 +18,20 @@
 
   /* ── Hero banner ── */
   .tlb-hero{background:linear-gradient(135deg,#fff8f4 0%,#fff 40%,#fff5f0 100%);border-bottom:1px solid #ffe0cc;position:relative;overflow:hidden;}
-  .tlb-hero-inner{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:160px;}
+  .tlb-hero-inner{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:186px;}
   .tlb-hero-left,.tlb-hero-right{flex-shrink:0;}
-  .tlb-hero-center{text-align:center;flex:1;padding:0 10px;}
-  .tlb-hero-brand{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px;}
+  .tlb-hero-center{text-align:center;flex:1;padding:0 8px;}
+  .tlb-hero-brand{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:0;}
   .tlb-hero-brand span{font-size:32px;font-weight:900;color:#FF5900;letter-spacing:-1px;font-family:'Segoe UI',Arial,sans-serif;}
-  .tlb-hero-title{font-size:15px;font-weight:600;color:#555;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:6px;}
-  .tlb-hero-sub{font-size:10px;color:#aaa;margin-top:6px;letter-spacing:.3px;}
+  .tlb-wordmark-wrap{position:relative;display:inline-block;line-height:1;margin:0 0 2px;}
+  .tlb-wordmark{font-size:82px;font-weight:900;letter-spacing:-4px;font-family:'Segoe UI',Arial,sans-serif;
+    color:#FF5900;display:block;line-height:1;
+    text-shadow:0 2px 0 #b83000,0 4px 14px rgba(255,89,0,0.28),0 10px 32px rgba(255,89,0,0.12);}
+  .tlb-wordmark-glass{position:absolute;inset:0;border-radius:10px;
+    background:linear-gradient(170deg,rgba(255,255,255,0.62) 0%,rgba(255,255,255,0.18) 42%,rgba(255,255,255,0) 55%);
+    pointer-events:none;}
+  .tlb-hero-title{font-size:13px;font-weight:600;color:#666;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px;}
+  .tlb-hero-sub{font-size:10px;color:#bbb;margin-top:4px;letter-spacing:.3px;}
   .badge-header{background:rgba(255,255,255,.18);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;}
 
   /* ── Sidebar layout ── */
@@ -437,7 +444,7 @@
           <rect x="12" y="13" width="8" height="9" rx="1.5" fill="white"/>
         </svg>
       </div>
-      <div class="tlb-wordmark">talabat</div>
+      <div class="tlb-wordmark-wrap"><span class="tlb-wordmark">talabat</span><div class="tlb-wordmark-glass"></div></div>
       <div class="tlb-hero-title">
         <svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex-shrink:0"><rect x="2" y="5" width="16" height="12" rx="2" fill="#888"/><rect x="6" y="2" width="8" height="5" rx="1" fill="#aaa"/><rect x="8" y="8" width="4" height="5" rx="0.5" fill="white"/></svg>
         Inventory Monitor
