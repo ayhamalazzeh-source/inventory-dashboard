@@ -553,8 +553,9 @@
   <div class="sidebar-section">Reports</div>
   <div class="tab" onclick="show('archive')"><span>🗂️</span> Archive</div>
   <div class="tab" onclick="show('budget')"><span>💰</span> Budget</div>
-  <div class="nav-item" onclick="showPage('fleet')">
+  <div class="nav-item" onclick="document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); let p = document.getElementById('page-fleet'); if(p) p.style.display = 'block'; syncFleetFromFirebase();">
   <span>🏍️</span> Fleet (المناديب)
+</div>
 </div>
 </aside>
 <div class="main-content">
@@ -4367,12 +4368,75 @@ setTimeout(() => {
     if(mainInp && expInp) { expInp.value = mainInp.value; }
     window.calcExpectedBudget();
   };
+<script>
+// إنشاء صفحة Fleet تلقائياً إذا لم تكن موجودة
+(function setupFleetPage() {
+  const main = document.querySelector('.main-content') || document.querySelector('main') || document.body;
+  if (!document.getElementById('page-fleet')) {
+    const page = document.createElement('div');
+    page.id = 'page-fleet';
+    page.className = 'page';
+    page.style.display = 'none';
+    page.innerHTML = `
+      <div style="padding:20px; background:white; margin:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+          <h2 style="margin:0; color:#2d3748;">🏍️ سجل عهد المناديب (Fleet Audit Log)</h2>
+          <button onclick="syncFleetFromFirebase()" style="background:#e67e22; color:white; border:none; padding:10px 15px; border-radius:8px; font-weight:bold; cursor:pointer;">🔄 مزامنة Firebase</button>
+        </div>
+        <input type="text" id="fleet-search" placeholder="🔍 ابحث برقم المندوب..." oninput="renderFleetTable()" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; margin-bottom:15px;">
+        <table style="width:100%; border-collapse:collapse; text-align:right;">
+          <thead>
+            <tr style="background:#f8f9fa; border-bottom:2px solid #eee;">
+              <th style="padding:10px;">التاريخ</th>
+              <th style="padding:10px;">رقم المندوب</th>
+              <th style="padding:10px;">اسم المندوب</th>
+              <th style="padding:10px;">الفرع</th>
+              <th style="padding:10px;">القطعة</th>
+              <th style="padding:10px; text-align:center;">الكمية</th>
+              <th style="padding:10px; text-align:center;">الحالة</th>
+            </tr>
+          </thead>
+          <tbody id="fleet-table-body"></tbody>
+        </table>
+      </div>
+    `;
+    main.appendChild(page);
+  }
+})();
 
-  setTimeout(window.renderExpectedBudget, 500);
-}, 1000);
+function syncFleetFromFirebase() {
+  fetch("https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/inv2026/fleet.json")
+    .then(r => r.json())
+    .then(data => {
+      if (data) {
+        window.FLEET_DATA = Object.values(data).flatMap(e => Array.isArray(e) ? e : [e]);
+        localStorage.setItem('inv2026_fleet', JSON.stringify(window.FLEET_DATA));
+        renderFleetTable();
+      }
+    });
+}
+
+function renderFleetTable() {
+  const tbody = document.getElementById('fleet-table-body');
+  if (!tbody) return;
+  const q = (document.getElementById('fleet-search')?.value || '').toLowerCase();
+  let list = window.FLEET_DATA || JSON.parse(localStorage.getItem('inv2026_fleet') || '[]');
+  if (q) list = list.filter(r => (r.riderId && r.riderId.toString().toLowerCase().includes(q)) || (r.riderName && r.riderName.toLowerCase().includes(q)));
+
+  tbody.innerHTML = list.length ? list.slice(0, 200).map(r => `
+    <tr style="border-bottom:1px solid #eee; ${r.isReturned ? 'background:#fff5f5;' : ''}">
+      <td style="padding:10px;">${r.date || '—'}</td>
+      <td style="padding:10px; font-weight:bold; color:#2b6cb0;">${r.riderId}</td>
+      <td style="padding:10px;">${r.riderName || '—'}</td>
+      <td style="padding:10px;">${(r.branch || 'AMMAN').toUpperCase()}</td>
+      <td style="padding:10px;">${r.itemName || r.sku}</td>
+      <td style="padding:10px; text-align:center; font-weight:bold; color:#e53e3e;">${r.qty}</td>
+      <td style="padding:10px; text-align:center;">
+        ${r.isReturned ? '<span style="color:#c53030; font-weight:bold;">مرتجع / توالف</span>' : '<span style="color:#2f855a; font-weight:bold;">قائمة بعهدته</span>'}
+      </td>
+    </tr>
+  `).join('') : '<tr><td colspan="7" style="padding:20px; text-align:center;">لا توجد سجلات حالياً</td></tr>';
+}
 </script>
-  <div class="nav-item" onclick="showPage('fleet')">
-  <span>🏍️</span> Fleet (المناديب)
-</div>
 </body>
 </html>
