@@ -552,41 +552,10 @@
   <div class="tab" onclick="show('sheetdata')"><span>📋</span> Issuances</div>
   <div class="sidebar-section">Reports</div>
   <div class="tab" onclick="show('archive')"><span>🗂️</span> Archive</div>
- <div class="tab" onclick="show('fleet'); loadFleetFirebaseData();"><span>🏍️</span> Fleet (المناديب)</div>
-<div class="tab" id="tab-fleet" onclick="openFleetModule()"><span>🏍️</span> Fleet (المناديب)</div>
+  <div class="tab" onclick="show('budget')"><span>💰</span> Budget</div>
 </aside>
 <div class="main-content">
-<!-- صفحة المناديب (Fleet Page) -->
-<div id="page-fleet" class="page">
-  <div style="background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
-    <div>
-      <h2 style="margin:0; color:#2d3748; font-size:20px;">🏍️ سجل عهد المناديب (Fleet Audit Log)</h2>
-      <p style="margin:4px 0 0; color:#718096; font-size:13px;">مزامنة مباشرة لتقارير عهد السائقين من سحابة Firebase</p>
-    </div>
-    <button onclick="loadFleetFirebaseData()" style="background:#e67e22; color:white; border:none; padding:10px 18px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:13px;">🔄 تحديث البيانات</button>
-  </div>
 
-  <div style="background:white; padding:15px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:15px;">
-    <input type="text" id="fleet-search-input" placeholder="🔍 ابحث برقم المندوب أو الاسم..." oninput="renderFleetRows()" style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:8px; outline:none; font-size:14px;">
-  </div>
-
-  <div style="background:white; border-radius:12px; padding:15px; box-shadow:0 2px 8px rgba(0,0,0,0.05); overflow-x:auto;">
-    <table style="width:100%; border-collapse:collapse; text-align:right; font-size:13px;">
-      <thead>
-        <tr style="border-bottom:2px solid #e2e8f0; color:#4a5568; background:#edf2f7;">
-          <th style="padding:10px;">التاريخ</th>
-          <th style="padding:10px;">رقم المندوب</th>
-          <th style="padding:10px;">اسم المندوب</th>
-          <th style="padding:10px;">الفرع</th>
-          <th style="padding:10px;">القطعة</th>
-          <th style="padding:10px; text-align:center;">الكمية</th>
-          <th style="padding:10px; text-align:center;">الحالة</th>
-        </tr>
-      </thead>
-      <tbody id="fleet-table-rows"></tbody>
-    </table>
-  </div>
-</div>
 <!-- OVERVIEW -->
 <div id="page-overview" class="page active">
   <div class="page-hero" style="--hc:#e63946">
@@ -4398,62 +4367,6 @@ setTimeout(() => {
 
   setTimeout(window.renderExpectedBudget, 500);
 }, 1000);
-function loadFleetFirebaseData() {
-  const tbody = document.getElementById('fleet-table-rows');
-  if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="padding:20px; text-align:center; color:#e67e22; font-weight:bold;">⏳ جاري جلب البيانات من السحابة...</td></tr>';
-
-  fetch("https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/inv2026/fleet.json")
-    .then(res => res.json())
-    .then(data => {
-      if (!data) {
-        if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="padding:20px; text-align:center; color:#a0aec0;">لا توجد بيانات مسجلة في السحابة حالياً</td></tr>';
-        return;
-      }
-      let items = Array.isArray(data) ? data : Object.values(data);
-      window.FLEET_CACHE = items.flatMap(entry => Array.isArray(entry) ? entry : [entry]);
-      renderFleetRows();
-    })
-    .catch(err => {
-      console.error("Firebase Fetch Error:", err);
-      if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="padding:20px; text-align:center; color:#c53030; font-weight:bold;">⚠️ تعذر الاتصال بالسحابة</td></tr>';
-    });
-}
-
-function renderFleetRows() {
-  const tbody = document.getElementById('fleet-table-rows');
-  if (!tbody) return;
-  const searchVal = (document.getElementById('fleet-search-input')?.value || '').toLowerCase();
-  let records = window.FLEET_CACHE || [];
-
-  if (searchVal) {
-    records = records.filter(r => {
-      const id = (r.riderId || r.rider_id || r.id || '').toString().toLowerCase();
-      const name = (r.riderName || r.rider_name || r.name || '').toLowerCase();
-      return id.includes(searchVal) || name.includes(searchVal);
-    });
-  }
-
-  if (!records.length) {
-    tbody.innerHTML = '<tr><td colspan="7" style="padding:20px; text-align:center; color:#a0aec0;">لا توجد سجلات مطابقة للبحث</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = records.slice(0, 200).map(r => `
-    <tr style="border-bottom:1px solid #edf2f7; ${(r.isReturned || r.returned || r.status === 'returned') ? 'background:#fff5f5;' : ''}">
-      <td style="padding:10px;">${r.date || r.created_at || '—'}</td>
-      <td style="padding:10px; font-weight:bold; color:#2b6cb0;">${r.riderId || r.rider_id || r.id || '—'}</td>
-      <td style="padding:10px;">${r.riderName || r.rider_name || r.name || '—'}</td>
-      <td style="padding:10px;"><span style="background:#edf2f7; padding:2px 8px; border-radius:4px; font-weight:bold; font-size:11px;">${(r.branch || r.hub || 'AMMAN').toUpperCase()}</span></td>
-      <td style="padding:10px;">${r.itemName || r.item_name || r.sku || r.item || '—'}</td>
-      <td style="padding:10px; text-align:center; font-weight:bold; color:#e53e3e;">${r.qty || r.quantity || r.count || 1}</td>
-      <td style="padding:10px; text-align:center;">
-        ${(r.isReturned || r.returned || r.status === 'returned')
-          ? '<span style="background:#fed7d7; color:#9b2c2c; padding:3px 8px; border-radius:12px; font-weight:bold; font-size:11px;">مرتجع / توالف</span>'
-          : '<span style="color:#2f855a; font-weight:bold;">قائمة بعهدته</span>'}
-      </td>
-    </tr>
-  `).join('');
-}
 </script>
 </body>
 </html>
