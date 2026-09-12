@@ -553,7 +553,7 @@
   <div class="sidebar-section">Reports</div>
   <div class="tab" onclick="show('archive')"><span>🗂️</span> Archive</div>
   <div class="tab" onclick="show('budget')"><span>💰</span> Budget</div>
-<div class="tab" onclick="show('fleet'); openFleetPageDirectly();"><span>🏍️</span> Fleet (المناديب)</div>
+<div class="tab" onclick="openFleetPageDirectly()"><span>🏍️</span> Fleet (المناديب)</div>
 </aside>
 <div class="main-content">
 
@@ -4368,14 +4368,27 @@ setTimeout(() => {
 
   setTimeout(window.renderExpectedBudget, 500);
 }, 1000);
-  <script>
 function openFleetPageDirectly() {
+  // 1. إزالة التفعيل عن باقي تبويبات القائمة الجانبية
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+  // 2. إخفاء جميع الصفحات الموجودة حالياً
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+
+  // 3. تفعيل زر Fleet في القائمة
+  const fleetBtn = document.querySelector('.tab[onclick*="openFleetPageDirectly"]');
+  if (fleetBtn) fleetBtn.classList.add('active');
+
+  // 4. إنشاء صفحة Fleet وإضافتها للشاشة إذا لم تكن موجودة
   let fleetPage = document.getElementById('page-fleet');
   if (!fleetPage) {
     fleetPage = document.createElement('div');
     fleetPage.id = 'page-fleet';
-    fleetPage.className = 'page';
-    fleetPage.style.cssText = 'padding:20px; background:#f8fafc; min-height:80vh; width:100%; box-sizing:border-box;';
+    fleetPage.className = 'page active';
+    fleetPage.style.cssText = 'padding:20px; background:#f8fafc; min-height:80vh; width:100%; box-sizing:border-box; display:block;';
     fleetPage.innerHTML = `
       <div style="background:white; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
         <div>
@@ -4408,55 +4421,12 @@ function openFleetPageDirectly() {
     `;
     const mainArea = document.querySelector('.main-content') || document.body;
     mainArea.appendChild(fleetPage);
+  } else {
+    fleetPage.classList.add('active');
+    fleetPage.style.display = 'block';
   }
-
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-  fleetPage.classList.add('active');
-  fleetPage.style.display = 'block';
 
   fetchFleetDataFromFirebase();
-}
-
-function fetchFleetDataFromFirebase() {
-  fetch("https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/inv2026/fleet.json")
-    .then(res => res.json())
-    .then(data => {
-      if (data) {
-        window.FLEET_STORE = Object.values(data).flatMap(entry => Array.isArray(entry) ? entry : [entry]);
-        drawFleetRecordsTable();
-      }
-    });
-}
-
-function drawFleetRecordsTable() {
-  const tbody = document.getElementById('fleet-table-rows');
-  if (!tbody) return;
-  const searchVal = (document.getElementById('fleet-search-input')?.value || '').toLowerCase();
-  let records = window.FLEET_STORE || [];
-  
-  if (searchVal) {
-    records = records.filter(r => 
-      (r.riderId && r.riderId.toString().toLowerCase().includes(searchVal)) || 
-      (r.riderName && r.riderName.toLowerCase().includes(searchVal))
-    );
-  }
-
-  tbody.innerHTML = records.length ? records.slice(0, 200).map(r => `
-    <tr style="border-bottom:1px solid #edf2f7; ${r.isReturned ? 'background:#fff5f5;' : ''}">
-      <td style="padding:10px;">${r.date || '—'}</td>
-      <td style="padding:10px; font-weight:bold; color:#2b6cb0;">${r.riderId}</td>
-      <td style="padding:10px;">${r.riderName || '—'}</td>
-      <td style="padding:10px;"><span style="background:#edf2f7; padding:2px 8px; border-radius:4px; font-weight:bold; font-size:11px;">${(r.branch || 'AMMAN').toUpperCase()}</span></td>
-      <td style="padding:10px;">${r.itemName || r.sku}</td>
-      <td style="padding:10px; text-align:center; font-weight:bold; color:#e53e3e;">${r.qty}</td>
-      <td style="padding:10px; text-align:center;">
-        ${r.isReturned 
-          ? '<span style="background:#fed7d7; color:#9b2c2c; padding:3px 8px; border-radius:12px; font-weight:bold; font-size:11px;">مرتجع / توالف</span>' 
-          : '<span style="color:#2f855a; font-weight:bold;">قائمة بعهدته</span>'}
-      </td>
-    </tr>
-  `).join('') : '<tr><td colspan="7" style="padding:20px; text-align:center; color:#a0aec0;">لا توجد سجلات حالياً في Firebase</td></tr>';
 }
 </script>
 </body>
