@@ -3776,21 +3776,38 @@ function refreshAllData(){
     db.ref('inv2026/inbound').once('value'),
     db.ref('inv2026/issuance').once('value'),
     db.ref('inv2026/cancelledOrders').once('value'),
-  ]).then(([sheetSnap, stockSnap, histSnap, inbSnap, issSnap, cxlSnap])=>{
+    db.ref('naouri_ledger').once('value'),
+  ]).then(([sheetSnap, stockSnap, histSnap, inbSnap, issSnap, cxlSnap, naouriSnap])=>{
     // sheetRows
     const sr=sheetSnap.val();
     if(sr&&Array.isArray(sr)&&sr.length>2){
       SHEET_ROWS=sr;
       try{localStorage.setItem('sheetRows',JSON.stringify(sr));}catch(e){}
     }
-    // stock — load from Firebase then override Naouri column from ledger data
+    // stock — load from Firebase
     const st=stockSnap.val();
     if(st) { STOCK=st; }
-    // Always sync Naouri values from NAOURI_DATA (source of truth)
-    (NAOURI_DATA||[]).forEach(item=>{
-      if(!STOCK[item.sku]) STOCK[item.sku]={naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
-      STOCK[item.sku].naouri = item.balance;
-    });
+    // Override Naouri column from live naouri_ledger (source of truth)
+    let naouriLedger = naouriSnap ? naouriSnap.val() : null;
+    if(naouriLedger){
+      const ledgerArr = Array.isArray(naouriLedger)
+        ? naouriLedger
+        : Object.values(naouriLedger).filter(x=>x&&x.sku);
+      if(ledgerArr.length){
+        _ldgData = ledgerArr; // also set global for outbound/inbound tabs
+        ledgerArr.forEach(item=>{
+          if(!STOCK[item.sku]) STOCK[item.sku]={naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
+          STOCK[item.sku].naouri = item.balance;
+        });
+        console.log('Naouri stock synced from ledger:', ledgerArr.length, 'items');
+      }
+    } else {
+      // Fallback to static NAOURI_DATA
+      (NAOURI_DATA||[]).forEach(item=>{
+        if(!STOCK[item.sku]) STOCK[item.sku]={naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
+        STOCK[item.sku].naouri = item.balance;
+      });
+    }
     try{localStorage.setItem('inv2026_stock',JSON.stringify(STOCK));}catch(e){}
     // history
     const h=histSnap.val();
