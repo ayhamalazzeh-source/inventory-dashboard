@@ -3016,12 +3016,17 @@ var _ldgData = null;
 function loadNaouriData(cb){
   fetch('https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/naouri_ledger.json')
     .then(r=>r.json())
-    .then(data=>{ 
-      if(Array.isArray(data)) _ldgData=data;
-      else if(data && typeof data==='object') _ldgData=Object.values(data).filter(x=>x&&x.sku);
-      if(cb) cb(); 
+    .then(data=>{
+      console.log('Firebase naouri_ledger type:', Array.isArray(data)?'array':'object', typeof data);
+      if(Array.isArray(data) && data.length) _ldgData=data;
+      else if(data && typeof data==='object'){
+        const vals = Object.values(data).filter(x=>x&&x.sku);
+        if(vals.length) _ldgData=vals;
+      }
+      console.log('_ldgData set to length:', _ldgData?_ldgData.length:'null (using static)');
+      if(cb) cb();
     })
-    .catch(()=>{ if(cb) cb(); }); // fallback to static NAOURI_DATA
+    .catch(e=>{ console.error('loadNaouriData error:', e); if(cb) cb(); });
 }
 
 function loadLedgerFromFirebase(){
@@ -3230,6 +3235,7 @@ function clearInbHistory(){
 
 // ── Build orders from NAOURI_DATA ─────────────────────────────────────────
 function _destLabel(label){
+  if(!label) return {key:'other', name:'Unknown'};
   const l = label.toLowerCase();
   if(l.startsWith('amman'))   return {key:'amman',  name:'Amman'};
   if(l.startsWith('irbid'))   return {key:'irbid',  name:'Irbid'};
@@ -3251,46 +3257,54 @@ function _destLabel(label){
 function _isBranchKey(k){ return ['amman','irbid','zarqa','aqaba'].includes(k); }
 
 function buildOutboundOrders(){
-  const src = _ldgData || NAOURI_DATA;
-  if(!src || !src.length) return [];
-  const map = new Map();
-  src.forEach(item => {
-    item.transactions.filter(t=>t.type==='outbound').forEach(t=>{
-      const key = (t.month||'') + '||' + (t.label||'');
-      if(!map.has(key)) map.set(key, {
-        key, month: t.month||'', label: t.label||'',
-        dest: _destLabel(t.label||''),
-        items: []
+  try{
+    const src = _ldgData || NAOURI_DATA;
+    if(!src || !src.length){ console.warn('buildOutboundOrders: no source data'); return []; }
+    console.log('buildOutboundOrders: src length =', src.length);
+    const map = new Map();
+    src.forEach(item => {
+      if(!item || !Array.isArray(item.transactions)) return;
+      item.transactions.filter(t=>t && t.type==='outbound').forEach(t=>{
+        const key = (t.month||'') + '||' + (t.label||'');
+        if(!map.has(key)) map.set(key, {
+          key, month: t.month||'', label: t.label||'',
+          dest: _destLabel(t.label||''),
+          items: []
+        });
+        map.get(key).items.push({sku: item.sku||'', name: item.name||'', qty: Math.abs(t.qty||0)});
       });
-      map.get(key).items.push({sku: item.sku, name: item.name, qty: Math.abs(t.qty)});
     });
-  });
-  // Sort by month order
-  const monthOrder = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct','Nov','Dec'];
-  return [...map.values()].sort((a,b)=>{
-    const ma = monthOrder.indexOf(a.month), mb = monthOrder.indexOf(b.month);
-    return ma - mb || a.label.localeCompare(b.label);
-  });
+    const monthOrder = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct','Nov','Dec'];
+    const result = [...map.values()].sort((a,b)=>{
+      const ma = monthOrder.indexOf(a.month), mb = monthOrder.indexOf(b.month);
+      return ma - mb || a.label.localeCompare(b.label);
+    });
+    console.log('buildOutboundOrders: groups =', result.length);
+    return result;
+  }catch(e){ console.error('buildOutboundOrders error:', e); return []; }
 }
 
 function buildInboundShipments(){
-  const src = _ldgData || NAOURI_DATA;
-  if(!src) return [];
-  const map = new Map();
-  src.forEach(item => {
-    item.transactions.filter(t=>t.type==='inbound').forEach(t=>{
-      const key = (t.month||'') + '||' + (t.label||'');
-      if(!map.has(key)) map.set(key, {
-        key, month: t.month||'', label: t.label||'', items:[]
+  try{
+    const src = _ldgData || NAOURI_DATA;
+    if(!src || !src.length) return [];
+    const map = new Map();
+    src.forEach(item => {
+      if(!item || !Array.isArray(item.transactions)) return;
+      item.transactions.filter(t=>t && t.type==='inbound').forEach(t=>{
+        const key = (t.month||'') + '||' + (t.label||'');
+        if(!map.has(key)) map.set(key, {
+          key, month: t.month||'', label: t.label||'', items:[]
+        });
+        map.get(key).items.push({sku: item.sku||'', name: item.name||'', qty: t.qty||0});
       });
-      map.get(key).items.push({sku: item.sku, name: item.name, qty: t.qty});
     });
-  });
-  const monthOrder = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct','Nov','Dec'];
-  return [...map.values()].sort((a,b)=>{
-    const ma = monthOrder.indexOf(a.month), mb = monthOrder.indexOf(b.month);
-    return ma - mb || a.label.localeCompare(b.label);
-  });
+    const monthOrder = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct','Nov','Dec'];
+    return [...map.values()].sort((a,b)=>{
+      const ma = monthOrder.indexOf(a.month), mb = monthOrder.indexOf(b.month);
+      return ma - mb || a.label.localeCompare(b.label);
+    });
+  }catch(e){ console.error('buildInboundShipments error:', e); return []; }
 }
 
 // ======== OUTBOUND ========
