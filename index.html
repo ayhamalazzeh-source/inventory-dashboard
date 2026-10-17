@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inventory Monitor 2026</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js">
+const NAOURI_DATA=[{"sku":"DB-2024-001","name":"Thermal Bag","opening":184,"inbound":458,"outbound":52,"balance":590,"transactions":[{"label":"Inbound 12.1.2026","month":"Jan","qty":208,"type":"inbound"},{"label":"Amman 12.1.2026","month":"Jan","qty":-16,"type":"outbound"},{"label":"Inbound 24.05","month":"May","qty":250,"type":"inbound"},{"label":"Amman 15.6 ","month":"June","qty":-6,"type":"outbound"},{"label":"Amman 15.7","month":"July","qty":-10,"type":"outbound"},{"label":"Amman 19.08","month":"Aug","qty":-10,"type":"outbound"},{"label":"Amman 16.09","month":"Sep","qty":-10,"type":"outbound"}]},{"sku":"DB-2024-002","name":"Backpack Bag","opening":13306,"inbound":17840,"outbound":20640,"balance":10506,"transactions":[{"label":"Irbid 5.1.2026","month":"Jan","qty":-100,"type":"outbound"},{"label":"Diken","month":"Jan","qty":-150,"type":"outbound"},{"label":"Me","month":"Jan","qty":-150,"type":"outbound"},{"label":"RR","month":"Jan","qty":-100,"type":"outbound"},{"label":"KG","month":"Jan","qty":-150,"type":"outbound"},{"label":"Inbound 12.1.2026","month":"Jan","qty":155,"type":"inbound"},{"label":"Zarqa","month":"Jan","qty":-20,"type":"outbound"},{"label":"Thunder","month":"Jan","qty":-250,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-150,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-50,"type":"outbound"},{"label":"Tawasol","month":"Jan","qty":-50,"type":"outbound"},{"label":"ME 15.1","month":"Jan","qty":-100,"type":"outbound"},{"label":"DK","month":"Jan","qty":-150,"type":"outbound"},{"label":"ME","month":"Jan","qty":-200,"type":"outbound"},{"label":"TG","month":"Jan","qty":-120,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-200,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-400,"type":"outbound"},{"label":"ME","month":"Feb","qty":-150,"type":"outbound"},{"label":"KG","month":"Feb","qty":-200,"type":"outbound"},{"label":"DK","month":"Feb","qty":-300,"type":"outbound"},{"label":"TW","month":"Feb","qty":-70,"type":"outbound"},{"label":"Inbound 04.02","month":"Feb","qty":6645,"type":"inbound"},{"label":"Spex","month":"Feb","qty":-150,"type":"outbound"},{"label":"RR","month":"Feb","qty":-150,"type":"outbound"},{"label":"Amman","month":"Feb","qty":-400,"type":"outbound"},{"label":"Aqaba","month":"Feb","qty":-100,"type":"outbound"},{"label":"Amman 16.02","month":"Feb","qty":-450,"type":"outbound"},{"label":"Inbound 18.02","month":"Feb","qty":80,"type":"inbound"},{"label":"DK","month":"Feb","qty":-150,"type":"outbound"},{"label":"TW","month":"Feb","qty":-100,"type":"outbound"},{"label":"Inbound 01.03","month":"Feb","qty":790,"type":"inbound"},{"label":"Zarqa","month":"Mar","qty":-100,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-400,"type":"outbound"},{"label":"Zarqa","month":"Mar","qty":-100,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-400,"type":"outbound"},{"label":"Irbid","month":"Mar","qty":-50,"type":"outbound"},{"label":"Fakher","month":"April","qty":-50,"type":"outbound"},{"label":"DK16.03","month":"April","qty":-30,"type":"outbound"},{"label":"DK","month":"April","qty":-220,"type":"outbound"},{"label":"KG","month":"April","qty":-50,"type":"outbound"},{"label":"ME","month":"April","qty":-50,"type":"outbound"},{"label":"SP ","month":"April","qty":-50,"type":"outbound"},{"label":"DK 05.04","month":"April","qty":-100,"type":"outbound"},{"label":"TG 05.04","month":"April","qty":-100,"type":"outbound"},{"label":"Amman 05.04","month":"April","qty":-450,"type":"outbound"},{"label":"zarqa 08.04","month":"April","qty":-150,"type":"outbound"},{"label":"Me 07.04","month":"April","qty":-250,"type":"outbound"},{"label":"Sp 07.04","month":"April","qty":-100,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-150,"type":"outbound"},{"label":"DK 15.04","month":"April","qty":-200,"type":"outbound"},{"label":"TG 15.04","month":"April","qty":-100,"type":"outbound"},{"label":"TW 15.04","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 19.04","month":"April","qty":-800,"type":"outbound"},{"label":"KG 22.04","month":"April","qty":-150,"type":"outbound"},{"label":"Zarqa 28.04","month":"May","qty":-150,"type":"outbound"},{"label":"DK 26.04","month":"May","qty":-100,"type":"outbound"},{"label":"TG 04.05","month":"May","qty":-200,"type":"outbound"},{"label":"FK 04.05","month":"May","qty":-130,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-120,"type":"outbound"},{"label":"Tawasol 12.05","month":"May","qty":-100,"type":"outbound"},{"label":"Dk 12.05","month":"May","qty":-200,"type":"outbound"},{"label":"Aqaba 17.05","month":"May","qty":-50,"type":"outbound"},{"label":"SP 19.05","month":"May","qty":-100,"type":"outbound"},{"label":"Zarqa 21.05","month":"May","qty":-150,"type":"outbound"},{"label":"Inbound 24.05","month":"May","qty":4270,"type":"inbound"},{"label":"KG 24.05","month":"May","qty":-150,"type":"outbound"},{"label":"DK 24.05","month":"May","qty":-150,"type":"outbound"},{"label":"Me 24.05","month":"May","qty":-150,"type":"outbound"},{"label":"Amman 31.05","month":"May","qty":-800,"type":"outbound"},{"label":"Irbid 02.06","month":"June","qty":-150,"type":"outbound"},{"label":"RR 07.06","month":"June","qty":-30,"type":"outbound"},{"label":"Aqaba 09.06","month":"June","qty":-100,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-600,"type":"outbound"},{"label":"DKS 17.6","month":"June","qty":-100,"type":"outbound"},{"label":"TW 17.6","month":"June","qty":-50,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-300,"type":"outbound"},{"label":"DK 22.6","month":"June","qty":-300,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-250,"type":"outbound"},{"label":"ME Batch 1 22.6","month":"June","qty":-200,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-600,"type":"outbound"},{"label":"SP 22.6","month":"June","qty":-100,"type":"outbound"},{"label":"Amman 1.7","month":"July","qty":-350,"type":"outbound"},{"label":"Amman 15.7","month":"July","qty":-500,"type":"outbound"},{"label":"TW 23.7","month":"July","qty":-100,"type":"outbound"},{"label":"Amman 23.7","month":"July","qty":-600,"type":"outbound"},{"label":"TG 28.7","month":"July","qty":-150,"type":"outbound"},{"label":"FKH 28.7","month":"July","qty":-100,"type":"outbound"},{"label":"DK 28.7","month":"July","qty":-300,"type":"outbound"},{"label":"TW 28.7","month":"July","qty":-150,"type":"outbound"},{"label":"SP 28.7","month":"July","qty":-150,"type":"outbound"},{"label":"RR 28.7 ","month":"July","qty":-150,"type":"outbound"},{"label":"ME 28.7","month":"July","qty":-150,"type":"outbound"},{"label":"KG 28.7","month":"July","qty":-150,"type":"outbound"},{"label":"Irbid 02.08","month":"Aug","qty":-200,"type":"outbound"},{"label":"Zarqa 03.08","month":"Aug","qty":-100,"type":"outbound"},{"label":"Amman 03.08","month":"Aug","qty":-250,"type":"outbound"},{"label":"Amman 11.08","month":"Aug","qty":-300,"type":"outbound"},{"label":"Amman 19.08","month":"Aug","qty":-200,"type":"outbound"},{"label":"Aqaba 24.08 ","month":"Aug","qty":-100,"type":"outbound"},{"label":"Amman 26.08","month":"Aug","qty":-250,"type":"outbound"},{"label":"Amman 01.09","month":"Sep","qty":-250,"type":"outbound"},{"label":"Inbound 07.09","month":"Sep","qty":5900,"type":"inbound"},{"label":"Amman 16.09","month":"Sep","qty":-800,"type":"outbound"},{"label":"Irbid 20.09","month":"Sep","qty":-50,"type":"outbound"},{"label":"DK  24.9","month":"Sep","qty":-200,"type":"outbound"},{"label":"TG 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"SP 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"RR 24.9","month":"Sep","qty":-100,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-200,"type":"outbound"}]},{"sku":"CC-2024-001","name":"Cotton Caps","opening":600,"inbound":0,"outbound":200,"balance":400,"transactions":[{"label":"Irbid 02.06","month":"June","qty":-200,"type":"outbound"}]},{"sku":"DVH-2024-003","name":"Double Visor Helmet L","opening":752,"inbound":714,"outbound":702,"balance":764,"transactions":[{"label":"DK","month":"Jan","qty":-12,"type":"outbound"},{"label":"ME","month":"Jan","qty":-6,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-6,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-12,"type":"outbound"},{"label":"KG","month":"Feb","qty":-12,"type":"outbound"},{"label":"RR","month":"Feb","qty":-12,"type":"outbound"},{"label":"Amman","month":"Feb","qty":-6,"type":"outbound"},{"label":"Aqaba","month":"Feb","qty":-6,"type":"outbound"},{"label":"Inbound 18.02","month":"Feb","qty":405,"type":"inbound"},{"label":"DK","month":"Feb","qty":-6,"type":"outbound"},{"label":"TW","month":"Feb","qty":-6,"type":"outbound"},{"label":"Zarqa","month":"Mar","qty":-6,"type":"outbound"},{"label":"Zarqa","month":"Mar","qty":-6,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-12,"type":"outbound"},{"label":"TG","month":"April","qty":-6,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-12,"type":"outbound"},{"label":"TG 15.04","month":"April","qty":-6,"type":"outbound"},{"label":"Amman 19.04","month":"April","qty":-12,"type":"outbound"},{"label":"Zarqa 28.04","month":"May","qty":-6,"type":"outbound"},{"label":"TG 04.05","month":"May","qty":-6,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-6,"type":"outbound"},{"label":"Aqaba 17.05","month":"May","qty":-6,"type":"outbound"},{"label":"KG 24.05","month":"May","qty":-12,"type":"outbound"},{"label":"Me 24.05","month":"May","qty":-12,"type":"outbound"},{"label":"Amman 31.05","month":"May","qty":-24,"type":"outbound"},{"label":"Irbid 02.06","month":"June","qty":-12,"type":"outbound"},{"label":"Aqaba 09.06","month":"June","qty":-6,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-12,"type":"outbound"},{"label":"DK 20.06 *","month":"June","qty":-30,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-12,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-12,"type":"outbound"},{"label":"ME Batch 1 22.6","month":"June","qty":-12,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-12,"type":"outbound"},{"label":"Amman 1.7","month":"July","qty":-12,"type":"outbound"},{"label":"Amman 15.7","month":"July","qty":-24,"type":"outbound"},{"label":"Amman 23.7","month":"July","qty":-24,"type":"outbound"},{"label":"Inbound 26.7","month":"July","qty":309,"type":"inbound"},{"label":"FKH 28.7","month":"July","qty":-6,"type":"outbound"},{"label":"DK 28.7","month":"July","qty":-24,"type":"outbound"},{"label":"TW 28.7","month":"July","qty":-12,"type":"outbound"},{"label":"RR 28.7 ","month":"July","qty":-24,"type":"outbound"},{"label":"Irbid 02.08","month":"Aug","qty":-18,"type":"outbound"},{"label":"Zarqa 03.08","month":"Aug","qty":-6,"type":"outbound"},{"label":"Amman 11.08","month":"Aug","qty":-18,"type":"outbound"},{"label":"Amman 19.08","month":"Aug","qty":-18,"type":"outbound"},{"label":"Aqaba 24.08 ","month":"Aug","qty":-6,"type":"outbound"},{"label":"DK 24.08","month":"Aug","qty":-24,"type":"outbound"},{"label":"Amman 26.08","month":"Aug","qty":-120,"type":"outbound"},{"label":"Irbid 20.09","month":"Sep","qty":-12,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-6,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-12,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-12,"type":"outbound"}]},{"sku":"DVH-2024-004","name":"Double Visor Helmet XL","opening":712,"inbound":714,"outbound":696,"balance":730,"transactions":[{"label":"Amman 12.1.2026","month":"Jan","qty":-12,"type":"outbound"},{"label":"DK","month":"Jan","qty":-12,"type":"outbound"},{"label":"ME","month":"Jan","qty":-6,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-12,"type":"outbound"},{"label":"KG","month":"Feb","qty":-12,"type":"outbound"},{"label":"RR","month":"Feb","qty":-12,"type":"outbound"},{"label":"Amman","month":"Feb","qty":-6,"type":"outbound"},{"label":"Aqaba","month":"Feb","qty":-6,"type":"outbound"},{"label":"Inbound 18.02","month":"Feb","qty":405,"type":"inbound"},{"label":"DK","month":"Feb","qty":-6,"type":"outbound"},{"label":"TW","month":"Feb","qty":-12,"type":"outbound"},{"label":"Zarqa","month":"Mar","qty":-6,"type":"outbound"},{"label":"Zarqa","month":"Mar","qty":-6,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-12,"type":"outbound"},{"label":"TG","month":"April","qty":-6,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-12,"type":"outbound"},{"label":"TG 15.04","month":"April","qty":-6,"type":"outbound"},{"label":"Amman 19.04","month":"April","qty":-24,"type":"outbound"},{"label":"Zarqa 28.04","month":"May","qty":-6,"type":"outbound"},{"label":"TG 04.05","month":"May","qty":-6,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-6,"type":"outbound"},{"label":"KG 24.05","month":"May","qty":-12,"type":"outbound"},{"label":"Me 24.05","month":"May","qty":-12,"type":"outbound"},{"label":"Amman 31.05","month":"May","qty":-12,"type":"outbound"},{"label":"Irbid 02.06","month":"June","qty":-12,"type":"outbound"},{"label":"Aqaba 09.06","month":"June","qty":-6,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-12,"type":"outbound"},{"label":"DK 20.06 *","month":"June","qty":-30,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-6,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-12,"type":"outbound"},{"label":"ME Batch 1 22.6","month":"June","qty":-12,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-12,"type":"outbound"},{"label":"Amman 1.7","month":"July","qty":-12,"type":"outbound"},{"label":"Amman 15.7","month":"July","qty":-24,"type":"outbound"},{"label":"Amman 23.7","month":"July","qty":-24,"type":"outbound"},{"label":"Inbound 26.7","month":"July","qty":309,"type":"inbound"},{"label":"FKH 28.7","month":"July","qty":-6,"type":"outbound"},{"label":"DK 28.7","month":"July","qty":-24,"type":"outbound"},{"label":"TW 28.7","month":"July","qty":-12,"type":"outbound"},{"label":"RR 28.7 ","month":"July","qty":-24,"type":"outbound"},{"label":"Irbid 02.08","month":"Aug","qty":-18,"type":"outbound"},{"label":"Zarqa 03.08","month":"Aug","qty":-6,"type":"outbound"},{"label":"Amman 11.08","month":"Aug","qty":-18,"type":"outbound"},{"label":"Amman 19.08","month":"Aug","qty":-18,"type":"outbound"},{"label":"DK 24.08","month":"Aug","qty":-24,"type":"outbound"},{"label":"Amman 26.08","month":"Aug","qty":-120,"type":"outbound"},{"label":"Irbid 20.09","month":"Sep","qty":-12,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-6,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-12,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-12,"type":"outbound"}]},{"sku":"DVHNON0003","name":"Double Visor Helmet Non-Branded (OLD) - L","opening":0,"inbound":6,"outbound":0,"balance":6,"transactions":[{"label":"Amman 15.6 ","month":"June","qty":6,"type":"inbound"}]},{"sku":"DVHNON0004","name":"Double Visor Helmet Non-Branded (OLD) - XL","opening":0,"inbound":2,"outbound":0,"balance":2,"transactions":[{"label":"Amman 15.6 ","month":"June","qty":2,"type":"inbound"}]},{"sku":"HJ-2024-001","name":"Heavy Jacket - S","opening":0,"inbound":1750,"outbound":910,"balance":840,"transactions":[{"label":"Inbound 24.05","month":"May","qty":300,"type":"inbound"},{"label":"Inbound 30.09","month":"Oct","qty":1450,"type":"inbound"},{"label":"Amman 01.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"DK 03.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"RR 07.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-80,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-100,"type":"outbound"}]},{"sku":"HJ-2024-002","name":"Heavy Jacket - M","opening":2090,"inbound":8858,"outbound":3630,"balance":7318,"transactions":[{"label":"Irbid 5.1.2026","month":"Jan","qty":-60,"type":"outbound"},{"label":"Diken","month":"Jan","qty":-100,"type":"outbound"},{"label":"Me","month":"Jan","qty":-80,"type":"outbound"},{"label":"RR","month":"Jan","qty":-50,"type":"outbound"},{"label":"KG","month":"Jan","qty":-50,"type":"outbound"},{"label":"Zarqa","month":"Jan","qty":-60,"type":"outbound"},{"label":"Amman 12.1.2026","month":"Jan","qty":-250,"type":"outbound"},{"label":"Thunder","month":"Jan","qty":-70,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-50,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-50,"type":"outbound"},{"label":"Tawasol","month":"Jan","qty":-40,"type":"outbound"},{"label":"ME 15.1","month":"Jan","qty":-30,"type":"outbound"},{"label":"DK","month":"Jan","qty":-80,"type":"outbound"},{"label":"ME","month":"Jan","qty":-50,"type":"outbound"},{"label":"TG","month":"Jan","qty":-100,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-100,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-150,"type":"outbound"},{"label":"ME","month":"Feb","qty":-50,"type":"outbound"},{"label":"KG","month":"Feb","qty":-80,"type":"outbound"},{"label":"DK","month":"Feb","qty":-80,"type":"outbound"},{"label":"TW","month":"Feb","qty":-30,"type":"outbound"},{"label":"Spex","month":"Feb","qty":-40,"type":"outbound"},{"label":"RR","month":"Feb","qty":-40,"type":"outbound"},{"label":"Amman","month":"Feb","qty":-300,"type":"outbound"},{"label":"Aqaba","month":"Feb","qty":-20,"type":"outbound"},{"label":"DK 16.2","month":"Feb","qty":-40,"type":"outbound"},{"label":"Amman 16.02","month":"Feb","qty":-40,"type":"outbound"},{"label":"Inbound 24.05","month":"May","qty":600,"type":"inbound"},{"label":"Inbound 30.09","month":"Oct","qty":8258,"type":"inbound"},{"label":"Amman 01.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"DK 03.10","month":"Oct","qty":-70,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-40,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"RR 07.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-80,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Amman 08.10","month":"Oct","qty":-200,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-250,"type":"outbound"}]},{"sku":"HJ-2024-003","name":"Heavy Jacket - L","opening":2000,"inbound":7119,"outbound":3300,"balance":5819,"transactions":[{"label":"Irbid 5.1.2026","month":"Jan","qty":-50,"type":"outbound"},{"label":"Diken","month":"Jan","qty":-100,"type":"outbound"},{"label":"Me","month":"Jan","qty":-80,"type":"outbound"},{"label":"RR","month":"Jan","qty":-50,"type":"outbound"},{"label":"KG","month":"Jan","qty":-50,"type":"outbound"},{"label":"Zarqa","month":"Jan","qty":-60,"type":"outbound"},{"label":"Amman 12.1.2026","month":"Jan","qty":-100,"type":"outbound"},{"label":"Thunder","month":"Jan","qty":-70,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-30,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-50,"type":"outbound"},{"label":"Tawasol","month":"Jan","qty":-30,"type":"outbound"},{"label":"DK","month":"Jan","qty":-50,"type":"outbound"},{"label":"ME","month":"Jan","qty":-50,"type":"outbound"},{"label":"TG","month":"Jan","qty":-50,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-100,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-150,"type":"outbound"},{"label":"ME","month":"Feb","qty":-50,"type":"outbound"},{"label":"KG","month":"Feb","qty":-80,"type":"outbound"},{"label":"DK","month":"Feb","qty":-80,"type":"outbound"},{"label":"TW","month":"Feb","qty":-20,"type":"outbound"},{"label":"Spex","month":"Feb","qty":-30,"type":"outbound"},{"label":"RR","month":"Feb","qty":-30,"type":"outbound"},{"label":"Amman","month":"Feb","qty":-180,"type":"outbound"},{"label":"Aqaba","month":"Feb","qty":-20,"type":"outbound"},{"label":"DK 16.2","month":"Feb","qty":-40,"type":"outbound"},{"label":"Amman 16.02","month":"Feb","qty":-200,"type":"outbound"},{"label":"KG","month":"Feb","qty":-50,"type":"outbound"},{"label":"ME","month":"Feb","qty":-30,"type":"outbound"},{"label":"DK","month":"Feb","qty":-50,"type":"outbound"},{"label":"TW","month":"Feb","qty":-50,"type":"outbound"},{"label":"Fakher","month":"April","qty":-20,"type":"outbound"},{"label":"Inbound 24.05","month":"May","qty":600,"type":"inbound"},{"label":"Inbound 30.09","month":"Oct","qty":6519,"type":"inbound"},{"label":"Amman 01.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"DK 03.10","month":"Oct","qty":-80,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-40,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"RR 07.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-80,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Amman 08.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-200,"type":"outbound"}]},{"sku":"HJ-2024-004","name":"Heavy Jacket - XL","opening":5610,"inbound":3198,"outbound":2560,"balance":6248,"transactions":[{"label":"Diken","month":"Jan","qty":-100,"type":"outbound"},{"label":"Me","month":"Jan","qty":-80,"type":"outbound"},{"label":"RR","month":"Jan","qty":-50,"type":"outbound"},{"label":"KG","month":"Jan","qty":-50,"type":"outbound"},{"label":"Thunder","month":"Jan","qty":-60,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-30,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-50,"type":"outbound"},{"label":"Tawasol","month":"Jan","qty":-30,"type":"outbound"},{"label":"DK","month":"Jan","qty":-50,"type":"outbound"},{"label":"ME","month":"Jan","qty":-50,"type":"outbound"},{"label":"TG","month":"Jan","qty":-50,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-100,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-100,"type":"outbound"},{"label":"ME","month":"Feb","qty":-50,"type":"outbound"},{"label":"KG","month":"Feb","qty":-20,"type":"outbound"},{"label":"DK","month":"Feb","qty":-50,"type":"outbound"},{"label":"TW","month":"Feb","qty":-20,"type":"outbound"},{"label":"Spex","month":"Feb","qty":-30,"type":"outbound"},{"label":"RR","month":"Feb","qty":-30,"type":"outbound"},{"label":"Amman","month":"Feb","qty":-100,"type":"outbound"},{"label":"DK 16.2","month":"Feb","qty":-40,"type":"outbound"},{"label":"Amman 16.02","month":"Feb","qty":-100,"type":"outbound"},{"label":"KG","month":"Feb","qty":-50,"type":"outbound"},{"label":"ME","month":"Feb","qty":-30,"type":"outbound"},{"label":"DK","month":"Feb","qty":-50,"type":"outbound"},{"label":"TW","month":"Feb","qty":-50,"type":"outbound"},{"label":"Zarqa","month":"Mar","qty":-20,"type":"outbound"},{"label":"Fakher","month":"April","qty":-20,"type":"outbound"},{"label":"DK16.03","month":"April","qty":-50,"type":"outbound"},{"label":"ME16.03","month":"April","qty":-10,"type":"outbound"},{"label":"DK 05.04","month":"April","qty":-40,"type":"outbound"},{"label":"TG 05.04","month":"April","qty":-20,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":3198,"type":"inbound"},{"label":"Amman 01.10","month":"Oct","qty":-80,"type":"outbound"},{"label":"DK 03.10","month":"Oct","qty":-80,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-40,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"RR 07.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Amman 08.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-50,"type":"outbound"}]},{"sku":"HJ-2024-005","name":"Heavy Jacket - XXL","opening":2510,"inbound":2121,"outbound":1840,"balance":2791,"transactions":[{"label":"Irbid 5.1.2026","month":"Jan","qty":-30,"type":"outbound"},{"label":"Diken","month":"Jan","qty":-100,"type":"outbound"},{"label":"Me","month":"Jan","qty":-80,"type":"outbound"},{"label":"RR","month":"Jan","qty":-50,"type":"outbound"},{"label":"KG","month":"Jan","qty":-40,"type":"outbound"},{"label":"Thunder","month":"Jan","qty":-40,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-30,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-20,"type":"outbound"},{"label":"DK","month":"Jan","qty":-50,"type":"outbound"},{"label":"TG","month":"Jan","qty":-50,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-60,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-100,"type":"outbound"},{"label":"ME","month":"Feb","qty":-50,"type":"outbound"},{"label":"TW","month":"Feb","qty":-20,"type":"outbound"},{"label":"Spex","month":"Feb","qty":-20,"type":"outbound"},{"label":"RR","month":"Feb","qty":-20,"type":"outbound"},{"label":"Amman","month":"Feb","qty":-180,"type":"outbound"},{"label":"DK 16.2","month":"Feb","qty":-40,"type":"outbound"},{"label":"Amman 16.02","month":"Feb","qty":-100,"type":"outbound"},{"label":"DK","month":"Feb","qty":-20,"type":"outbound"},{"label":"TW","month":"Feb","qty":-30,"type":"outbound"},{"label":"Zarqa","month":"Mar","qty":-20,"type":"outbound"},{"label":"Fakher","month":"April","qty":-10,"type":"outbound"},{"label":"DK16.03","month":"April","qty":-50,"type":"outbound"},{"label":"ME16.03","month":"April","qty":-50,"type":"outbound"},{"label":"DK 05.04","month":"April","qty":-40,"type":"outbound"},{"label":"TG 05.04","month":"April","qty":-20,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":2121,"type":"inbound"},{"label":"DK 03.10","month":"Oct","qty":-40,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"RR 07.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-50,"type":"outbound"}]},{"sku":"HJ-2024-006","name":"Heavy Jacket - XXXL","opening":50,"inbound":2421,"outbound":600,"balance":1871,"transactions":[{"label":"KG","month":"Jan","qty":-10,"type":"outbound"},{"label":"Amman 12.1.2026","month":"Jan","qty":-40,"type":"outbound"},{"label":"Inbound 24.05","month":"May","qty":100,"type":"inbound"},{"label":"Inbound 30.09","month":"Oct","qty":2321,"type":"inbound"},{"label":"Amman 01.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"DK 03.10","month":"Oct","qty":-40,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"RR 07.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-50,"type":"outbound"}]},{"sku":"HJ-2024-007","name":"Heavy Jacket - XXXXL","opening":0,"inbound":1121,"outbound":310,"balance":811,"transactions":[{"label":"Inbound 30.09","month":"Oct","qty":1121,"type":"inbound"},{"label":"Amman 01.10","month":"Oct","qty":-80,"type":"outbound"},{"label":"DK 03.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-50,"type":"outbound"}]},{"sku":"HJ-2024-008","name":"Heavy Jacket - XXXXXL","opening":0,"inbound":552,"outbound":290,"balance":262,"transactions":[{"label":"Inbound 30.09","month":"Oct","qty":552,"type":"inbound"},{"label":"Amman 01.10","month":"Oct","qty":-80,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"Amman 08.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-50,"type":"outbound"}]},{"sku":"MBG0003","name":"Motorbike Gloves (OLD) - L","opening":0,"inbound":250,"outbound":0,"balance":250,"transactions":[{"label":"Inbound 26.7","month":"July","qty":250,"type":"inbound"}]},{"sku":"MBG0004","name":"Motorbike Gloves (OLD) - XL","opening":1000,"inbound":250,"outbound":600,"balance":650,"transactions":[{"label":"Inbound 26.7","month":"July","qty":250,"type":"inbound"},{"label":"Amman 26.08","month":"Aug","qty":-600,"type":"outbound"}]},{"sku":"MBG0005","name":"Motorbike Gloves (OLD) - XXL","opening":1000,"inbound":0,"outbound":0,"balance":1000,"transactions":[]},{"sku":"TLS-2024-001","name":"T Shirt Long Sleeves - S","opening":0,"inbound":6700,"outbound":6500,"balance":200,"transactions":[{"label":"Inbound 12.1.2026","month":"Jan","qty":6500,"type":"inbound"},{"label":"Zarqa","month":"Jan","qty":-150,"type":"outbound"},{"label":"Amman 12.1.2026","month":"Jan","qty":-350,"type":"outbound"},{"label":"Kangaroo","month":"Jan","qty":-50,"type":"outbound"},{"label":"Thunder","month":"Jan","qty":-100,"type":"outbound"},{"label":"Tawasol","month":"Jan","qty":-50,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-50,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-50,"type":"outbound"},{"label":"DK","month":"Jan","qty":-100,"type":"outbound"},{"label":"Me","month":"Jan","qty":-50,"type":"outbound"},{"label":"RR","month":"Jan","qty":-50,"type":"outbound"},{"label":"ME","month":"Jan","qty":-50,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-150,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-100,"type":"outbound"},{"label":"KG","month":"Feb","qty":-50,"type":"outbound"},{"label":"DK","month":"Feb","qty":-100,"type":"outbound"},{"label":"TW","month":"Feb","qty":-50,"type":"outbound"},{"label":"Spex","month":"Feb","qty":-50,"type":"outbound"},{"label":"RR","month":"Feb","qty":-50,"type":"outbound"},{"label":"Amman","month":"Feb","qty":-150,"type":"outbound"},{"label":"Aqaba","month":"Feb","qty":-50,"type":"outbound"},{"label":"DK 16.2","month":"Feb","qty":-50,"type":"outbound"},{"label":"Amman 16.02","month":"Feb","qty":-300,"type":"outbound"},{"label":"KG","month":"Feb","qty":-50,"type":"outbound"},{"label":"ME","month":"Feb","qty":-100,"type":"outbound"},{"label":"DK","month":"Feb","qty":-50,"type":"outbound"},{"label":"TW","month":"Feb","qty":-50,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-250,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-100,"type":"outbound"},{"label":"TG","month":"April","qty":-50,"type":"outbound"},{"label":"DK16.03","month":"April","qty":-100,"type":"outbound"},{"label":"ME16.03","month":"April","qty":-50,"type":"outbound"},{"label":"DK","month":"April","qty":-50,"type":"outbound"},{"label":"KG","month":"April","qty":-100,"type":"outbound"},{"label":"TG 05.04","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 05.04","month":"April","qty":-200,"type":"outbound"},{"label":"zarqa 08.04","month":"April","qty":-100,"type":"outbound"},{"label":"Me 07.04","month":"April","qty":-50,"type":"outbound"},{"label":"Sp 07.04","month":"April","qty":-50,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-100,"type":"outbound"},{"label":"DK 15.04","month":"April","qty":-100,"type":"outbound"},{"label":"TG 15.04","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 19.04","month":"April","qty":-400,"type":"outbound"},{"label":"KG 22.04","month":"April","qty":-50,"type":"outbound"},{"label":"DK 26.04","month":"May","qty":-50,"type":"outbound"},{"label":"FK 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"Dk 12.05","month":"May","qty":-50,"type":"outbound"},{"label":"Amman 31.05","month":"May","qty":-150,"type":"outbound"},{"label":"RR 07.06","month":"June","qty":-50,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-150,"type":"outbound"},{"label":"DKS 17.6","month":"June","qty":-100,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-100,"type":"outbound"},{"label":"DK 22.6","month":"June","qty":-50,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-100,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-50,"type":"outbound"},{"label":"FKH 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"RR 28.7 ","month":"July","qty":-100,"type":"outbound"},{"label":"ME 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"KG 28.7","month":"July","qty":-100,"type":"outbound"},{"label":"Zarqa 03.08","month":"Aug","qty":-50,"type":"outbound"},{"label":"DK 24.08","month":"Aug","qty":-100,"type":"outbound"},{"label":"TW 09.09","month":"Sep","qty":-50,"type":"outbound"},{"label":"Irbid 20.09","month":"Sep","qty":-50,"type":"outbound"},{"label":"DK  24.9","month":"Sep","qty":-100,"type":"outbound"},{"label":"ME 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"TG 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"SP 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"KG 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"RR 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":200,"type":"inbound"},{"label":"Amman 01.10","month":"Oct","qty":-200,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-100,"type":"outbound"}]},{"sku":"TLS-2024-002","name":"T Shirt Long Sleeves - M","opening":12460,"inbound":9000,"outbound":8300,"balance":13160,"transactions":[{"label":"Irbid 5.1.2026","month":"Jan","qty":-100,"type":"outbound"},{"label":"Diken","month":"Jan","qty":-100,"type":"outbound"},{"label":"Me","month":"Jan","qty":-100,"type":"outbound"},{"label":"RR","month":"Jan","qty":-50,"type":"outbound"},{"label":"KG","month":"Jan","qty":-100,"type":"outbound"},{"label":"Inbound 12.1.2026","month":"Jan","qty":9000,"type":"inbound"},{"label":"Zarqa","month":"Jan","qty":-100,"type":"outbound"},{"label":"Amman 12.1.2026","month":"Jan","qty":-350,"type":"outbound"},{"label":"Thunder","month":"Jan","qty":-100,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-50,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-50,"type":"outbound"},{"label":"DK","month":"Jan","qty":-50,"type":"outbound"},{"label":"ME","month":"Jan","qty":-50,"type":"outbound"},{"label":"TG","month":"Jan","qty":-100,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-100,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-100,"type":"outbound"},{"label":"ME","month":"Feb","qty":-50,"type":"outbound"},{"label":"KG","month":"Feb","qty":-50,"type":"outbound"},{"label":"DK","month":"Feb","qty":-50,"type":"outbound"},{"label":"TW","month":"Feb","qty":-50,"type":"outbound"},{"label":"Spex","month":"Feb","qty":-50,"type":"outbound"},{"label":"RR","month":"Feb","qty":-50,"type":"outbound"},{"label":"Amman","month":"Feb","qty":-200,"type":"outbound"},{"label":"DK 16.2","month":"Feb","qty":-100,"type":"outbound"},{"label":"Amman 16.02","month":"Feb","qty":-300,"type":"outbound"},{"label":"KG","month":"Feb","qty":-100,"type":"outbound"},{"label":"ME","month":"Feb","qty":-100,"type":"outbound"},{"label":"DK","month":"Feb","qty":-50,"type":"outbound"},{"label":"TW","month":"Feb","qty":-50,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-250,"type":"outbound"},{"label":"Fakher","month":"April","qty":-50,"type":"outbound"},{"label":"TG","month":"April","qty":-50,"type":"outbound"},{"label":"DK16.03","month":"April","qty":-50,"type":"outbound"},{"label":"ME16.03","month":"April","qty":-50,"type":"outbound"},{"label":"DK","month":"April","qty":-50,"type":"outbound"},{"label":"KG","month":"April","qty":-50,"type":"outbound"},{"label":"SP ","month":"April","qty":-50,"type":"outbound"},{"label":"TG 05.04","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 05.04","month":"April","qty":-400,"type":"outbound"},{"label":"zarqa 08.04","month":"April","qty":-100,"type":"outbound"},{"label":"Me 07.04","month":"April","qty":-100,"type":"outbound"},{"label":"Sp 07.04","month":"April","qty":-50,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-150,"type":"outbound"},{"label":"DK 15.04","month":"April","qty":-100,"type":"outbound"},{"label":"TG 15.04","month":"April","qty":-50,"type":"outbound"},{"label":"TW 15.04","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 19.04","month":"April","qty":-100,"type":"outbound"},{"label":"KG 22.04","month":"April","qty":-100,"type":"outbound"},{"label":"FK 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-50,"type":"outbound"},{"label":"Amman 31.05","month":"May","qty":-150,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-300,"type":"outbound"},{"label":"DKS 17.6","month":"June","qty":-100,"type":"outbound"},{"label":"TW 17.6","month":"June","qty":-50,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-100,"type":"outbound"},{"label":"DK 22.6","month":"June","qty":-50,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-100,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-50,"type":"outbound"},{"label":"TG 28.7","month":"July","qty":-100,"type":"outbound"},{"label":"FKH 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"DK 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"TW 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"SP 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"RR 28.7 ","month":"July","qty":-100,"type":"outbound"},{"label":"ME 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"KG 28.7","month":"July","qty":-100,"type":"outbound"},{"label":"DK 24.08","month":"Aug","qty":-100,"type":"outbound"},{"label":"Irbid 20.09","month":"Sep","qty":-50,"type":"outbound"},{"label":"DK  24.9","month":"Sep","qty":-100,"type":"outbound"},{"label":"ME 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"TG 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"SP 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"KG 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"RR 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"Amman 01.10","month":"Oct","qty":-200,"type":"outbound"},{"label":"DK 03.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"Amman 08.10","month":"Oct","qty":-200,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-250,"type":"outbound"}]},{"sku":"TLS-2024-003","name":"T Shirt Long Sleeves - L","opening":4820,"inbound":8000,"outbound":6100,"balance":6720,"transactions":[{"label":"Irbid 5.1.2026","month":"Jan","qty":-50,"type":"outbound"},{"label":"Diken","month":"Jan","qty":-100,"type":"outbound"},{"label":"Me","month":"Jan","qty":-100,"type":"outbound"},{"label":"RR","month":"Jan","qty":-50,"type":"outbound"},{"label":"KG","month":"Jan","qty":-100,"type":"outbound"},{"label":"Inbound 12.1.2026","month":"Jan","qty":8000,"type":"inbound"},{"label":"Zarqa","month":"Jan","qty":-50,"type":"outbound"},{"label":"Thunder","month":"Jan","qty":-100,"type":"outbound"},{"label":"Tawasol","month":"Jan","qty":-50,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-50,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-50,"type":"outbound"},{"label":"DK","month":"Jan","qty":-50,"type":"outbound"},{"label":"ME","month":"Jan","qty":-50,"type":"outbound"},{"label":"TG","month":"Jan","qty":-50,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-100,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-100,"type":"outbound"},{"label":"ME","month":"Feb","qty":-50,"type":"outbound"},{"label":"KG","month":"Feb","qty":-50,"type":"outbound"},{"label":"DK","month":"Feb","qty":-50,"type":"outbound"},{"label":"TW","month":"Feb","qty":-50,"type":"outbound"},{"label":"Spex","month":"Feb","qty":-50,"type":"outbound"},{"label":"RR","month":"Feb","qty":-50,"type":"outbound"},{"label":"Amman","month":"Feb","qty":-100,"type":"outbound"},{"label":"DK 16.2","month":"Feb","qty":-100,"type":"outbound"},{"label":"Amman 16.02","month":"Feb","qty":-200,"type":"outbound"},{"label":"KG","month":"Feb","qty":-100,"type":"outbound"},{"label":"ME","month":"Feb","qty":-100,"type":"outbound"},{"label":"DK","month":"Feb","qty":-50,"type":"outbound"},{"label":"TW","month":"Feb","qty":-50,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-250,"type":"outbound"},{"label":"Fakher","month":"April","qty":-50,"type":"outbound"},{"label":"TG","month":"April","qty":-100,"type":"outbound"},{"label":"ME16.03","month":"April","qty":-50,"type":"outbound"},{"label":"DK","month":"April","qty":-50,"type":"outbound"},{"label":"KG","month":"April","qty":-50,"type":"outbound"},{"label":"SP ","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 05.04","month":"April","qty":-300,"type":"outbound"},{"label":"zarqa 08.04","month":"April","qty":-100,"type":"outbound"},{"label":"Me 07.04","month":"April","qty":-100,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-50,"type":"outbound"},{"label":"DK 15.04","month":"April","qty":-100,"type":"outbound"},{"label":"KG 22.04","month":"April","qty":-100,"type":"outbound"},{"label":"TG 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-50,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-300,"type":"outbound"},{"label":"DKS 17.6","month":"June","qty":-50,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-50,"type":"outbound"},{"label":"DK 22.6","month":"June","qty":-50,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-100,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-50,"type":"outbound"},{"label":"TG 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"FKH 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"DK 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"TW 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"SP 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"KG 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"DK 24.08","month":"Aug","qty":-100,"type":"outbound"},{"label":"Irbid 20.09","month":"Sep","qty":-100,"type":"outbound"},{"label":"DK  24.9","month":"Sep","qty":-100,"type":"outbound"},{"label":"ME 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"TG 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"KG 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"RR 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"Amman 01.10","month":"Oct","qty":-200,"type":"outbound"},{"label":"DK 03.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-250,"type":"outbound"}]},{"sku":"TLS-2024-004","name":"T Shirt Long Sleeves - XL","opening":2190,"inbound":7000,"outbound":4340,"balance":4850,"transactions":[{"label":"Irbid 5.1.2026","month":"Jan","qty":-50,"type":"outbound"},{"label":"Diken","month":"Jan","qty":-100,"type":"outbound"},{"label":"Me","month":"Jan","qty":-100,"type":"outbound"},{"label":"RR","month":"Jan","qty":-50,"type":"outbound"},{"label":"KG","month":"Jan","qty":-100,"type":"outbound"},{"label":"Inbound 12.1.2026","month":"Jan","qty":4500,"type":"inbound"},{"label":"Thunder","month":"Jan","qty":-100,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-50,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-50,"type":"outbound"},{"label":"DK","month":"Jan","qty":-50,"type":"outbound"},{"label":"DK","month":"Jan","qty":-50,"type":"outbound"},{"label":"ME","month":"Jan","qty":-50,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-100,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-100,"type":"outbound"},{"label":"ME","month":"Feb","qty":-50,"type":"outbound"},{"label":"Spex","month":"Feb","qty":-50,"type":"outbound"},{"label":"RR","month":"Feb","qty":-50,"type":"outbound"},{"label":"DK 16.2","month":"Feb","qty":-100,"type":"outbound"},{"label":"Amman 16.02","month":"Feb","qty":-200,"type":"outbound"},{"label":"KG","month":"Feb","qty":-100,"type":"outbound"},{"label":"ME","month":"Feb","qty":-100,"type":"outbound"},{"label":"DK","month":"Feb","qty":-50,"type":"outbound"},{"label":"TW","month":"Feb","qty":-50,"type":"outbound"},{"label":"Fakher","month":"April","qty":-50,"type":"outbound"},{"label":"TG","month":"April","qty":-100,"type":"outbound"},{"label":"ME16.03","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 05.04","month":"April","qty":-200,"type":"outbound"},{"label":"zarqa 08.04","month":"April","qty":-90,"type":"outbound"},{"label":"Me 07.04","month":"April","qty":-50,"type":"outbound"},{"label":"Sp 07.04","month":"April","qty":-50,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-50,"type":"outbound"},{"label":"DK 15.04","month":"April","qty":-50,"type":"outbound"},{"label":"TG 15.04","month":"April","qty":-50,"type":"outbound"},{"label":"TW 15.04","month":"April","qty":-50,"type":"outbound"},{"label":"KG 22.04","month":"April","qty":-100,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-50,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-150,"type":"outbound"},{"label":"DKS 17.6","month":"June","qty":-50,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-50,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-50,"type":"outbound"},{"label":"FKH 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"DK 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"TW 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"SP 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"KG 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"DK 24.08","month":"Aug","qty":-100,"type":"outbound"},{"label":"DK  24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"ME 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"TG 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"KG 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":2500,"type":"inbound"},{"label":"DK 03.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Amman 08.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-150,"type":"outbound"}]},{"sku":"TLS-2024-005","name":"T Shirt Long Sleeves - XXL","opening":0,"inbound":3450,"outbound":2100,"balance":1350,"transactions":[{"label":"Inbound 12.1.2026","month":"Jan","qty":1000,"type":"inbound"},{"label":"Zarqa","month":"Jan","qty":-100,"type":"outbound"},{"label":"Amman 12.1.2026","month":"Jan","qty":-200,"type":"outbound"},{"label":"Kangaroo","month":"Jan","qty":-50,"type":"outbound"},{"label":"Thunder","month":"Jan","qty":-50,"type":"outbound"},{"label":"Tawasol","month":"Jan","qty":-50,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-50,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-50,"type":"outbound"},{"label":"DK","month":"Jan","qty":-100,"type":"outbound"},{"label":"Me","month":"Jan","qty":-50,"type":"outbound"},{"label":"RR","month":"Jan","qty":-50,"type":"outbound"},{"label":"TG","month":"Jan","qty":-50,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-50,"type":"outbound"},{"label":"Amman","month":"Jan","qty":-50,"type":"outbound"},{"label":"KG","month":"Feb","qty":-50,"type":"outbound"},{"label":"DK","month":"Feb","qty":-50,"type":"outbound"},{"label":"Inbound 24.05","month":"May","qty":600,"type":"inbound"},{"label":"DK 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"KG 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"Irbid 20.09","month":"Sep","qty":-50,"type":"outbound"},{"label":"DK  24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"ME 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"TG 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"SP 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"RR 24.9","month":"Sep","qty":-50,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":1850,"type":"inbound"},{"label":"DK 03.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"KG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-200,"type":"outbound"}]},{"sku":"TLS-2024-006","name":"T Shirt Long Sleeves - XXXL","opening":0,"inbound":2700,"outbound":1610,"balance":1090,"transactions":[{"label":"Inbound 12.1.2026","month":"Jan","qty":800,"type":"inbound"},{"label":"Zarqa","month":"Jan","qty":-50,"type":"outbound"},{"label":"Amman 12.1.2026","month":"Jan","qty":-200,"type":"outbound"},{"label":"Kangaroo","month":"Jan","qty":-50,"type":"outbound"},{"label":"Thunder","month":"Jan","qty":-50,"type":"outbound"},{"label":"Tawasol","month":"Jan","qty":-50,"type":"outbound"},{"label":"Fakher","month":"Jan","qty":-50,"type":"outbound"},{"label":"Spex","month":"Jan","qty":-50,"type":"outbound"},{"label":"DK","month":"Jan","qty":-100,"type":"outbound"},{"label":"Me","month":"Jan","qty":-50,"type":"outbound"},{"label":"RR","month":"Jan","qty":-50,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-20,"type":"outbound"},{"label":"Aqaba","month":"Feb","qty":-20,"type":"outbound"},{"label":"DK 16.2","month":"Feb","qty":-50,"type":"outbound"},{"label":"Amman 19.04","month":"April","qty":-10,"type":"outbound"},{"label":"Inbound 24.05","month":"May","qty":200,"type":"inbound"},{"label":"DK 28.7","month":"July","qty":-50,"type":"outbound"},{"label":"Irbid 20.09","month":"Sep","qty":-50,"type":"outbound"},{"label":"DK  24.9","month":"Sep","qty":-20,"type":"outbound"},{"label":"ME 24.9","month":"Sep","qty":-10,"type":"outbound"},{"label":"TG 24.9","month":"Sep","qty":-10,"type":"outbound"},{"label":"SP 24.9","month":"Sep","qty":-10,"type":"outbound"},{"label":"KG 24.9","month":"Sep","qty":-10,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":1700,"type":"inbound"},{"label":"Amman 01.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-100,"type":"outbound"},{"label":"Amman 08.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-25,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-25,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-100,"type":"outbound"}]},{"sku":"TLS-2024-007","name":"T Shirt Long Sleeves - XXXXL","opening":0,"inbound":2050,"outbound":960,"balance":1090,"transactions":[{"label":"Inbound 12.1.2026","month":"Jan","qty":600,"type":"inbound"},{"label":"Zarqa","month":"Jan","qty":-50,"type":"outbound"},{"label":"Amman 12.1.2026","month":"Jan","qty":-200,"type":"outbound"},{"label":"DK","month":"Jan","qty":-50,"type":"outbound"},{"label":"Me","month":"Jan","qty":-20,"type":"outbound"},{"label":"RR","month":"Jan","qty":-20,"type":"outbound"},{"label":"Irbid","month":"Jan","qty":-50,"type":"outbound"},{"label":"Spex","month":"Feb","qty":-20,"type":"outbound"},{"label":"RR","month":"Feb","qty":-20,"type":"outbound"},{"label":"Aqaba","month":"Feb","qty":-20,"type":"outbound"},{"label":"ME","month":"Feb","qty":-50,"type":"outbound"},{"label":"DK","month":"April","qty":-20,"type":"outbound"},{"label":"KG","month":"April","qty":-20,"type":"outbound"},{"label":"Inbound 24.05","month":"May","qty":200,"type":"inbound"},{"label":"Aqaba 09.06","month":"June","qty":-10,"type":"outbound"},{"label":"DK  24.9","month":"Sep","qty":-20,"type":"outbound"},{"label":"ME 24.9","month":"Sep","qty":-10,"type":"outbound"},{"label":"TG 24.9","month":"Sep","qty":-10,"type":"outbound"},{"label":"SP 24.9","month":"Sep","qty":-10,"type":"outbound"},{"label":"KG 24.9","month":"Sep","qty":-10,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":1250,"type":"inbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"Amman 08.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-20,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-50,"type":"outbound"}]},{"sku":"TLS-2024-008","name":"T Shirt Long Sleeves - XXXXXL","opening":0,"inbound":700,"outbound":390,"balance":310,"transactions":[{"label":"Inbound 12.1.2026","month":"Jan","qty":50,"type":"inbound"},{"label":"Amman 12.1.2026","month":"Jan","qty":-50,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":650,"type":"inbound"},{"label":"Amman 01.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"Irbid 07.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Zarqa 07.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Aqaba 07.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Amman 08.10","month":"Oct","qty":-150,"type":"outbound"},{"label":"ME 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"TW 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"TG 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"SP 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"RR 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"DK 13.10","month":"Oct","qty":-10,"type":"outbound"},{"label":"Amman 19.10","month":"Oct","qty":-50,"type":"outbound"}]},{"sku":"TLSP-2024-001","name":"T Shirt Long Sleeves - S (T-patroller)","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"TLSP-2024-002","name":"T Shirt Long Sleeves - M (T-patroller)","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"TLSP-2024-003","name":"T Shirt Long Sleeves - L (T-patroller)","opening":0,"inbound":40,"outbound":40,"balance":0,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":40,"type":"inbound"},{"label":"Amman 16.02","month":"Feb","qty":-40,"type":"outbound"}]},{"sku":"TLSP-2024-004","name":"T Shirt Long Sleeves - XL (T-patroller)","opening":0,"inbound":85,"outbound":85,"balance":0,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":85,"type":"inbound"},{"label":"Amman 16.02","month":"Feb","qty":-85,"type":"outbound"}]},{"sku":"TLSP-2024-005","name":"T Shirt Long Sleeves - XXL (T-patroller)","opening":0,"inbound":85,"outbound":85,"balance":0,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":85,"type":"inbound"},{"label":"Amman 16.02","month":"Feb","qty":-85,"type":"outbound"}]},{"sku":"TLSP-2024-006","name":"T Shirt Long Sleeves - XXXL (T-patroller)","opening":0,"inbound":30,"outbound":30,"balance":0,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":30,"type":"inbound"},{"label":"Amman 16.02","month":"Feb","qty":-30,"type":"outbound"}]},{"sku":"TLSP-2024-007","name":"T Shirt Long Sleeves - XXXXL (T-patroller)","opening":0,"inbound":10,"outbound":10,"balance":0,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":10,"type":"inbound"},{"label":"Amman 16.02","month":"Feb","qty":-10,"type":"outbound"}]},{"sku":"THS-2024-001","name":"T-Shirt Half Sleeve - S","opening":0,"inbound":1250,"outbound":1050,"balance":200,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":750,"type":"inbound"},{"label":"Zarqa","month":"Mar","qty":-60,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-180,"type":"outbound"},{"label":"Irbid","month":"Mar","qty":-60,"type":"outbound"},{"label":"DK 05.04","month":"April","qty":-50,"type":"outbound"},{"label":"TG 05.04","month":"April","qty":-50,"type":"outbound"},{"label":"DK 26.04","month":"May","qty":-50,"type":"outbound"},{"label":"TG 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"Dk 12.05","month":"May","qty":-60,"type":"outbound"},{"label":"Aqaba 17.05","month":"May","qty":-30,"type":"outbound"},{"label":"SP 19.05","month":"May","qty":-60,"type":"outbound"},{"label":"KG 24.05","month":"May","qty":-30,"type":"outbound"},{"label":"DK 24.05","month":"May","qty":-40,"type":"outbound"},{"label":"Me 24.05","month":"May","qty":-30,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":500,"type":"inbound"},{"label":"KG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-50,"type":"outbound"}]},{"sku":"THS-2024-002","name":"T-Shirt Half Sleeve - M","opening":80,"inbound":3950,"outbound":3280,"balance":750,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":2950,"type":"inbound"},{"label":"Zarqa","month":"Mar","qty":-60,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-300,"type":"outbound"},{"label":"Irbid","month":"Mar","qty":-60,"type":"outbound"},{"label":"DK 05.04","month":"April","qty":-50,"type":"outbound"},{"label":"TG 05.04","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 05.04","month":"April","qty":-360,"type":"outbound"},{"label":"DK 26.04","month":"May","qty":-100,"type":"outbound"},{"label":"TG 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"FK 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-60,"type":"outbound"},{"label":"Tawasol 12.05","month":"May","qty":-100,"type":"outbound"},{"label":"Dk 12.05","month":"May","qty":-120,"type":"outbound"},{"label":"Aqaba 17.05","month":"May","qty":-120,"type":"outbound"},{"label":"SP 19.05","month":"May","qty":-60,"type":"outbound"},{"label":"Zarqa 21.05","month":"May","qty":-120,"type":"outbound"},{"label":"KG 24.05","month":"May","qty":-60,"type":"outbound"},{"label":"DK 24.05","month":"May","qty":-120,"type":"outbound"},{"label":"Me 24.05","month":"May","qty":-120,"type":"outbound"},{"label":"Amman 31.05","month":"May","qty":-150,"type":"outbound"},{"label":"Irbid 02.06","month":"June","qty":-180,"type":"outbound"},{"label":"RR 07.06","month":"June","qty":-60,"type":"outbound"},{"label":"Aqaba 09.06","month":"June","qty":-60,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-60,"type":"outbound"},{"label":"DKS 17.6","month":"June","qty":-120,"type":"outbound"},{"label":"TW 17.6","month":"June","qty":-120,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-30,"type":"outbound"},{"label":"DK 22.6","month":"June","qty":-60,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-60,"type":"outbound"},{"label":"ME Batch 1 22.6","month":"June","qty":-50,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-120,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":1000,"type":"inbound"},{"label":"KG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"ME 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TW 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"TG 04.10","month":"Oct","qty":-50,"type":"outbound"},{"label":"SP 04.10","month":"Oct","qty":-30,"type":"outbound"},{"label":"FK 04.10","month":"Oct","qty":-20,"type":"outbound"}]},{"sku":"THS-2024-003","name":"T-Shirt Half Sleeve - L","opening":4060,"inbound":9850,"outbound":10830,"balance":3080,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":9250,"type":"inbound"},{"label":"Zarqa","month":"Mar","qty":-60,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-300,"type":"outbound"},{"label":"Irbid","month":"Mar","qty":-60,"type":"outbound"},{"label":"DK 05.04","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 05.04","month":"April","qty":-360,"type":"outbound"},{"label":"Zarqa 28.04","month":"May","qty":-100,"type":"outbound"},{"label":"DK 26.04","month":"May","qty":-100,"type":"outbound"},{"label":"TG 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"FK 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-60,"type":"outbound"},{"label":"Dk 12.05","month":"May","qty":-120,"type":"outbound"},{"label":"Zarqa 21.05","month":"May","qty":-120,"type":"outbound"},{"label":"KG 24.05","month":"May","qty":-120,"type":"outbound"},{"label":"DK 24.05","month":"May","qty":-120,"type":"outbound"},{"label":"Me 24.05","month":"May","qty":-120,"type":"outbound"},{"label":"Irbid 02.06","month":"June","qty":-180,"type":"outbound"},{"label":"RR 07.06","month":"June","qty":-60,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-300,"type":"outbound"},{"label":"DKS 17.6","month":"June","qty":-120,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-120,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-180,"type":"outbound"},{"label":"ME Batch 1 22.6","month":"June","qty":-180,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-120,"type":"outbound"},{"label":"SP 22.6","month":"June","qty":-60,"type":"outbound"},{"label":"Amman 1.7","month":"July","qty":-1200,"type":"outbound"},{"label":"ME 12.7","month":"July","qty":-180,"type":"outbound"},{"label":"Amman 15.7","month":"July","qty":-1600,"type":"outbound"},{"label":"Amman 23.7","month":"July","qty":-300,"type":"outbound"},{"label":"TG 28.7","month":"July","qty":-180,"type":"outbound"},{"label":"FKH 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"DK 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"SP 28.7","month":"July","qty":-120,"type":"outbound"},{"label":"RR 28.7 ","month":"July","qty":-60,"type":"outbound"},{"label":"ME 28.7","month":"July","qty":-120,"type":"outbound"},{"label":"KG 28.7","month":"July","qty":-120,"type":"outbound"},{"label":"Zarqa 03.08","month":"Aug","qty":-60,"type":"outbound"},{"label":"Amman 03.08","month":"Aug","qty":-600,"type":"outbound"},{"label":"Amman 11.08","month":"Aug","qty":-600,"type":"outbound"},{"label":"Amman 19.08","month":"Aug","qty":-420,"type":"outbound"},{"label":"Aqaba 24.08 ","month":"Aug","qty":-60,"type":"outbound"},{"label":"DK 24.08","month":"Aug","qty":-120,"type":"outbound"},{"label":"Amman 26.08","month":"Aug","qty":-600,"type":"outbound"},{"label":"Amman 01.09","month":"Sep","qty":-480,"type":"outbound"},{"label":"SP 06.09","month":"Sep","qty":-120,"type":"outbound"},{"label":"Amman 16.09","month":"Sep","qty":-300,"type":"outbound"},{"label":"DK  24.9","month":"Sep","qty":-180,"type":"outbound"},{"label":"ME 24.9","month":"Sep","qty":-60,"type":"outbound"},{"label":"KG 24.9","month":"Sep","qty":-120,"type":"outbound"},{"label":"Amman 01.10","month":"Oct","qty":600,"type":"inbound"}]},{"sku":"THS-2024-004","name":"T-Shirt Half Sleeve - XL","opening":11260,"inbound":11520,"outbound":3370,"balance":19410,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":11100,"type":"inbound"},{"label":"Amman 19.04","month":"April","qty":-60,"type":"outbound"},{"label":"TG 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"FK 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-60,"type":"outbound"},{"label":"Dk 12.05","month":"May","qty":-120,"type":"outbound"},{"label":"SP 19.05","month":"May","qty":-60,"type":"outbound"},{"label":"KG 24.05","month":"May","qty":-120,"type":"outbound"},{"label":"DK 24.05","month":"May","qty":-120,"type":"outbound"},{"label":"Me 24.05","month":"May","qty":-120,"type":"outbound"},{"label":"Irbid 02.06","month":"June","qty":-60,"type":"outbound"},{"label":"Aqaba 09.06","month":"June","qty":-60,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-120,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-120,"type":"outbound"},{"label":"ME Batch 1 22.6","month":"June","qty":-210,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-120,"type":"outbound"},{"label":"SP 22.6","month":"June","qty":-60,"type":"outbound"},{"label":"Amman 1.7","month":"July","qty":-1200,"type":"outbound"},{"label":"ME 12.7","month":"July","qty":-120,"type":"outbound"},{"label":"TG 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"FKH 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"DK 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"ME 28.7","month":"July","qty":-120,"type":"outbound"},{"label":"KG 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"DK 24.08","month":"Aug","qty":-120,"type":"outbound"},{"label":"TW 09.09","month":"Sep","qty":-60,"type":"outbound"},{"label":"Amman 01.10","month":"Oct","qty":420,"type":"inbound"}]},{"sku":"THS-2024-005","name":"T-Shirt Half Sleeve - XXL","opening":6000,"inbound":7400,"outbound":1720,"balance":11680,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":7400,"type":"inbound"},{"label":"Amman 05.04","month":"April","qty":-120,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-60,"type":"outbound"},{"label":"TG 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"FK 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-60,"type":"outbound"},{"label":"Dk 12.05","month":"May","qty":-120,"type":"outbound"},{"label":"SP 19.05","month":"May","qty":-60,"type":"outbound"},{"label":"KG 24.05","month":"May","qty":-60,"type":"outbound"},{"label":"DK 24.05","month":"May","qty":-60,"type":"outbound"},{"label":"Me 24.05","month":"May","qty":-60,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-120,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-120,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-120,"type":"outbound"},{"label":"ME Batch 1 22.6","month":"June","qty":-60,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-120,"type":"outbound"},{"label":"SP 22.6","month":"June","qty":-60,"type":"outbound"},{"label":"Amman 1.7","month":"July","qty":-120,"type":"outbound"},{"label":"TG 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"FKH 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"DK 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"KG 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"Amman 11.08","month":"Aug","qty":-60,"type":"outbound"}]},{"sku":"THS-2024-006","name":"T-Shirt Half Sleeve - XXXL","opening":447,"inbound":2600,"outbound":1470,"balance":1577,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":2600,"type":"inbound"},{"label":"Zarqa","month":"Mar","qty":-30,"type":"outbound"},{"label":"Irbid","month":"Mar","qty":-30,"type":"outbound"},{"label":"DK 05.04","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 05.04","month":"April","qty":-120,"type":"outbound"},{"label":"TG 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"FK 04.05","month":"May","qty":-50,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-60,"type":"outbound"},{"label":"Dk 12.05","month":"May","qty":-60,"type":"outbound"},{"label":"SP 19.05","month":"May","qty":-60,"type":"outbound"},{"label":"KG 24.05","month":"May","qty":-60,"type":"outbound"},{"label":"DK 24.05","month":"May","qty":-60,"type":"outbound"},{"label":"Me 24.05","month":"May","qty":-60,"type":"outbound"},{"label":"Amman 15.6 ","month":"June","qty":-60,"type":"outbound"},{"label":"KG 22.6","month":"June","qty":-60,"type":"outbound"},{"label":"TG 22.6","month":"June","qty":-120,"type":"outbound"},{"label":"Me Batch 2 22.6","month":"June","qty":-120,"type":"outbound"},{"label":"SP 22.6","month":"June","qty":-60,"type":"outbound"},{"label":"Amman 1.7","month":"July","qty":-120,"type":"outbound"},{"label":"KG 28.7","month":"July","qty":-60,"type":"outbound"},{"label":"Amman 11.08","month":"Aug","qty":-120,"type":"outbound"},{"label":"Aqaba 24.08 ","month":"Aug","qty":-60,"type":"outbound"}]},{"sku":"THS-2024-007","name":"T-Shirt Half Sleeve - XXXXL","opening":0,"inbound":2550,"outbound":780,"balance":1770,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":2250,"type":"inbound"},{"label":"Zarqa","month":"Mar","qty":-30,"type":"outbound"},{"label":"Amman","month":"Mar","qty":-120,"type":"outbound"},{"label":"DK 05.04","month":"April","qty":-50,"type":"outbound"},{"label":"Amman 05.04","month":"April","qty":-120,"type":"outbound"},{"label":"Me 07.04","month":"April","qty":-60,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-120,"type":"outbound"},{"label":"DK 26.04","month":"May","qty":-50,"type":"outbound"},{"label":"Zarqa 21.05","month":"May","qty":-20,"type":"outbound"},{"label":"Aqaba 09.06","month":"June","qty":-30,"type":"outbound"},{"label":"Amman 1.7","month":"July","qty":-60,"type":"outbound"},{"label":"Amman 15.7","month":"July","qty":-60,"type":"outbound"},{"label":"TW 09.09","month":"Sep","qty":-60,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":300,"type":"inbound"}]},{"sku":"THS-2024-008","name":"T-Shirt Half Sleeve - XXXXXL","opening":0,"inbound":1000,"outbound":510,"balance":490,"transactions":[{"label":"Inbound 15.02","month":"Feb","qty":750,"type":"inbound"},{"label":"Amman","month":"Mar","qty":-60,"type":"outbound"},{"label":"Irbid","month":"Mar","qty":-30,"type":"outbound"},{"label":"Amman 05.04","month":"April","qty":-120,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-60,"type":"outbound"},{"label":"Zarqa 21.05","month":"May","qty":-30,"type":"outbound"},{"label":"Aqaba 09.06","month":"June","qty":-30,"type":"outbound"},{"label":"Amman 1.7","month":"July","qty":-60,"type":"outbound"},{"label":"Amman 15.7","month":"July","qty":-60,"type":"outbound"},{"label":"Amman 03.08","month":"Aug","qty":-60,"type":"outbound"},{"label":"Inbound 30.09","month":"Oct","qty":250,"type":"inbound"}]},{"sku":"TO-2024-004","name":"Trousers - XL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"TO-2024-001","name":"Trousers - S","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"TO-2024-002","name":"Trousers - M","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"TO-2024-003","name":"Trousers - L","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"TO-2024-005","name":"Trousers - XXL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"TO-2024-006","name":"Trousers - XXXL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"TO-2024-007","name":"Trousers - XXXXL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"TO-2024-008","name":"Trousers - XXXXXL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"WJ0001","name":"Winter Jacket - S","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"WJ0002","name":"Winter Jacket - M","opening":352,"inbound":0,"outbound":352,"balance":0,"transactions":[{"label":"Irbid 5.1.2026","month":"Jan","qty":-20,"type":"outbound"},{"label":"Aqaba","month":"Feb","qty":-20,"type":"outbound"},{"label":"KG","month":"Feb","qty":-20,"type":"outbound"},{"label":"ME","month":"Feb","qty":-20,"type":"outbound"},{"label":"zarqa 08.04","month":"April","qty":-20,"type":"outbound"},{"label":"Me 07.04","month":"April","qty":-20,"type":"outbound"},{"label":"Sp 07.04","month":"April","qty":-20,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-40,"type":"outbound"},{"label":"DK 15.04","month":"April","qty":-40,"type":"outbound"},{"label":"KG 22.04","month":"April","qty":-20,"type":"outbound"},{"label":"DK 26.04","month":"May","qty":-40,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-20,"type":"outbound"},{"label":"Tawasol 12.05","month":"May","qty":-20,"type":"outbound"},{"label":"Irbid 02.06","month":"June","qty":-20,"type":"outbound"},{"label":"Amman 01.09","month":"Sep","qty":-12,"type":"outbound"}]},{"sku":"WJ0003","name":"Winter Jacket - L","opening":540,"inbound":0,"outbound":380,"balance":160,"transactions":[{"label":"Aqaba","month":"Feb","qty":-20,"type":"outbound"},{"label":"KG","month":"Feb","qty":-20,"type":"outbound"},{"label":"ME","month":"Feb","qty":-20,"type":"outbound"},{"label":"Me 07.04","month":"April","qty":-20,"type":"outbound"},{"label":"Sp 07.04","month":"April","qty":-20,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-40,"type":"outbound"},{"label":"DK 15.04","month":"April","qty":-40,"type":"outbound"},{"label":"KG 22.04","month":"April","qty":-20,"type":"outbound"},{"label":"DK 26.04","month":"May","qty":-40,"type":"outbound"},{"label":"RR 05.05","month":"May","qty":-20,"type":"outbound"},{"label":"Tawasol 12.05","month":"May","qty":-20,"type":"outbound"},{"label":"Amman 01.09","month":"Sep","qty":-100,"type":"outbound"}]},{"sku":"WJ0004","name":"Winter Jacket - XL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"WJ0005","name":"Winter Jacket - XXL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"WJ0006","name":"Winter Jacket - XXXL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"JTP-2024-001","name":"Jacket T-Patroller - S","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"JTP-2024-002","name":"Jacket T-Patroller - M","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"JTP-2024-003","name":"Jacket T-Patroller - L","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"JTP-2024-004","name":"Jacket T-Patroller - XL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"JTP-2024-005","name":"Jacket T-Patroller - XXL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"JTP-2024-006","name":"Jacket T-Patroller - XXXL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"JTP-2024-007","name":"Jacket T-Patroller - XXXXL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"LJ-2024-004","name":"Winter Jacket - XL","opening":140,"inbound":0,"outbound":140,"balance":0,"transactions":[{"label":"KG","month":"Feb","qty":-25,"type":"outbound"},{"label":"ME","month":"Feb","qty":-25,"type":"outbound"},{"label":"zarqa 08.04","month":"April","qty":-20,"type":"outbound"},{"label":"Irbid 12.04","month":"April","qty":-20,"type":"outbound"},{"label":"Amman 08.10","month":"Oct","qty":-50,"type":"outbound"}]},{"sku":"LJ-2024-005","name":"Winter Jacket - XXL","opening":0,"inbound":0,"outbound":0,"balance":0,"transactions":[]},{"sku":"HIJAB0001","name":"HIJAB T-shirt S","opening":12,"inbound":0,"outbound":0,"balance":12,"transactions":[]},{"sku":"HIJAB0002","name":"HIJAB T-shirt M","opening":241,"inbound":0,"outbound":0,"balance":241,"transactions":[]},{"sku":"HIJAB0003","name":"HIJAB T-shirt L","opening":222,"inbound":0,"outbound":0,"balance":222,"transactions":[]},{"sku":"HIJAB0005","name":"HIJAB T-shirt XXL","opening":8,"inbound":0,"outbound":0,"balance":8,"transactions":[]},{"sku":"HIJAB0006","name":"HIJAB T-shirt XXXL","opening":3,"inbound":0,"outbound":0,"balance":3,"transactions":[]},{"sku":"HIJAB0007","name":"HIJAB Padded Winter Jacket-S","opening":25,"inbound":0,"outbound":25,"balance":0,"transactions":[{"label":"Amman 12.1.2026","month":"Jan","qty":-25,"type":"outbound"}]},{"sku":"HIJAB0008","name":"HIJAB Padded Winter Jacket-M","opening":150,"inbound":0,"outbound":30,"balance":120,"transactions":[{"label":"Amman 12.1.2026","month":"Jan","qty":-30,"type":"outbound"}]},{"sku":"HIJAB0009","name":"HIJAB Padded Winter Jacket-L","opening":140,"inbound":0,"outbound":30,"balance":110,"transactions":[{"label":"Amman 12.1.2026","month":"Jan","qty":-30,"type":"outbound"}]},{"sku":"HIJAB0010","name":"HIJAB Padded Winter Jacket-XL","opening":105,"inbound":0,"outbound":30,"balance":75,"transactions":[{"label":"Amman 12.1.2026","month":"Jan","qty":-30,"type":"outbound"}]},{"sku":"HIJAB0011","name":"HIJAB Padded Winter Jacket-XXL","opening":15,"inbound":0,"outbound":15,"balance":0,"transactions":[{"label":"Amman 12.1.2026","month":"Jan","qty":-15,"type":"outbound"}]},{"sku":"HIJAB0012","name":"HIJAB Padded Winter Jacket-XXXL","opening":10,"inbound":0,"outbound":10,"balance":0,"transactions":[{"label":"Amman 12.1.2026","month":"Jan","qty":-10,"type":"outbound"}]}];
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <!-- Firebase SDK replaced with REST API — no WebSocket needed -->
 <style>
@@ -18,9 +20,10 @@
 
   /* ── Hero banner ── */
   .tlb-hero{background:linear-gradient(135deg,#fff8f4 0%,#fff 40%,#fff5f0 100%);border-bottom:1px solid #ffe0cc;position:relative;overflow:hidden;}
-  .tlb-hero-inner{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:186px;}
-  .tlb-hero-left,.tlb-hero-right{flex-shrink:0;}
-  .tlb-hero-center{text-align:center;flex:1;padding:0 8px;}
+  .tlb-hero-inner{display:flex;align-items:center;justify-content:space-between;padding:0 0;height:186px;}
+  .tlb-hero-left,.tlb-hero-right{flex:1;min-width:0;overflow:hidden;display:flex;align-items:stretch;}
+  .tlb-hero-left svg,.tlb-hero-right svg{width:100%;height:220px;}
+  .tlb-hero-center{text-align:center;flex:0 0 260px;padding:0 2px;}
   .tlb-hero-brand{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:0;}
   .tlb-hero-brand span{font-size:32px;font-weight:900;color:#FF5900;letter-spacing:-1px;font-family:'Segoe UI',Arial,sans-serif;}
   .tlb-wordmark-wrap{position:relative;display:inline-block;line-height:1;margin:0 0 2px;}
@@ -342,104 +345,170 @@
 <div class="tlb-hero">
   <div class="tlb-hero-inner">
 
-    <!-- LEFT: Upload arrow + boxes + truck -->
+    <!-- LEFT: Truck · Bag · Loading -->
     <div class="tlb-hero-left" aria-hidden="true">
-      <svg width="280" height="170" viewBox="0 0 280 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 520 220" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="bF" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B55A"/><stop offset="100%" stop-color="#C48B30"/></linearGradient>
-          <linearGradient id="bT" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5C87A"/><stop offset="100%" stop-color="#D4A04A"/></linearGradient>
-          <linearGradient id="bS" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C48B30"/><stop offset="100%" stop-color="#A86E1A"/></linearGradient>
-          <linearGradient id="trC" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#eee"/></linearGradient>
-          <linearGradient id="trOr" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7A35"/><stop offset="100%" stop-color="#CC3D00"/></linearGradient>
-          <filter id="sh"><feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-color="#00000028"/></filter>
-          <filter id="sh2"><feDropShadow dx="1" dy="3" stdDeviation="4" flood-color="#00000030"/></filter>
+          <linearGradient id="trBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#e8e8e8"/></linearGradient>
+          <linearGradient id="trOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#CC3D00"/></linearGradient>
+          <linearGradient id="trGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b3d9f5" stop-opacity="0.8"/><stop offset="100%" stop-color="#6fb3e0" stop-opacity="0.5"/></linearGradient>
+          <linearGradient id="bagBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7030"/><stop offset="100%" stop-color="#BF3000"/></linearGradient>
+          <linearGradient id="bagDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#8B2000"/></linearGradient>
+          <linearGradient id="boxF" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B55A"/><stop offset="100%" stop-color="#C48B30"/></linearGradient>
+          <linearGradient id="boxT" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5C87A"/><stop offset="100%" stop-color="#D4A04A"/></linearGradient>
+          <linearGradient id="boxSd" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C48B30"/><stop offset="100%" stop-color="#A06010"/></linearGradient>
+          <radialGradient id="tireShine" cx="35%" cy="30%" r="60%"><stop offset="0%" stop-color="#666"/><stop offset="100%" stop-color="#111"/></radialGradient>
+          <filter id="shadow"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#00000030"/></filter>
+          <filter id="shadowSm"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000025"/></filter>
         </defs>
 
-        <!-- ── DELIVERY TRUCK ── -->
-        <g transform="translate(8,68)" filter="url(#sh2)">
-          <!-- Cargo box -->
-          <rect x="0" y="10" width="120" height="58" rx="3" fill="url(#trC)"/>
-          <rect x="0" y="10" width="120" height="10" rx="3" fill="#f0f0f0"/>
-          <text x="14" y="44" font-size="16" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
-          <rect x="0" y="54" width="120" height="5" fill="rgba(255,89,0,0.2)"/>
+        <!-- ═══ TRUCK (detailed) ═══ -->
+        <g transform="translate(10, 30)" filter="url(#shadow)">
+          <!-- Ground shadow -->
+          <ellipse cx="185" cy="175" rx="160" ry="10" fill="rgba(0,0,0,0.12)"/>
+          <!-- Cargo container -->
+          <rect x="0" y="30" width="220" height="120" rx="4" fill="url(#trBody)"/>
+          <!-- Container top edge -->
+          <rect x="0" y="30" width="220" height="6" rx="3" fill="#d0d0d0"/>
+          <!-- talabat branding stripe on cargo -->
+          <rect x="0" y="118" width="220" height="26" rx="0" fill="url(#trOrange)"/>
+          <!-- talabat text on cargo -->
+          <text x="22" y="88" font-size="28" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial,sans-serif" letter-spacing="-1">talabat</text>
+          <!-- Door lines on cargo -->
+          <line x1="110" y1="36" x2="110" y2="118" stroke="#ccc" stroke-width="2"/>
+          <line x1="158" y1="36" x2="158" y2="118" stroke="#ccc" stroke-width="2"/>
+          <!-- Rivets -->
+          <circle cx="5" cy="40" r="3" fill="#bbb"/><circle cx="5" cy="60" r="3" fill="#bbb"/><circle cx="5" cy="80" r="3" fill="#bbb"/><circle cx="5" cy="100" r="3" fill="#bbb"/>
+          <circle cx="215" cy="40" r="3" fill="#bbb"/><circle cx="215" cy="60" r="3" fill="#bbb"/>
+
           <!-- Cab -->
-          <rect x="98" y="0" width="50" height="68" rx="5" fill="url(#trC)"/>
-          <rect x="103" y="5" width="40" height="26" rx="3" fill="#3a1505" opacity="0.7"/>
-          <rect x="98" y="56" width="50" height="7" fill="url(#trOr)"/>
-          <!-- Orange stripe -->
-          <rect x="0" y="62" width="148" height="6" rx="2" fill="url(#trOr)"/>
+          <rect x="188" y="10" width="90" height="136" rx="8" fill="url(#trBody)"/>
+          <!-- Cab front slope -->
+          <path d="M188,10 L228,0 L278,10" fill="#e0e0e0"/>
+          <!-- Windshield -->
+          <rect x="196" y="16" width="74" height="52" rx="5" fill="url(#trGlass)"/>
+          <!-- Windshield reflection -->
+          <path d="M200,20 L234,16 L234,30 L200,36 Z" fill="rgba(255,255,255,0.35)"/>
+          <!-- Cab door -->
+          <rect x="196" y="76" width="74" height="56" rx="3" fill="#e8e8e8"/>
+          <rect x="200" y="80" width="66" height="44" rx="3" fill="#f5f5f5"/>
+          <!-- Door handle -->
+          <rect x="254" y="105" width="12" height="5" rx="2.5" fill="#bbb"/>
+          <!-- Side mirror -->
+          <rect x="184" y="20" width="10" height="18" rx="3" fill="#ccc"/>
+          <!-- Cab stripe -->
+          <rect x="188" y="118" width="90" height="18" rx="0" fill="url(#trOrange)"/>
+          <!-- Lights -->
+          <rect x="260" y="12" width="16" height="10" rx="2" fill="#fffde0"/>
+          <rect x="260" y="12" width="16" height="10" rx="2" fill="rgba(255,220,100,0.6)"/>
+          <!-- Front bumper -->
+          <rect x="188" y="134" width="90" height="12" rx="4" fill="#d0d0d0"/>
+          <!-- Exhaust pipe -->
+          <rect x="186" y="0" width="6" height="28" rx="3" fill="#aaa"/>
+
           <!-- Wheels -->
-          <circle cx="28" cy="76" r="13" fill="#2a1000"/>
-          <circle cx="28" cy="76" r="8"  fill="#555"/>
-          <circle cx="28" cy="76" r="4"  fill="#2a1000"/>
-          <circle cx="28" cy="76" r="2"  fill="#fff" opacity="0.4"/>
-          <circle cx="88" cy="76" r="13" fill="#2a1000"/>
-          <circle cx="88" cy="76" r="8"  fill="#555"/>
-          <circle cx="88" cy="76" r="4"  fill="#2a1000"/>
-          <circle cx="88" cy="76" r="2"  fill="#fff" opacity="0.4"/>
-          <circle cx="130" cy="76" r="13" fill="#2a1000"/>
-          <circle cx="130" cy="76" r="8"  fill="#555"/>
-          <circle cx="130" cy="76" r="4"  fill="#2a1000"/>
-          <circle cx="130" cy="76" r="2"  fill="#fff" opacity="0.4"/>
-          <!-- Road line -->
-          <line x1="-10" y1="89" x2="160" y2="89" stroke="#ddd" stroke-width="2"/>
-          <!-- Speed lines -->
-          <line x1="-18" y1="36" x2="-4" y2="36" stroke="#FF5900" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/>
-          <line x1="-22" y1="48" x2="-6" y2="48" stroke="#FF5900" stroke-width="1.5" stroke-linecap="round" opacity="0.25"/>
+          <g transform="translate(30, 142)">
+            <circle cx="0" cy="0" r="24" fill="#1a1a1a"/>
+            <circle cx="0" cy="0" r="16" fill="url(#tireShine)"/>
+            <circle cx="0" cy="0" r="8" fill="#222"/>
+            <circle cx="0" cy="0" r="4" fill="#555"/>
+            <!-- Lug nuts -->
+            <circle cx="0" cy="-12" r="3" fill="#888"/>
+            <circle cx="10" cy="-6" r="3" fill="#888"/>
+            <circle cx="10" cy="6" r="3" fill="#888"/>
+            <circle cx="0" cy="12" r="3" fill="#888"/>
+            <circle cx="-10" cy="6" r="3" fill="#888"/>
+            <circle cx="-10" cy="-6" r="3" fill="#888"/>
+          </g>
+          <g transform="translate(126, 142)">
+            <circle cx="0" cy="0" r="24" fill="#1a1a1a"/>
+            <circle cx="0" cy="0" r="16" fill="url(#tireShine)"/>
+            <circle cx="0" cy="0" r="8" fill="#222"/>
+            <circle cx="0" cy="0" r="4" fill="#555"/>
+            <circle cx="0" cy="-12" r="3" fill="#888"/>
+            <circle cx="10" cy="-6" r="3" fill="#888"/>
+            <circle cx="10" cy="6" r="3" fill="#888"/>
+            <circle cx="0" cy="12" r="3" fill="#888"/>
+            <circle cx="-10" cy="6" r="3" fill="#888"/>
+            <circle cx="-10" cy="-6" r="3" fill="#888"/>
+          </g>
+          <g transform="translate(236, 142)">
+            <circle cx="0" cy="0" r="24" fill="#1a1a1a"/>
+            <circle cx="0" cy="0" r="16" fill="url(#tireShine)"/>
+            <circle cx="0" cy="0" r="8" fill="#222"/>
+            <circle cx="0" cy="0" r="4" fill="#555"/>
+            <circle cx="0" cy="-12" r="3" fill="#888"/>
+            <circle cx="10" cy="-6" r="3" fill="#888"/>
+            <circle cx="10" cy="6" r="3" fill="#888"/>
+            <circle cx="0" cy="12" r="3" fill="#888"/>
+            <circle cx="-10" cy="6" r="3" fill="#888"/>
+            <circle cx="-10" cy="-6" r="3" fill="#888"/>
+          </g>
+          <!-- Road -->
+          <line x1="-20" y1="166" x2="310" y2="166" stroke="#d0d0d0" stroke-width="3"/>
+          <line x1="-20" y1="168" x2="310" y2="168" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
         </g>
 
-        <!-- ── OPEN BOX with UP arrow (upload) ── -->
-        <g transform="translate(170,30)" filter="url(#sh)">
-          <ellipse cx="40" cy="104" rx="32" ry="5" fill="rgba(0,0,0,0.08)"/>
-          <!-- box front -->
-          <path d="M8,40 L8,102 L72,102 L72,40 Z" fill="url(#bF)"/>
-          <!-- box top face -->
-          <path d="M8,40 L40,24 L72,40 L40,56 Z" fill="url(#bT)"/>
-          <!-- box side -->
-          <path d="M72,40 L72,102 L84,92 L84,30 Z" fill="url(#bS)"/>
-          <!-- open flaps -->
-          <path d="M8,40 L8,22 L40,6 L40,24 Z" fill="#DDB060" opacity="0.8"/>
-          <path d="M72,40 L72,22 L40,6 L40,24 Z" fill="#C89040" opacity="0.85"/>
-          <!-- tape -->
-          <rect x="35" y="40" width="10" height="62" fill="rgba(255,200,100,0.35)"/>
-          <!-- seams front -->
-          <line x1="8" y1="55" x2="72" y2="55" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
-          <line x1="8" y1="72" x2="72" y2="72" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
-          <line x1="8" y1="88" x2="72" y2="88" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
-          <!-- UP ARROW (upload) -->
-          <line x1="40" y1="3" x2="40" y2="28" stroke="#FF5900" stroke-width="3" stroke-linecap="round" opacity="0.0"/>
+        <!-- ═══ DELIVERY BAG (detailed) ═══ -->
+        <g transform="translate(320, 18)" filter="url(#shadowSm)">
+          <ellipse cx="60" cy="200" rx="50" ry="7" fill="rgba(0,0,0,0.1)"/>
+          <!-- Handle left -->
+          <path d="M28,36 C28,10 92,10 92,36" stroke="#6B1800" stroke-width="12" fill="none" stroke-linecap="round"/>
+          <path d="M28,36 C28,14 92,14 92,36" stroke="#FF5020" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <!-- Handle shine -->
+          <path d="M36,30 C40,16 80,16 84,30" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Bag body -->
+          <rect x="8" y="36" width="104" height="152" rx="10" fill="url(#bagBody)"/>
+          <!-- Zipper flap top -->
+          <rect x="8" y="36" width="104" height="28" rx="10" fill="url(#bagDark)"/>
+          <rect x="8" y="56" width="104" height="8" fill="url(#bagDark)"/>
+          <!-- Zipper teeth -->
+          <line x1="16" y1="50" x2="104" y2="50" stroke="#FF6030" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+          <!-- Zipper pull -->
+          <rect x="55" y="28" width="10" height="16" rx="4" fill="#3a0800"/>
+          <rect x="57" y="20" width="6" height="12" rx="3" fill="#220400"/>
+          <!-- Quilted horizontal seams -->
+          <line x1="8" y1="80"  x2="112" y2="80"  stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <line x1="8" y1="104" x2="112" y2="104" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <line x1="8" y1="128" x2="112" y2="128" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <line x1="8" y1="152" x2="112" y2="152" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" stroke-dasharray="8,5"/>
+          <!-- Side depth shading -->
+          <rect x="8"   y="64" width="10" height="124" rx="5" fill="rgba(0,0,0,0.18)"/>
+          <rect x="102" y="64" width="10" height="124" rx="5" fill="rgba(255,255,255,0.06)"/>
+          <!-- White logo plate -->
+          <rect x="18" y="110" width="84" height="36" rx="7" fill="white"/>
+          <text x="60" y="134" text-anchor="middle" font-size="20" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial,sans-serif">talabat</text>
+          <!-- Highlight shine on body -->
+          <ellipse cx="32" cy="44" rx="14" ry="5" fill="rgba(255,255,255,0.22)" transform="rotate(-8,32,44)"/>
+          <!-- Bottom rounded shadow -->
+          <rect x="8" y="172" width="104" height="16" rx="0 0 10 10" fill="rgba(0,0,0,0.12)"/>
         </g>
 
-        <!-- ── UPLOAD ARROW floating ── -->
-        <g transform="translate(200,5)">
-          <circle cx="28" cy="28" r="22" fill="#FF5900" opacity="0.12"/>
-          <line x1="28" y1="38" x2="28" y2="16" stroke="#FF5900" stroke-width="3" stroke-linecap="round"/>
-          <polyline points="18,26 28,14 38,26" stroke="#FF5900" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-          <text x="28" y="55" text-anchor="middle" font-size="8" fill="#FF5900" font-weight="700" font-family="Arial">INBOUND</text>
+        <!-- ═══ INBOUND / OUTBOUND (stylish) ═══ -->
+        <g transform="translate(328, 0)">
+          <!-- INBOUND box -->
+          <rect x="0" y="0" width="78" height="28" rx="14" fill="rgba(255,89,0,0.1)"/>
+          <line x1="24" y1="20" x2="24" y2="8"  stroke="#FF5900" stroke-width="3" stroke-linecap="round"/>
+          <polyline points="16,15 24,6 32,15" stroke="#FF5900" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+          <text x="44" y="18" font-size="10" fill="#FF5900" font-weight="700" font-family="Arial">INBOUND</text>
         </g>
-
-        <!-- ── DOWNLOAD ARROW floating ── -->
-        <g transform="translate(234,5)">
-          <circle cx="20" cy="28" r="18" fill="#2a9d8f" opacity="0.12"/>
-          <line x1="20" y1="16" x2="20" y2="38" stroke="#2a9d8f" stroke-width="3" stroke-linecap="round"/>
-          <polyline points="10,28 20,40 30,28" stroke="#2a9d8f" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-          <text x="20" y="55" text-anchor="middle" font-size="8" fill="#2a9d8f" font-weight="700" font-family="Arial">OUTBOUND</text>
+        <g transform="translate(328, 32)">
+          <!-- OUTBOUND box -->
+          <rect x="0" y="0" width="90" height="28" rx="14" fill="rgba(42,157,143,0.1)"/>
+          <line x1="24" y1="8"  x2="24" y2="20" stroke="#2a9d8f" stroke-width="3" stroke-linecap="round"/>
+          <polyline points="16,13 24,22 32,13" stroke="#2a9d8f" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+          <text x="44" y="18" font-size="10" fill="#2a9d8f" font-weight="700" font-family="Arial">OUTBOUND</text>
         </g>
 
       </svg>
     </div>
 
-    <!-- CENTER: talabat wordmark + title -->
+    <!-- CENTER -->
     <div class="tlb-hero-center">
       <div class="tlb-hero-brand">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="iconGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#FF8040"/>
-              <stop offset="100%" stop-color="#CC3D00"/>
-            </linearGradient>
-          </defs>
-          <rect x="2" y="10" width="28" height="18" rx="3.5" fill="url(#iconGrad)"/>
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs><linearGradient id="iG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#CC3D00"/></linearGradient></defs>
+          <rect x="2" y="10" width="28" height="18" rx="3.5" fill="url(#iG)"/>
           <rect x="9" y="4" width="14" height="9" rx="2" fill="#FF7A35"/>
           <rect x="12" y="13" width="8" height="9" rx="1.5" fill="white"/>
         </svg>
@@ -449,85 +518,129 @@
         <svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex-shrink:0"><rect x="2" y="5" width="16" height="12" rx="2" fill="#888"/><rect x="6" y="2" width="8" height="5" rx="1" fill="#aaa"/><rect x="8" y="8" width="4" height="5" rx="0.5" fill="white"/></svg>
         Inventory Monitor
       </div>
-      <div class="tlb-hero-sub">Naouri Warehouse &nbsp;·&nbsp; 5 Locations &nbsp;·&nbsp; Auto-saved &nbsp;·&nbsp; 2026</div>
+      <div class="tlb-hero-sub">Naouri Warehouse &nbsp;·&nbsp; 5 Locations &nbsp;·&nbsp; 2026</div>
     </div>
 
-    <!-- RIGHT: jacket + tshirt + budget coins -->
+    <!-- RIGHT: Jacket · Coins · Box loading -->
     <div class="tlb-hero-right" aria-hidden="true">
-      <svg width="280" height="170" viewBox="0 0 280 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 520 220" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="jG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#E04000"/></linearGradient>
-          <linearGradient id="sG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7A35"/><stop offset="100%" stop-color="#FF5900"/></linearGradient>
-          <linearGradient id="coinG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFD966"/><stop offset="100%" stop-color="#B8860B"/></linearGradient>
-          <linearGradient id="coinS" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4A017"/><stop offset="100%" stop-color="#8B6000"/></linearGradient>
-          <filter id="sh3"><feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-color="#00000028"/></filter>
-          <filter id="sh4"><feDropShadow dx="1" dy="3" stdDeviation="4" flood-color="#00000030"/></filter>
+          <linearGradient id="jkBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF8040"/><stop offset="100%" stop-color="#E03800"/></linearGradient>
+          <linearGradient id="jkDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#8B2200"/></linearGradient>
+          <linearGradient id="jkSlv"  x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#CC3D00"/><stop offset="100%" stop-color="#FF6020"/></linearGradient>
+          <linearGradient id="coinTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFE066"/><stop offset="100%" stop-color="#D4A010"/></linearGradient>
+          <linearGradient id="coinSide" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C89010"/><stop offset="100%" stop-color="#906000"/></linearGradient>
+          <linearGradient id="bxF2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8B55A"/><stop offset="100%" stop-color="#C48B30"/></linearGradient>
+          <linearGradient id="bxT2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5C87A"/><stop offset="100%" stop-color="#D4A04A"/></linearGradient>
+          <linearGradient id="bxS2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C48B30"/><stop offset="100%" stop-color="#906010"/></linearGradient>
+          <filter id="sh7"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#00000030"/></filter>
+          <filter id="sh8"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000025"/></filter>
         </defs>
 
-        <!-- ── JACKET ── -->
-        <g transform="translate(0,6)" filter="url(#sh4)">
-          <ellipse cx="58" cy="152" rx="48" ry="6" fill="rgba(0,0,0,0.08)"/>
-          <path d="M20,30 L8,95 L12,144 L104,144 L108,95 L96,30 Z" fill="url(#jG)"/>
-          <!-- sleeves -->
-          <path d="M20,30 L4,24 L-4,72 L20,78 Z" fill="#FF6020"/>
-          <rect x="-4" y="66" width="24" height="12" rx="4" fill="#CC3D00"/>
-          <path d="M96,30 L112,24 L120,72 L96,78 Z" fill="#FF6020"/>
-          <rect x="96" y="66" width="24" height="12" rx="4" fill="#CC3D00"/>
-          <!-- collars -->
-          <path d="M20,30 Q30,14 40,8 Q52,24 58,30 L56,58 Q34,54 20,58 Z" fill="#CC3D00"/>
-          <path d="M96,30 Q86,14 76,8 Q64,24 58,30 L60,58 Q82,54 96,58 Z" fill="#CC3D00"/>
-          <!-- zipper -->
-          <line x1="58" y1="30" x2="58" y2="144" stroke="rgba(0,0,0,0.18)" stroke-width="2" stroke-dasharray="5,3"/>
-          <rect x="54" y="28" width="8" height="7" rx="2" fill="#CC3D00"/>
-          <rect x="56" y="21" width="4" height="10" rx="1.5" fill="#881800"/>
-          <!-- pockets -->
-          <rect x="22" y="72" width="26" height="22" rx="4" fill="rgba(0,0,0,0.12)"/>
-          <rect x="68" y="72" width="34" height="22" rx="4" fill="white"/>
-          <text x="85" y="87" text-anchor="middle" font-size="9" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
-          <rect x="12" y="140" width="92" height="6" rx="3" fill="#CC3D00"/>
-          <!-- seams + highlight -->
-          <line x1="20" y1="30" x2="20" y2="78" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-          <line x1="96" y1="30" x2="96" y2="78" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-          <path d="M24,36 Q46,50 58,44" stroke="rgba(255,255,255,0.28)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- ═══ JACKET (detailed) ═══ -->
+        <g transform="translate(8, 4)" filter="url(#sh7)">
+          <ellipse cx="84" cy="214" rx="76" ry="8" fill="rgba(0,0,0,0.1)"/>
+          <!-- Body -->
+          <path d="M28,38 L10,120 L16,206 L152,206 L158,120 L140,38 Z" fill="url(#jkBody)"/>
+          <!-- Left sleeve -->
+          <path d="M28,38 L6,30 L-8,100 L28,108 Z" fill="#FF6020"/>
+          <!-- Left sleeve seam -->
+          <line x1="28" y1="38" x2="28" y2="108" stroke="rgba(0,0,0,0.1)" stroke-width="2"/>
+          <!-- Left cuff -->
+          <rect x="-8" y="90" width="36" height="18" rx="6" fill="url(#jkDark)"/>
+          <!-- Right sleeve -->
+          <path d="M140,38 L162,30 L176,100 L140,108 Z" fill="#FF6020"/>
+          <line x1="140" y1="38" x2="140" y2="108" stroke="rgba(0,0,0,0.1)" stroke-width="2"/>
+          <!-- Right cuff -->
+          <rect x="140" y="90" width="36" height="18" rx="6" fill="url(#jkDark)"/>
+          <!-- Left collar -->
+          <path d="M28,38 Q42,18 56,10 Q72,30 84,38 L80,72 Q52,68 28,72 Z" fill="url(#jkDark)"/>
+          <!-- Right collar -->
+          <path d="M140,38 Q126,18 112,10 Q96,30 84,38 L88,72 Q116,68 140,72 Z" fill="url(#jkDark)"/>
+          <!-- Collar inner V shape -->
+          <path d="M56,12 Q84,36 112,12" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/>
+          <!-- Zipper line -->
+          <line x1="84" y1="38" x2="84" y2="206" stroke="rgba(0,0,0,0.2)" stroke-width="2.5" stroke-dasharray="6,4"/>
+          <!-- Zipper pull -->
+          <rect x="79" y="34" width="10" height="9" rx="3" fill="url(#jkDark)"/>
+          <rect x="81" y="24" width="6" height="13" rx="2" fill="#4a0e00"/>
+          <!-- Left chest pocket -->
+          <rect x="34" y="96" width="34" height="28" rx="5" fill="rgba(0,0,0,0.15)"/>
+          <line x1="34" y1="108" x2="68" y2="108" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+          <!-- Right chest badge (white) -->
+          <rect x="100" y="96" width="44" height="28" rx="5" fill="white"/>
+          <text x="122" y="115" text-anchor="middle" font-size="11" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
+          <!-- Bottom hem -->
+          <rect x="16" y="200" width="136" height="8" rx="4" fill="url(#jkDark)"/>
+          <!-- Body highlight -->
+          <path d="M34,46 Q60,62 84,56" stroke="rgba(255,255,255,0.28)" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <!-- Stitching lines body -->
+          <line x1="28" y1="72" x2="28" y2="120" stroke="rgba(0,0,0,0.06)" stroke-width="1.5"/>
+          <line x1="140" y1="72" x2="140" y2="120" stroke="rgba(0,0,0,0.06)" stroke-width="1.5"/>
         </g>
 
-        <!-- ── T-SHIRT ── -->
-        <g transform="translate(118,8)" filter="url(#sh3)">
-          <ellipse cx="54" cy="140" rx="44" ry="5" fill="rgba(0,0,0,0.08)"/>
-          <path d="M22,28 L22,132 L86,132 L86,28 Q70,38 54,36 Q38,38 22,28 Z" fill="url(#sG)"/>
-          <path d="M22,28 Q8,20 2,30 L10,54 L22,48 Z" fill="#FF6020"/>
-          <path d="M86,28 Q100,20 106,30 L98,54 L86,48 Z" fill="#FF6020"/>
-          <path d="M36,28 Q54,42 72,28" stroke="#CC3D00" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <path d="M36,28 Q54,18 72,28" fill="#FF7A35"/>
-          <rect x="28" y="74" width="52" height="24" rx="4" fill="rgba(255,255,255,0.95)"/>
-          <text x="54" y="91" text-anchor="middle" font-size="13" font-weight="900" fill="#FF5900" font-family="'Segoe UI',Arial">talabat</text>
-          <path d="M26,34 Q42,42 54,38" stroke="rgba(255,255,255,0.3)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- ═══ COIN STACK BUDGET (detailed) ═══ -->
+        <g transform="translate(186, 10)" filter="url(#sh8)">
+          <ellipse cx="56" cy="208" rx="52" ry="8" fill="rgba(0,0,0,0.1)"/>
+          <!-- 6 coin layers from bottom to top -->
+          <!-- Layer 6 (bottom) -->
+          <ellipse cx="56" cy="198" rx="50" ry="12" fill="#7a5200"/>
+          <rect x="6" y="170" width="100" height="28" fill="url(#coinSide)"/>
+          <ellipse cx="56" cy="170" rx="50" ry="12" fill="url(#coinTop)"/>
+          <text x="56" y="175" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
+          <!-- Layer 5 -->
+          <ellipse cx="56" cy="158" rx="50" ry="12" fill="#7a5200"/>
+          <rect x="6" y="130" width="100" height="28" fill="url(#coinSide)"/>
+          <ellipse cx="56" cy="130" rx="50" ry="12" fill="url(#coinTop)"/>
+          <text x="56" y="135" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
+          <!-- Layer 4 -->
+          <ellipse cx="56" cy="118" rx="50" ry="12" fill="#7a5200"/>
+          <rect x="6" y="90" width="100" height="28" fill="url(#coinSide)"/>
+          <ellipse cx="56" cy="90" rx="50" ry="12" fill="url(#coinTop)"/>
+          <text x="56" y="95" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
+          <!-- Layer 3 -->
+          <ellipse cx="56" cy="78" rx="50" ry="12" fill="#7a5200"/>
+          <rect x="6" y="50" width="100" height="28" fill="url(#coinSide)"/>
+          <ellipse cx="56" cy="50" rx="50" ry="12" fill="url(#coinTop)"/>
+          <text x="56" y="55" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
+          <!-- Layer 2 -->
+          <ellipse cx="56" cy="38" rx="50" ry="12" fill="#7a5200"/>
+          <rect x="6" y="14" width="100" height="24" fill="url(#coinSide)"/>
+          <ellipse cx="56" cy="14" rx="50" ry="12" fill="url(#coinTop)"/>
+          <!-- shine top coin -->
+          <ellipse cx="36" cy="8" rx="16" ry="6" fill="rgba(255,255,255,0.42)" transform="rotate(-16,36,8)"/>
+          <text x="56" y="19" text-anchor="middle" font-size="11" font-weight="800" fill="rgba(80,44,0,0.65)" font-family="Arial">JOD</text>
+          <!-- BUDGET label -->
+          <text x="56" y="220" text-anchor="middle" font-size="12" font-weight="700" fill="#906000" font-family="'Segoe UI',Arial" letter-spacing="2">BUDGET</text>
         </g>
 
-        <!-- ── BUDGET COIN STACK ── -->
-        <g transform="translate(222,20)" filter="url(#sh3)">
-          <!-- shadow -->
-          <ellipse cx="32" cy="140" rx="28" ry="5" fill="rgba(0,0,0,0.1)"/>
-          <!-- Stack 3 (bottom) -->
-          <ellipse cx="32" cy="128" rx="26" ry="7" fill="#8B6000"/>
-          <rect x="6" y="108" width="52" height="20" fill="#B8860B"/>
-          <ellipse cx="32" cy="108" rx="26" ry="7" fill="url(#coinG)"/>
-          <!-- Stack 2 -->
-          <ellipse cx="32" cy="100" rx="26" ry="7" fill="#8B6000"/>
-          <rect x="6" y="80" width="52" height="20" fill="#B8860B"/>
-          <ellipse cx="32" cy="80" rx="26" ry="7" fill="url(#coinG)"/>
-          <!-- Stack 1 (top) -->
-          <ellipse cx="32" cy="72" rx="26" ry="7" fill="#8B6000"/>
-          <rect x="6" y="52" width="52" height="20" fill="#B8860B"/>
-          <ellipse cx="32" cy="52" rx="26" ry="7" fill="url(#coinG)"/>
-          <!-- JOD text -->
-          <text x="32" y="56" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(80,50,0,0.75)" font-family="Arial">JOD</text>
-          <text x="32" y="84" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(80,50,0,0.75)" font-family="Arial">JOD</text>
-          <text x="32" y="112" text-anchor="middle" font-size="9" font-weight="800" fill="rgba(80,50,0,0.75)" font-family="Arial">JOD</text>
-          <!-- shine on top coin -->
-          <ellipse cx="20" cy="48" rx="9" ry="3.5" fill="rgba(255,255,255,0.35)" transform="rotate(-15,20,48)"/>
-          <!-- budget label -->
-          <text x="32" y="158" text-anchor="middle" font-size="9" font-weight="700" fill="#B8860B" font-family="Arial">BUDGET</text>
+        <!-- ═══ OPEN BOX loading scene ═══ -->
+        <g transform="translate(326, 28)" filter="url(#sh8)">
+          <ellipse cx="90" cy="190" rx="80" ry="8" fill="rgba(0,0,0,0.09)"/>
+          <!-- Big open box -->
+          <path d="M18,76 L18,182 L162,182 L162,76 Z" fill="url(#bxF2)"/>
+          <!-- Box top face -->
+          <path d="M18,76 L90,48 L162,76 L90,104 Z" fill="url(#bxT2)"/>
+          <!-- Box right side -->
+          <path d="M162,76 L162,182 L186,166 L186,60 Z" fill="url(#bxS2)"/>
+          <!-- Open flap left -->
+          <path d="M18,76 L18,42 L90,14 L90,48 Z" fill="#DDB060" opacity="0.85"/>
+          <!-- Open flap right -->
+          <path d="M162,76 L162,42 L90,14 L90,48 Z" fill="#C89040" opacity="0.9"/>
+          <!-- Tape stripe -->
+          <rect x="82" y="76" width="16" height="106" fill="rgba(255,210,120,0.35)"/>
+          <rect x="18" y="120" width="144" height="16" fill="rgba(255,210,120,0.28)"/>
+          <!-- Seam lines front -->
+          <line x1="18" y1="104" x2="162" y2="104" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+          <line x1="18" y1="136" x2="162" y2="136" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+          <line x1="18" y1="162" x2="162" y2="162" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+          <!-- Cardboard texture lines -->
+          <line x1="18" y1="89" x2="162" y2="89" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
+          <!-- UP arrow inside box (loading) -->
+          <line x1="90" y1="162" x2="90" y2="120" stroke="#FF5900" stroke-width="4" stroke-linecap="round"/>
+          <polyline points="74,136 90,118 106,136" stroke="#FF5900" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+          <!-- "LOAD" text -->
+          <text x="90" y="178" text-anchor="middle" font-size="11" font-weight="700" fill="rgba(140,80,0,0.6)" font-family="Arial" letter-spacing="2">LOAD</text>
         </g>
 
       </svg>
@@ -921,8 +1034,12 @@
       📥 Inbound — Receive Stock
     </button>
     <button id="wh-btn-out" onclick="showWHTab('outbound')"
-      style="padding:10px 28px;background:var(--border);color:var(--gray);border:none;border-radius:0 9px 9px 0;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;">
+      style="padding:10px 28px;background:var(--border);color:var(--gray);border:none;border-radius:0;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;">
       📤 Outbound — Dispatch History
+    </button>
+    <button id="wh-btn-ledger" onclick="showWHTab('ledger')"
+      style="padding:10px 28px;background:var(--border);color:var(--gray);border:none;border-radius:0 9px 9px 0;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;">
+      📊 Naouri Ledger
     </button>
   </div>
 
@@ -1144,6 +1261,107 @@
   </div>
 </div>
   </div><!-- /wh-section-outbound -->
+
+  <!-- Ledger sub-section -->
+  <div id="wh-section-ledger" style="display:none;padding:18px 24px;">
+    <!-- KPI strip -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
+      <div class="stat-card" style="border-left:4px solid #805ad5">
+        <div class="stat-label">Opening Stock (01.01.2026)</div>
+        <div class="stat-val" id="ldg-kOpen">—</div>
+      </div>
+      <div class="stat-card" style="border-left:4px solid #2a9d8f">
+        <div class="stat-label">Total Inbound</div>
+        <div class="stat-val" id="ldg-kIn">—</div>
+      </div>
+      <div class="stat-card" style="border-left:4px solid #e63946">
+        <div class="stat-label">Total Outbound</div>
+        <div class="stat-val" id="ldg-kOut">—</div>
+      </div>
+      <div class="stat-card" style="border-left:4px solid #f4a261">
+        <div class="stat-label">Current Balance</div>
+        <div class="stat-val" id="ldg-kBal">—</div>
+      </div>
+    </div>
+    <!-- Search + Filter -->
+    <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+      <input id="ldg-search" type="text" placeholder="🔍  Search item name or SKU…"
+        oninput="renderLedger()"
+        style="flex:1;min-width:200px;padding:9px 14px;border:1px solid var(--border);border-radius:9px;font-size:13px;background:var(--bg);color:var(--text);">
+      <button onclick="loadLedgerFromFirebase()"
+        style="padding:9px 18px;background:#805ad5;color:white;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;">
+        🔄 Refresh
+      </button>
+      <select id="ldg-filter" onchange="renderLedger()"
+        style="padding:9px 14px;border:1px solid var(--border);border-radius:9px;font-size:13px;background:var(--bg);color:var(--text);">
+        <option value="all">All Items</option>
+        <option value="positive">Balance &gt; 0</option>
+        <option value="zero">Balance = 0</option>
+        <option value="negative">Balance &lt; 0</option>
+      </select>
+    </div>
+    <!-- Table -->
+    <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead>
+          <tr style="background:var(--sidebar-bg);">
+            <th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">SKU</th>
+            <th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">Product</th>
+            <th style="padding:10px 14px;text-align:right;font-weight:700;color:#805ad5;">Opening</th>
+            <th style="padding:10px 14px;text-align:right;font-weight:700;color:#2a9d8f;">+ Inbound</th>
+            <th style="padding:10px 14px;text-align:right;font-weight:700;color:#e63946;">− Outbound</th>
+            <th style="padding:10px 14px;text-align:right;font-weight:700;color:#f4a261;">Balance</th>
+            <th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--label);">Details</th>
+          </tr>
+        </thead>
+        <tbody id="ldg-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Ledger Transaction Modal -->
+  <div id="ldg-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:var(--bg);border-radius:16px;width:min(680px,95vw);max-height:82vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.35);">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);">
+        <div>
+          <div id="ldg-modal-title" style="font-size:16px;font-weight:800;color:var(--text);">Transactions</div>
+          <div id="ldg-modal-sub" style="font-size:12px;color:var(--label);margin-top:2px;"></div>
+        </div>
+        <button onclick="document.getElementById('ldg-modal').style.display='none'"
+          style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--gray);padding:0 4px;">✕</button>
+      </div>
+      <!-- Mini KPIs -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 22px;border-bottom:1px solid var(--border);">
+        <div style="text-align:center;">
+          <div style="font-size:11px;color:var(--label);margin-bottom:4px;">Opening</div>
+          <div id="ldg-m-open" style="font-size:20px;font-weight:800;color:#805ad5;">—</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:11px;color:var(--label);margin-bottom:4px;">Inbound</div>
+          <div id="ldg-m-in" style="font-size:20px;font-weight:800;color:#2a9d8f;">—</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:11px;color:var(--label);margin-bottom:4px;">Outbound</div>
+          <div id="ldg-m-out" style="font-size:20px;font-weight:800;color:#e63946;">—</div>
+        </div>
+      </div>
+      <!-- Transaction list -->
+      <div style="overflow-y:auto;padding:14px 22px;flex:1;">
+        <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+          <thead>
+            <tr style="background:var(--sidebar-bg);">
+              <th style="padding:8px 10px;text-align:left;color:var(--label);">Month</th>
+              <th style="padding:8px 10px;text-align:left;color:var(--label);">Event / Destination</th>
+              <th style="padding:8px 10px;text-align:right;color:var(--label);">Qty</th>
+              <th style="padding:8px 10px;text-align:center;color:var(--label);">Type</th>
+            </tr>
+          </thead>
+          <tbody id="ldg-modal-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /page-mainwh -->
 
 <!-- SHEET DATA -->
@@ -2784,6 +3002,111 @@ function clearInbForm(){
 
 function getInbHistory(){ return INBOUND; }
 
+// ── Naouri Ledger ─────────────────────────────────────────────
+var _ldgData = null;
+
+function loadLedgerFromFirebase(){
+  const tbody = document.getElementById('ldg-tbody');
+  if(tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--label);">⏳ Loading live data…</td></tr>';
+  fetch('https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/naouri_ledger.json')
+    .then(r => r.json())
+    .then(data => {
+      if(!data || !Array.isArray(data)){
+        if(tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:#e63946;">❌ No data in Firebase. Run syncNaouriLedger() in Apps Script first.</td></tr>';
+        return;
+      }
+      _ldgData = data;
+      renderLedger();
+    })
+    .catch(err => {
+      if(tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:#e63946;">❌ Error: ' + err.message + '</td></tr>';
+    });
+}
+
+function renderLedger(){
+  const data = _ldgData || NAOURI_DATA;
+  const search = (document.getElementById('ldg-search')||{value:''}).value.toLowerCase();
+  const filter = (document.getElementById('ldg-filter')||{value:'all'}).value;
+
+  let rows = data.filter(item=>{
+    const m = item.name.toLowerCase().includes(search) || item.sku.toLowerCase().includes(search);
+    if(!m) return false;
+    if(filter==='positive') return item.balance > 0;
+    if(filter==='zero')     return item.balance === 0;
+    if(filter==='negative') return item.balance < 0;
+    return true;
+  });
+
+  // KPI
+  const totOpen = data.reduce((s,i)=>s+i.opening,0);
+  const totIn   = data.reduce((s,i)=>s+i.inbound,0);
+  const totOut  = data.reduce((s,i)=>s+i.outbound,0);
+  const totBal  = data.reduce((s,i)=>s+i.balance,0);
+  const fmtN = n => n>=1000?(n/1000).toFixed(1)+'k':String(n);
+  const el = id => document.getElementById(id);
+  if(el('ldg-kOpen')) el('ldg-kOpen').textContent = fmtN(totOpen);
+  if(el('ldg-kIn'))   el('ldg-kIn').textContent   = fmtN(totIn);
+  if(el('ldg-kOut'))  el('ldg-kOut').textContent  = fmtN(totOut);
+  if(el('ldg-kBal'))  el('ldg-kBal').textContent  = fmtN(totBal);
+
+  const tbody = document.getElementById('ldg-tbody');
+  if(!tbody) return;
+  if(!rows.length){
+    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--label);">No items found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map((item,idx)=>{
+    const balColor = item.balance>0?'#2a9d8f':item.balance<0?'#e63946':'var(--gray)';
+    const rowBg = idx%2===0?'':'background:var(--sidebar-bg);';
+    return `<tr style="${rowBg}">
+      <td style="padding:10px 14px;font-family:monospace;font-size:12px;color:var(--label);">${item.sku}</td>
+      <td style="padding:10px 14px;font-weight:600;">${item.name}</td>
+      <td style="padding:10px 14px;text-align:right;color:#805ad5;font-weight:700;">${item.opening.toLocaleString()}</td>
+      <td style="padding:10px 14px;text-align:right;color:#2a9d8f;font-weight:700;">+${item.inbound.toLocaleString()}</td>
+      <td style="padding:10px 14px;text-align:right;color:#e63946;font-weight:700;">-${item.outbound.toLocaleString()}</td>
+      <td style="padding:10px 14px;text-align:right;font-weight:800;color:${balColor};">${item.balance.toLocaleString()}</td>
+      <td style="padding:10px 14px;text-align:center;">
+        <button onclick="openLedgerModal(${idx})"
+          style="padding:5px 14px;background:#3182ce;color:white;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;">
+          📋 History
+        </button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // store filtered indices for modal
+  window._ldgFiltered = rows;
+}
+
+function openLedgerModal(idx){
+  const item = window._ldgFiltered ? window._ldgFiltered[idx] : NAOURI_DATA[idx];
+  if(!item) return;
+  document.getElementById('ldg-modal-title').textContent = item.name;
+  document.getElementById('ldg-modal-sub').textContent   = item.sku + ' · ' + item.transactions.length + ' transactions';
+  document.getElementById('ldg-m-open').textContent = item.opening.toLocaleString();
+  document.getElementById('ldg-m-in').textContent   = '+' + item.inbound.toLocaleString();
+  document.getElementById('ldg-m-out').textContent  = '-' + item.outbound.toLocaleString();
+
+  const tbody = document.getElementById('ldg-modal-tbody');
+  let running = item.opening;
+  const rows = item.transactions.map(t=>{
+    running += t.qty;
+    const color = t.type==='inbound'?'#2a9d8f':'#e63946';
+    const badge = t.type==='inbound'
+      ? '<span style="background:#e6f7f5;color:#2a9d8f;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;">IN</span>'
+      : '<span style="background:#fde8ea;color:#e63946;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;">OUT</span>';
+    return `<tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:7px 10px;color:var(--label);">${t.month||'—'}</td>
+      <td style="padding:7px 10px;">${t.label||'—'}</td>
+      <td style="padding:7px 10px;text-align:right;font-weight:700;color:${color};">${t.qty>0?'+':''}${t.qty}</td>
+      <td style="padding:7px 10px;text-align:center;">${badge}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = rows.join('') ||
+    '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--label);">No transactions</td></tr>';
+  document.getElementById('ldg-modal').style.display='flex';
+}
+
 // ── Main WH combined tab ─────────────────────────────────────
 function renderWHPage(){
   const today = new Date().toISOString().slice(0,10);
@@ -2802,21 +3125,27 @@ function renderWHPage(){
 function showWHTab(which){
   const inSec  = document.getElementById('wh-section-inbound');
   const outSec = document.getElementById('wh-section-outbound');
+  const ldgSec = document.getElementById('wh-section-ledger');
   const btnIn  = document.getElementById('wh-btn-in');
   const btnOut = document.getElementById('wh-btn-out');
+  const btnLdg = document.getElementById('wh-btn-ledger');
   if(!inSec) return;
+  const reset = el => { if(el){ el.style.background='var(--border)'; el.style.color='var(--gray)'; } };
+  const hide  = el => { if(el) el.style.display='none'; };
+  reset(btnIn); reset(btnOut); reset(btnLdg);
+  hide(inSec); hide(outSec); if(ldgSec) ldgSec.style.display='none';
   if(which==='inbound'){
-    inSec.style.display  = 'block';
-    outSec.style.display = 'none';
-    btnIn.style.background  = '#2a9d8f';      btnIn.style.color  = 'white';
-    btnOut.style.background = 'var(--border)'; btnOut.style.color = 'var(--gray)';
+    inSec.style.display='block';
+    btnIn.style.background='#2a9d8f'; btnIn.style.color='white';
     renderInbPage();
-  } else {
-    inSec.style.display  = 'none';
-    outSec.style.display = 'block';
-    btnOut.style.background = '#e63946';      btnOut.style.color = 'white';
-    btnIn.style.background  = 'var(--border)'; btnIn.style.color  = 'var(--gray)';
+  } else if(which==='outbound'){
+    outSec.style.display='block';
+    btnOut.style.background='#e63946'; btnOut.style.color='white';
     renderOutboundPage();
+  } else {
+    if(ldgSec) ldgSec.style.display='block';
+    if(btnLdg){ btnLdg.style.background='#805ad5'; btnLdg.style.color='white'; }
+    loadLedgerFromFirebase();
   }
 }
 
@@ -4256,117 +4585,5 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </div></div><!-- /main-content /app-layout -->
-<!-- إضافة حاسبة الميزانية المتوقعة (أسعار وكميات متغيرة) -->
-<script>
-setTimeout(() => {
-  // 1. إضافة واجهة الجدول تلقائياً
-  const budgetPage = document.getElementById('page-budget');
-  const oldSec = document.getElementById('expected-budget-section');
-  if (oldSec) oldSec.remove(); // مسح النسخة القديمة إن وجدت
-
-  if (budgetPage) {
-    const expectedSection = document.createElement('div');
-    expectedSection.id = 'expected-budget-section';
-    expectedSection.innerHTML = `
-      <div class="card" style="margin-top:20px;">
-        <div class="card-header" style="border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:0;">
-          <h2 style="font-size:15px;">🔮 حاسبة الميزانية المتوقعة (Forecasting)</h2>
-          <span style="font-size:11px;color:var(--gray);">قم بإدخال السعر والكمية المتوقعة يدوياً (هذه الخانات للتجربة ولا تؤثر على الجدول الرئيسي)</span>
-        </div>
-        <div class="tbl-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Product Group</th>
-                <th style="text-align:center">Expected Price (السعر)</th>
-                <th style="text-align:center">Expected Qty (الكمية)</th>
-                <th style="text-align:center">Expected Total (المجموع)</th>
-              </tr>
-            </thead>
-            <tbody id="budget-expected-body"></tbody>
-            <tfoot>
-              <tr style="background:#edf2f7;font-weight:800;">
-                <td colspan="2" style="padding:10px 12px;font-size:14px;">GRAND TOTAL EXPECTED</td>
-                <td id="budget-expected-foot-qty" style="text-align:center;padding:10px 12px;font-size:14px;">0</td>
-                <td id="budget-expected-foot-cost" style="text-align:center;padding:10px 12px;font-size:14px;color:var(--red);">0.000 JOD</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-    `;
-    budgetPage.appendChild(expectedSection);
-  }
-
-  // 2. رسم الجدول بخانات إدخال للسعر والكمية
-  window.renderExpectedBudget = function() {
-    const tbody = document.getElementById('budget-expected-body');
-    if (!tbody) return;
-    tbody.innerHTML = BUDGET_GROUPS.map((g, i) => {
-      // جلب السعر المباشر من الجدول الرئيسي كقيمة افتراضية
-      const mainPriceInput = document.getElementById(`bprice-${g.key}`);
-      const price = mainPriceInput ? (parseFloat(mainPriceInput.value) || 0) : (BUDGET_PRICES[g.key] || 0);
-      
-      return `<tr style="background:${i % 2 === 0 ? 'white' : '#f7fafc'};">
-        <td style="padding:9px 12px;font-weight:600;">${g.icon} ${g.label}</td>
-        <td style="text-align:center;padding:9px 12px;">
-          <input type="number" id="exp-price-${g.key}" value="${price}" min="0" step="0.01"
-            style="width:90px;padding:5px 8px;border:1px solid #90cdf4;border-radius:7px;font-size:13px;font-family:inherit;text-align:center;background:#ebf8ff;color:var(--text);font-weight:bold;"
-            oninput="calcExpectedBudget()">
-        </td>
-        <td style="text-align:center;padding:9px 12px;">
-          <input type="number" id="exp-qty-${g.key}" value="0" min="0" step="1"
-            style="width:90px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit;text-align:center;"
-            oninput="calcExpectedBudget()">
-        </td>
-        <td id="exp-total-${g.key}" style="text-align:center;padding:9px 12px;font-weight:700;color:var(--red);">0.000</td>
-      </tr>`;
-    }).join('');
-    window.calcExpectedBudget();
-  };
-
-  // 3. حساب العمليات الرياضية
-  window.calcExpectedBudget = function() {
-    let totalQty = 0, totalCost = 0;
-    BUDGET_GROUPS.forEach(g => {
-      const priceInput = document.getElementById(`exp-price-${g.key}`);
-      const price = parseFloat(priceInput?.value) || 0;
-      
-      const qtyInput = document.getElementById(`exp-qty-${g.key}`);
-      const qty = parseInt(qtyInput?.value) || 0;
-      
-      const rowTotal = price * qty;
-      totalQty += qty; 
-      totalCost += rowTotal;
-      
-      const totalTd = document.getElementById(`exp-total-${g.key}`);
-      if (totalTd) totalTd.textContent = rowTotal.toFixed(3);
-    });
-    const fQ = document.getElementById('budget-expected-foot-qty');
-    const fC = document.getElementById('budget-expected-foot-cost');
-    if(fQ) fQ.textContent = totalQty.toLocaleString();
-    if(fC) fC.textContent = totalCost.toFixed(3) + ' JOD';
-  };
-
-  // 4. ربط الجدول ليتحدث تلقائياً مع الجدول الأصلي
-  const oldRefresh = window._refreshBudgetUI;
-  window._refreshBudgetUI = function() {
-    if(oldRefresh) oldRefresh();
-    window.renderExpectedBudget();
-  };
-
-  const oldUpdate = window.liveUpdateBudgetRow;
-  window.liveUpdateBudgetRow = function(key) {
-    if(oldUpdate) oldUpdate(key);
-    // إذا تم تعديل السعر في الجدول الرئيسي، يتم نسخه كقيمة افتراضية للجدول المتوقع
-    const mainInp = document.getElementById(`bprice-${key}`);
-    const expInp = document.getElementById(`exp-price-${key}`);
-    if(mainInp && expInp) { expInp.value = mainInp.value; }
-    window.calcExpectedBudget();
-  };
-
-  setTimeout(window.renderExpectedBudget, 500);
-}, 1000);
-</script>
 </body>
 </html>
