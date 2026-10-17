@@ -3016,7 +3016,11 @@ var _ldgData = null;
 function loadNaouriData(cb){
   fetch('https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/naouri_ledger.json')
     .then(r=>r.json())
-    .then(data=>{ if(Array.isArray(data)) _ldgData=data; if(cb) cb(); })
+    .then(data=>{ 
+      if(Array.isArray(data)) _ldgData=data;
+      else if(data && typeof data==='object') _ldgData=Object.values(data).filter(x=>x&&x.sku);
+      if(cb) cb(); 
+    })
     .catch(()=>{ if(cb) cb(); }); // fallback to static NAOURI_DATA
 }
 
@@ -3026,7 +3030,8 @@ function loadLedgerFromFirebase(){
   fetch('https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/naouri_ledger.json')
     .then(r => r.json())
     .then(data => {
-      if(!data || !Array.isArray(data)){
+      if(data && !Array.isArray(data) && typeof data==='object') data=Object.values(data).filter(x=>x&&x.sku);
+      if(!data || !data.length){
         if(tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:#e63946;">❌ No data in Firebase. Run syncNaouriLedger() in Apps Script first.</td></tr>';
         return;
       }
@@ -3154,11 +3159,14 @@ function showWHTab(which){
   if(which==='inbound'){
     inSec.style.display='block';
     btnIn.style.background='#2a9d8f'; btnIn.style.color='white';
-    if(!_ldgData) loadNaouriData(renderInbPage); else renderInbPage();
+    loadNaouriData(renderInbPage);
   } else if(which==='outbound'){
     outSec.style.display='block';
     btnOut.style.background='#e63946'; btnOut.style.color='white';
-    if(!_ldgData) loadNaouriData(renderOutboundPage); else renderOutboundPage();
+    // Show loading state immediately
+    const ol=document.getElementById('outbOrderList');
+    if(ol) ol.innerHTML='<div class="empty-state" style="color:var(--label);">⏳ Loading orders…</div>';
+    loadNaouriData(renderOutboundPage);
   } else {
     if(ldgSec) ldgSec.style.display='block';
     if(btnLdg){ btnLdg.style.background='#805ad5'; btnLdg.style.color='white'; }
@@ -3244,7 +3252,7 @@ function _isBranchKey(k){ return ['amman','irbid','zarqa','aqaba'].includes(k); 
 
 function buildOutboundOrders(){
   const src = _ldgData || NAOURI_DATA;
-  if(!src) return [];
+  if(!src || !src.length) return [];
   const map = new Map();
   src.forEach(item => {
     item.transactions.filter(t=>t.type==='outbound').forEach(t=>{
