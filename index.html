@@ -3013,6 +3013,13 @@ function getInbHistory(){ return INBOUND; }
 // ── Naouri Ledger ─────────────────────────────────────────────
 var _ldgData = null;
 
+function loadNaouriData(cb){
+  fetch('https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/naouri_ledger.json')
+    .then(r=>r.json())
+    .then(data=>{ if(Array.isArray(data)) _ldgData=data; if(cb) cb(); })
+    .catch(()=>{ if(cb) cb(); }); // fallback to static NAOURI_DATA
+}
+
 function loadLedgerFromFirebase(){
   const tbody = document.getElementById('ldg-tbody');
   if(tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--label);">⏳ Loading live data…</td></tr>';
@@ -3147,11 +3154,11 @@ function showWHTab(which){
   if(which==='inbound'){
     inSec.style.display='block';
     btnIn.style.background='#2a9d8f'; btnIn.style.color='white';
-    renderInbPage();
+    if(!_ldgData) loadNaouriData(renderInbPage); else renderInbPage();
   } else if(which==='outbound'){
     outSec.style.display='block';
     btnOut.style.background='#e63946'; btnOut.style.color='white';
-    renderOutboundPage();
+    if(!_ldgData) loadNaouriData(renderOutboundPage); else renderOutboundPage();
   } else {
     if(ldgSec) ldgSec.style.display='block';
     if(btnLdg){ btnLdg.style.background='#805ad5'; btnLdg.style.color='white'; }
@@ -3178,17 +3185,29 @@ function renderInbPage(){
   document.getElementById('inb-kAllTime').textContent = fmt(allTime);
   document.getElementById('inb-kActive').textContent  = active;
 
-  // History
-  document.getElementById('inbHistoryBody').innerHTML = h.length
-    ? h.map(r=>`<tr>
-        <td>${r.date}</td>
-        <td><span class="badge b-green">${r.ref}</span></td>
-        <td>${r.name}</td>
-        <td><span class="badge b-gray">${r.sku}</span></td>
-        <td class="num" style="color:var(--green);font-weight:800">+${r.qty}</td>
-        <td style="color:var(--gray);font-size:12px">${r.notes}</td>
-      </tr>`).join('')
-    : '<tr><td colspan="6" class="empty-state">No inbound shipments recorded yet</td></tr>';
+  // History from NAOURI_DATA
+  const shipments = buildInboundShipments();
+  const inbRows = [];
+  shipments.forEach(s=>{
+    s.items.forEach(item=>{
+      inbRows.push(`<tr>
+        <td>${s.month}</td>
+        <td><span class="badge b-green">${s.label}</span></td>
+        <td>${item.name}</td>
+        <td><span class="badge b-gray">${item.sku}</span></td>
+        <td class="num" style="color:var(--green);font-weight:800">+${item.qty}</td>
+        <td style="color:var(--gray);font-size:12px">From Naouri Ledger</td>
+      </tr>`);
+    });
+  });
+  document.getElementById('inbHistoryBody').innerHTML = inbRows.length
+    ? inbRows.join('')
+    : '<tr><td colspan="6" class="empty-state">No inbound shipments found</td></tr>';
+
+  // Update KPIs from NAOURI data
+  const totalInbound = shipments.reduce((s,sh)=>s+sh.items.reduce((ss,i)=>ss+i.qty,0),0);
+  document.getElementById('inb-kAllTime').textContent = fmt(totalInbound);
+  document.getElementById('inb-kToday').textContent   = '—';
 }
 
 function clearInbHistory(){
@@ -3200,45 +3219,98 @@ function clearInbHistory(){
   }
 }
 
+
+// ── Build orders from NAOURI_DATA ─────────────────────────────────────────
+function _destLabel(label){
+  const l = label.toLowerCase();
+  if(l.startsWith('amman'))   return {key:'amman',  name:'Amman'};
+  if(l.startsWith('irbid'))   return {key:'irbid',  name:'Irbid'};
+  if(l.startsWith('zarqa'))   return {key:'zarqa',  name:'Zarqa'};
+  if(l.startsWith('aqaba'))   return {key:'aqaba',  name:'Aqaba'};
+  if(l.startsWith('diken')||l.startsWith('dk')) return {key:'dk',  name:'Diken'};
+  if(l.startsWith('me ')|| l==='me'||l.startsWith('me.'))  return {key:'me',  name:'ME'};
+  if(l.startsWith('rr'))      return {key:'rr',   name:'RR'};
+  if(l.startsWith('kg'))      return {key:'kg',   name:'KG'};
+  if(l.startsWith('tawasol')||l.startsWith('tw')) return {key:'tw', name:'Tawasol'};
+  if(l.startsWith('tg'))      return {key:'tg',   name:'TG'};
+  if(l.startsWith('fakher')||l.startsWith('fk')||l.startsWith('fkh')) return {key:'fk', name:'Fakher'};
+  if(l.startsWith('spex')||l.startsWith('sp')) return {key:'sp', name:'Spex'};
+  if(l.startsWith('kangaroo')) return {key:'kangaroo', name:'Kangaroo'};
+  if(l.startsWith('thunder'))  return {key:'thunder',  name:'Thunder'};
+  return {key:'other', name: label.split(' ')[0]};
+}
+
+function _isBranchKey(k){ return ['amman','irbid','zarqa','aqaba'].includes(k); }
+
+function buildOutboundOrders(){
+  const src = _ldgData || NAOURI_DATA;
+  if(!src) return [];
+  const map = new Map();
+  src.forEach(item => {
+    item.transactions.filter(t=>t.type==='outbound').forEach(t=>{
+      const key = (t.month||'') + '||' + (t.label||'');
+      if(!map.has(key)) map.set(key, {
+        key, month: t.month||'', label: t.label||'',
+        dest: _destLabel(t.label||''),
+        items: []
+      });
+      map.get(key).items.push({sku: item.sku, name: item.name, qty: Math.abs(t.qty)});
+    });
+  });
+  // Sort by month order
+  const monthOrder = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct','Nov','Dec'];
+  return [...map.values()].sort((a,b)=>{
+    const ma = monthOrder.indexOf(a.month), mb = monthOrder.indexOf(b.month);
+    return ma - mb || a.label.localeCompare(b.label);
+  });
+}
+
+function buildInboundShipments(){
+  const src = _ldgData || NAOURI_DATA;
+  if(!src) return [];
+  const map = new Map();
+  src.forEach(item => {
+    item.transactions.filter(t=>t.type==='inbound').forEach(t=>{
+      const key = (t.month||'') + '||' + (t.label||'');
+      if(!map.has(key)) map.set(key, {
+        key, month: t.month||'', label: t.label||'', items:[]
+      });
+      map.get(key).items.push({sku: item.sku, name: item.name, qty: t.qty});
+    });
+  });
+  const monthOrder = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct','Nov','Dec'];
+  return [...map.values()].sort((a,b)=>{
+    const ma = monthOrder.indexOf(a.month), mb = monthOrder.indexOf(b.month);
+    return ma - mb || a.label.localeCompare(b.label);
+  });
+}
+
 // ======== OUTBOUND ========
 function renderOutboundPage(){
-  const h = getHistory(); // reads inv2026_history (written by confirmDispatch)
-
-  // --- KPIs ---
-  const allTime = h.reduce((s,r)=>s+r.qty,0);
-  // parse date format "DD/MM/YYYY HH:MM"
-  const todayStr = (()=>{const d=new Date();return`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;})();
-  const todayQty = h.filter(r=>r.date&&r.date.startsWith(todayStr)).reduce((s,r)=>s+r.qty,0);
-
-  // Group rows by txId → each group = one Outbound Order
-  const txMap = new Map();
-  h.forEach(r=>{
-    const id = r.txId || (r.date+'|'+r.branch); // fallback for old entries without txId
-    if(!txMap.has(id)) txMap.set(id,{txId:id,date:r.date,branch:r.branch,items:[]});
-    txMap.get(id).items.push(r);
-  });
-  const orders = [...txMap.values()]; // already in insertion order (newest first)
+  const orders = buildOutboundOrders();
+  const allTime = orders.reduce((s,o)=>s+o.items.reduce((ss,i)=>ss+i.qty,0),0);
 
   document.getElementById('out-kAllTime').textContent = fmt(allTime);
-  document.getElementById('out-kToday').textContent   = fmt(todayQty);
+  document.getElementById('out-kToday').textContent   = '—';
   document.getElementById('out-kEvents').textContent  = orders.length;
 
-  // --- By branch ---
-  const byBranch={amman:0,irbid:0,zarqa:0,aqaba:0};
-  const by3pl={};
-  h.forEach(r=>{
-    if(byBranch[r.branch]!==undefined) byBranch[r.branch]+=r.qty;
-    else if(_is3PL(r.branch)) by3pl[r.branch]=(by3pl[r.branch]||0)+r.qty;
+  // --- By branch/dest ---
+  const byDest={};
+  orders.forEach(o=>{
+    const k = o.dest.name;
+    const total = o.items.reduce((s,i)=>s+i.qty,0);
+    byDest[k]=(byDest[k]||0)+total;
   });
-  const bpClass={amman:'bp-amman',irbid:'bp-irbid',zarqa:'bp-zarqa',aqaba:'bp-aqaba'};
-  const branchRows=Object.entries(byBranch).filter(([,v])=>v>0).map(([b,v])=>`
+  const branchKeys=['Amman','Irbid','Zarqa','Aqaba'];
+  const bpMap={Amman:'bp-amman',Irbid:'bp-irbid',Zarqa:'bp-zarqa',Aqaba:'bp-aqaba'};
+  const branchRows=Object.entries(byDest).filter(([k])=>branchKeys.includes(k)).map(([k,v])=>`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-      <span class="branch-pill ${bpClass[b]}">${LOC_ICONS[b]||''} ${LOC_NAMES[b]||b}</span>
+      <span class="branch-pill ${bpMap[k]||''}">${k}</span>
       <span style="font-weight:800;font-size:16px">${fmt(v)}</span>
     </div>`).join('');
-  const tplRows=Object.entries(by3pl).filter(([,v])=>v>0).map(([b,v])=>`
+  const tplRows=Object.entries(byDest).filter(([k])=>!branchKeys.includes(k)).map(([k,v])=>`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-      <span class="branch-pill" style="background:#fef3c7;color:#92400e;">🏢 ${LOC_NAMES[b]||b}</span>
+      <span class="branch-pill" style="background:#fef3c7;color:#92400e;">🏢 ${k}</span>
       <span style="font-weight:800;font-size:16px">${fmt(v)}</span>
     </div>`).join('');
   document.getElementById('out-byBranch').innerHTML=
@@ -3248,7 +3320,7 @@ function renderOutboundPage(){
 
   // --- Top 5 products ---
   const byProd={};
-  h.forEach(r=>{byProd[r.name]=(byProd[r.name]||0)+r.qty;});
+  orders.forEach(o=>o.items.forEach(i=>{byProd[i.name]=(byProd[i.name]||0)+i.qty;}));
   const top5=Object.entries(byProd).sort((a,b)=>b[1]-a[1]).slice(0,5);
   document.getElementById('out-topProducts').innerHTML=top5.length
     ? top5.map(([name,qty])=>`
@@ -3259,47 +3331,52 @@ function renderOutboundPage(){
     : '<div style="color:var(--gray);font-size:12px">No dispatches yet</div>';
 
   // --- Order cards ---
-  const bBadge={amman:'b-blue',irbid:'b-green',zarqa:'b-orange',aqaba:'b-purple'};
-  const branchIcon={amman:'🏙️',irbid:'🌿',zarqa:'⚙️',aqaba:'🌊'};
+  const destIcon = k=>{
+    if(k==='amman')  return '🏙️';
+    if(k==='irbid')  return '🌿';
+    if(k==='zarqa')  return '⚙️';
+    if(k==='aqaba')  return '🌊';
+    return '🏢';
+  };
+  const destBadge = k=>{
+    if(k==='amman')  return 'b-blue';
+    if(k==='irbid')  return 'b-green';
+    if(k==='zarqa')  return 'b-orange';
+    if(k==='aqaba')  return 'b-purple';
+    return 'b-gray';
+  };
 
   if(!orders.length){
-    document.getElementById('outbOrderList').innerHTML='<div class="empty-state">No outbound dispatches recorded yet</div>';
+    document.getElementById('outbOrderList').innerHTML='<div class="empty-state">No outbound dispatches found</div>';
     return;
   }
 
   document.getElementById('outbOrderList').innerHTML = orders.map((o,i)=>{
-    const isCxl = CANCELLED_ORDERS.has(o.txId);
     const totalQty = o.items.reduce((s,r)=>s+r.qty,0);
     const skuCount = o.items.length;
-    const dateOnly = o.date.split(' ')[0]; // "DD/MM/YYYY"
-    const timeOnly = o.date.split(' ')[1]||'';
-    const branchName = LOC_NAMES[o.branch]||o.branch;
-    const icon = branchIcon[o.branch]||'📦';
+    const icon = destIcon(o.dest.key);
+    const destName = o.dest.name;
     const detailRows = o.items.map(r=>`
       <tr>
         <td>${r.name}</td>
         <td><span class="badge b-gray">${r.sku}</span></td>
         <td class="num" style="color:var(--red);font-weight:800">${fmt(r.qty)}</td>
       </tr>`).join('');
-    const cancelBtn = isCxl
-      ? `<span class="ob-cancelled-badge">✕ CANCELLED</span>`
-      : `<button class="ob-cancel-btn" onclick="event.stopPropagation();cancelOrder('${o.txId}')">🔄 Cancel Order</button>`;
 
-    return`<div class="ob-card${isCxl?' cancelled':''}">
-      <div class="ob-card-header" onclick="toggleObCard('ob-${i}')">
+    return`<div class="ob-card">
+      <div class="ob-card-header" onclick="toggleObCard('ob-n-${i}')">
         <div class="ob-icon">${icon}</div>
         <div class="ob-title">
-          <h3>Outbound — ${branchName} &nbsp;·&nbsp; ${dateOnly}</h3>
-          <div class="ob-meta">${timeOnly} &nbsp;·&nbsp; ${skuCount} SKU${skuCount>1?'s':''}</div>
+          <h3>Outbound — ${destName} &nbsp;·&nbsp; ${o.label}</h3>
+          <div class="ob-meta">${o.month} &nbsp;·&nbsp; ${skuCount} SKU${skuCount>1?'s':''}</div>
         </div>
         <div class="ob-badges">
-          ${cancelBtn}
-          <span class="badge ${bBadge[o.branch]||'b-gray'}">${branchName}</span>
+          <span class="badge ${destBadge(o.dest.key)}">${destName}</span>
           <span class="ob-total-badge">${fmt(totalQty)} pcs</span>
-          <span class="ob-chevron" id="chev-ob-${i}">▼</span>
+          <span class="ob-chevron" id="chev-ob-n-${i}">▼</span>
         </div>
       </div>
-      <div class="ob-details" id="ob-${i}">
+      <div class="ob-details" id="ob-n-${i}">
         <table>
           <thead><tr><th>Product</th><th>SKU</th><th style="text-align:center">Qty</th></tr></thead>
           <tbody>${detailRows}</tbody>
