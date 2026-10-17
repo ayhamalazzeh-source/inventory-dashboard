@@ -3782,9 +3782,15 @@ function refreshAllData(){
       SHEET_ROWS=sr;
       try{localStorage.setItem('sheetRows',JSON.stringify(sr));}catch(e){}
     }
-    // stock
+    // stock — load from Firebase then override Naouri column from ledger data
     const st=stockSnap.val();
-    if(st) { STOCK=st; try{localStorage.setItem('inv2026_stock',JSON.stringify(STOCK));}catch(e){} }
+    if(st) { STOCK=st; }
+    // Always sync Naouri values from NAOURI_DATA (source of truth)
+    (NAOURI_DATA||[]).forEach(item=>{
+      if(!STOCK[item.sku]) STOCK[item.sku]={naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
+      STOCK[item.sku].naouri = item.balance;
+    });
+    try{localStorage.setItem('inv2026_stock',JSON.stringify(STOCK));}catch(e){}
     // history
     const h=histSnap.val();
     if(h) HISTORY=Object.values(h).sort((a,b)=>(b.ts||0)-(a.ts||0));
