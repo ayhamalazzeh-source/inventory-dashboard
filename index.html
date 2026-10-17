@@ -1320,40 +1320,48 @@ const NAOURI_DATA=[{"sku":"DB-2024-001","name":"Thermal Bag","opening":184,"inbo
   </div>
 
   <!-- Ledger Transaction Modal -->
-  <div id="ldg-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;">
-    <div style="background:var(--bg);border-radius:16px;width:min(680px,95vw);max-height:82vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.35);">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);">
+  <div id="ldg-modal" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:#ffffff;border-radius:20px;width:min(700px,96vw);max-height:86vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,0.5);">
+      
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 26px;background:linear-gradient(135deg,#805ad5,#6b46c1);color:white;">
         <div>
-          <div id="ldg-modal-title" style="font-size:16px;font-weight:800;color:var(--text);">Transactions</div>
-          <div id="ldg-modal-sub" style="font-size:12px;color:var(--label);margin-top:2px;"></div>
+          <div id="ldg-modal-title" style="font-size:17px;font-weight:800;color:white;">Transactions</div>
+          <div id="ldg-modal-sub" style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:3px;"></div>
         </div>
         <button onclick="document.getElementById('ldg-modal').style.display='none'"
-          style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--gray);padding:0 4px;">✕</button>
+          style="background:rgba(255,255,255,0.2);border:none;font-size:18px;cursor:pointer;color:white;padding:6px 11px;border-radius:8px;line-height:1;">✕</button>
       </div>
+
       <!-- Mini KPIs -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 22px;border-bottom:1px solid var(--border);">
-        <div style="text-align:center;">
-          <div style="font-size:11px;color:var(--label);margin-bottom:4px;">Opening</div>
-          <div id="ldg-m-open" style="font-size:20px;font-weight:800;color:#805ad5;">—</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-bottom:2px solid #f0f0f0;">
+        <div style="text-align:center;padding:16px 8px;border-right:1px solid #f0f0f0;">
+          <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Opening</div>
+          <div id="ldg-m-open" style="font-size:22px;font-weight:800;color:#805ad5;">—</div>
         </div>
-        <div style="text-align:center;">
-          <div style="font-size:11px;color:var(--label);margin-bottom:4px;">Inbound</div>
-          <div id="ldg-m-in" style="font-size:20px;font-weight:800;color:#2a9d8f;">—</div>
+        <div style="text-align:center;padding:16px 8px;border-right:1px solid #f0f0f0;">
+          <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Inbound</div>
+          <div id="ldg-m-in" style="font-size:22px;font-weight:800;color:#2a9d8f;">—</div>
         </div>
-        <div style="text-align:center;">
-          <div style="font-size:11px;color:var(--label);margin-bottom:4px;">Outbound</div>
-          <div id="ldg-m-out" style="font-size:20px;font-weight:800;color:#e63946;">—</div>
+        <div style="text-align:center;padding:16px 8px;border-right:1px solid #f0f0f0;">
+          <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Outbound</div>
+          <div id="ldg-m-out" style="font-size:22px;font-weight:800;color:#e63946;">—</div>
+        </div>
+        <div style="text-align:center;padding:16px 8px;">
+          <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Balance</div>
+          <div id="ldg-m-bal" style="font-size:22px;font-weight:800;color:#f4a261;">—</div>
         </div>
       </div>
+
       <!-- Transaction list -->
-      <div style="overflow-y:auto;padding:14px 22px;flex:1;">
-        <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
-          <thead>
-            <tr style="background:var(--sidebar-bg);">
-              <th style="padding:8px 10px;text-align:left;color:var(--label);">Month</th>
-              <th style="padding:8px 10px;text-align:left;color:var(--label);">Event / Destination</th>
-              <th style="padding:8px 10px;text-align:right;color:var(--label);">Qty</th>
-              <th style="padding:8px 10px;text-align:center;color:var(--label);">Type</th>
+      <div style="overflow-y:auto;flex:1;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead style="position:sticky;top:0;z-index:1;">
+            <tr style="background:#f8f8f8;border-bottom:2px solid #e8e8e8;">
+              <th style="padding:11px 16px;text-align:left;font-weight:700;color:#444;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">Month</th>
+              <th style="padding:11px 16px;text-align:left;font-weight:700;color:#444;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">Event / Destination</th>
+              <th style="padding:11px 16px;text-align:right;font-weight:700;color:#444;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">Qty</th>
+              <th style="padding:11px 16px;text-align:center;font-weight:700;color:#444;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">Type</th>
             </tr>
           </thead>
           <tbody id="ldg-modal-tbody"></tbody>
@@ -3086,6 +3094,8 @@ function openLedgerModal(idx){
   document.getElementById('ldg-m-open').textContent = item.opening.toLocaleString();
   document.getElementById('ldg-m-in').textContent   = '+' + item.inbound.toLocaleString();
   document.getElementById('ldg-m-out').textContent  = '-' + item.outbound.toLocaleString();
+  const balEl = document.getElementById('ldg-m-bal');
+  if(balEl){ balEl.textContent = item.balance.toLocaleString(); balEl.style.color = item.balance>=0?'#2a9d8f':'#e63946'; }
 
   const tbody = document.getElementById('ldg-modal-tbody');
   let running = item.opening;
