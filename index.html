@@ -1919,7 +1919,7 @@ const GROUPS = [
 ];
 
 // ======== STOCK (localStorage) ========
-const DATA_VERSION = '2026-10-18-v8'; // bump this when SEED changes to force reset
+const DATA_VERSION = '2026-10-18-v9'; // bump this when SEED changes to force reset
 function initStock() {
   try {
     const ver = localStorage.getItem('inv2026_version');
@@ -1946,6 +1946,7 @@ function resetToSeed(){
   toast('✅ Stock reset to Excel data');
 }
 let STOCK=initStock();
+let LOC_STOCK={}; // Location stock from Google Sheets ledger — never overwritten by Firebase
 let HISTORY=[];
 let CANCELLED_ORDERS=new Set();
 let INBOUND=[];
@@ -1957,7 +1958,13 @@ function saveStock(){
 function getItem(sku){
   const seed=SEED.find(s=>s.sku===sku)||{sku,name:sku};
   const st=STOCK[sku]||{naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
-  return{...seed,...st,onhand:st.naouri+st.amman+st.irbid+st.zarqa+st.aqaba};
+  const ls=LOC_STOCK[sku]||{};
+  // Use LOC_STOCK (from Google Sheets) for locations; fallback to STOCK if not loaded yet
+  const amman = ls.amman !== undefined ? ls.amman : (st.amman||0);
+  const irbid = ls.irbid !== undefined ? ls.irbid : (st.irbid||0);
+  const zarqa = ls.zarqa !== undefined ? ls.zarqa : (st.zarqa||0);
+  const aqaba = ls.aqaba !== undefined ? ls.aqaba : (st.aqaba||0);
+  return{...seed,...st,amman,irbid,zarqa,aqaba,onhand:st.naouri+amman+irbid+zarqa+aqaba};
 }
 function getData(){return SEED.map(s=>getItem(s.sku));}
 
@@ -4288,8 +4295,13 @@ async function syncLocStock(){
         const items = Array.isArray(data) ? data : (data ? Object.values(data) : []);
         items.forEach(item => {
           if(!item || !item.sku) return;
+          const bal = typeof item.balance === 'number' ? item.balance : 0;
+          // Store in LOC_STOCK (protected from Firebase overwrites)
+          if(!LOC_STOCK[item.sku]) LOC_STOCK[item.sku] = {amman:0,irbid:0,zarqa:0,aqaba:0};
+          LOC_STOCK[item.sku][loc] = bal;
+          // Also update STOCK for initial render
           if(!STOCK[item.sku]) STOCK[item.sku] = {naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
-          STOCK[item.sku][loc] = typeof item.balance === 'number' ? item.balance : 0;
+          STOCK[item.sku][loc] = bal;
         });
       }).catch(()=>{})
   );
