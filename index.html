@@ -1911,7 +1911,7 @@ const GROUPS = [
 ];
 
 // ======== STOCK (localStorage) ========
-const DATA_VERSION = '2026-10-18-v2'; // bump this when SEED changes to force reset
+const DATA_VERSION = '2026-10-18-v4'; // bump this when SEED changes to force reset
 function initStock() {
   try {
     const ver = localStorage.getItem('inv2026_version');
@@ -2365,6 +2365,94 @@ function renderLocPage(){
     `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">${cards}</div>`;
 }
 
+
+function showBranchDetail(branch){
+  currentLocBranch = branch;
+  const months = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct'];
+  const locData = (LOC_MONTHLY && LOC_MONTHLY[branch]) ? LOC_MONTHLY[branch] : {};
+  const totalRecv = Object.values(locData).reduce((s,m) => s + (m.total_qty||0), 0);
+  const activeMonths = months.filter(m => locData[m] && locData[m].total_qty > 0);
+  const lastMonth = activeMonths.length ? activeMonths[activeMonths.length-1] : '—';
+  const col = LOC_COLORS[branch];
+
+  const monthRows = months.map(m => {
+    const mo = locData[m];
+    if(!mo) return '<tr style="opacity:0.35"><td style="padding:10px 14px;color:var(--gray);font-size:12px;">'+m+'</td><td colspan="3" style="padding:10px 14px;text-align:center;color:var(--gray);">—</td></tr>';
+    const skus = new Set(mo.items.map(x=>x.sku)).size;
+    return '<tr style="cursor:pointer" onclick="showLocMonthDetail(\''+branch+'\',\''+m+'\')">'+
+      '<td style="padding:10px 14px;font-weight:700;color:#3182ce;">'+m+'</td>'+
+      '<td style="padding:10px 14px;text-align:right;font-weight:800;color:'+col+';">'+mo.total_qty.toLocaleString()+'</td>'+
+      '<td style="padding:10px 14px;text-align:center;color:var(--gray);">'+skus+' SKUs</td>'+
+      '<td style="padding:10px 14px;text-align:center;"><button onclick="event.stopPropagation();showLocMonthDetail(\''+branch+'\',\''+m+'\')" style="background:#edf2ff;color:#3182ce;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;">Details</button></td>'+
+      '</tr>';
+  }).join('');
+
+  const uniqSKUs = new Set(Object.values(locData).flatMap(m=>m.items.map(x=>x.sku))).size;
+
+  document.getElementById('loc-main').innerHTML =
+    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">'+
+      '<button onclick="currentLocBranch=null;renderLocPage()" style="background:white;border:1px solid var(--border);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;">← Back</button>'+
+      '<div style="width:38px;height:38px;border-radius:10px;background:'+col+';display:flex;align-items:center;justify-content:center;font-size:18px;">'+LOC_ICONS[branch]+'</div>'+
+      '<span style="font-size:18px;font-weight:800;">'+LOC_NAMES[branch]+'</span>'+
+    '</div>'+
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">'+
+      '<div class="kpi" style="border-left-color:'+col+'"><div class="kpi-label">Total Received</div><div class="kpi-value" style="color:'+col+'">'+fmt(totalRecv)+'</div><div class="kpi-sub">from Naouri WH</div></div>'+
+      '<div class="kpi" style="border-left-color:#38a169"><div class="kpi-label">Active Months</div><div class="kpi-value" style="color:#38a169">'+activeMonths.length+'</div><div class="kpi-sub">with shipments</div></div>'+
+      '<div class="kpi" style="border-left-color:#3182ce"><div class="kpi-label">Last Shipment</div><div class="kpi-value" style="color:#3182ce;font-size:22px">'+lastMonth+'</div><div class="kpi-sub">most recent month</div></div>'+
+      '<div class="kpi" style="border-left-color:#805ad5"><div class="kpi-label">SKUs Received</div><div class="kpi-value" style="color:#805ad5">'+uniqSKUs+'</div><div class="kpi-sub">unique products</div></div>'+
+    '</div>'+
+    '<div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);">'+
+      '<table style="width:100%;border-collapse:collapse;font-size:13px;">'+
+        '<thead><tr style="background:var(--sidebar-bg);">'+
+          '<th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">Month</th>'+
+          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:'+col+';">Units Received</th>'+
+          '<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--label);">SKUs</th>'+
+          '<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--label);">Details</th>'+
+        '</tr></thead>'+
+        '<tbody>'+monthRows+'</tbody>'+
+        '<tfoot><tr style="background:var(--sidebar-bg);font-weight:800;">'+
+          '<td style="padding:10px 14px;">Total</td>'+
+          '<td style="padding:10px 14px;text-align:right;color:'+col+';">'+totalRecv.toLocaleString()+'</td>'+
+          '<td colspan="2"></td>'+
+        '</tr></tfoot>'+
+      '</table>'+
+    '</div>'+
+    '<div id="loc-month-detail" style="margin-top:20px;"></div>';
+}
+
+function showLocMonthDetail(branch, month){
+  const locData = (LOC_MONTHLY && LOC_MONTHLY[branch]) ? LOC_MONTHLY[branch] : {};
+  const mo = locData[month];
+  if(!mo) return;
+  const col = LOC_COLORS[branch];
+  const rows = mo.items.map(it =>
+    '<tr>'+
+    '<td style="padding:9px 14px;color:var(--gray);font-size:12px;">'+it.sku+'</td>'+
+    '<td style="padding:9px 14px;font-weight:600;">'+it.name+'</td>'+
+    '<td style="padding:9px 14px;color:var(--gray);font-size:12px;">'+it.label+'</td>'+
+    '<td style="padding:9px 14px;text-align:right;font-weight:800;color:'+col+';">'+it.qty.toLocaleString()+'</td>'+
+    '</tr>'
+  ).join('');
+  const el = document.getElementById('loc-month-detail');
+  if(!el) return;
+  el.innerHTML =
+    '<div style="font-weight:800;font-size:15px;margin-bottom:12px;color:'+col+';">📦 '+month+' — Item Details</div>'+
+    '<div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);">'+
+      '<table style="width:100%;border-collapse:collapse;font-size:13px;">'+
+        '<thead><tr style="background:var(--sidebar-bg);">'+
+          '<th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">SKU</th>'+
+          '<th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">Product</th>'+
+          '<th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">Reference</th>'+
+          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:'+col+';">Qty Received</th>'+
+        '</tr></thead>'+
+        '<tbody>'+rows+'</tbody>'+
+        '<tfoot><tr style="background:var(--sidebar-bg);font-weight:800;">'+
+          '<td colspan="3" style="padding:10px 14px;">Total</td>'+
+          '<td style="padding:10px 14px;text-align:right;color:'+col+';">'+mo.total_qty.toLocaleString()+'</td>'+
+        '</tr></tfoot>'+
+      '</table>'+
+    '</div>';
+}
 
 function renderBranchTab(branch, tab){
   currentLocTab = tab;
@@ -4866,95 +4954,4 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </div></div><!-- /main-content /app-layout -->
 </body>
-</htmlfunction showBranchDetail(branch){
-  currentLocBranch = branch;
-  const months = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct'];
-  const locData = (LOC_MONTHLY && LOC_MONTHLY[branch]) ? LOC_MONTHLY[branch] : {};
-  const totalRecv = Object.values(locData).reduce((s,m) => s + (m.total_qty||0), 0);
-  const activeMonths = months.filter(m => locData[m] && locData[m].total_qty > 0);
-  const lastMonth = activeMonths.length ? activeMonths[activeMonths.length-1] : '—';
-
-  const monthRows = months.map((m,i) => {
-    const mo = locData[m];
-    if(!mo) return `<tr style="opacity:0.35"><td style="padding:10px 14px;color:var(--gray);font-size:12px;">${m}</td><td colspan="3" style="padding:10px 14px;text-align:center;color:var(--gray);font-size:12px;">—</td></tr>`;
-    const skus = [...new Set(mo.items.map(x=>x.sku))].length;
-    return `<tr style="cursor:pointer" onclick="showLocMonthDetail('${branch}','${m}')">
-      <td style="padding:10px 14px;font-weight:700;color:#3182ce;">${m}</td>
-      <td style="padding:10px 14px;text-align:right;font-weight:800;color:${LOC_COLORS[branch]};">${mo.total_qty.toLocaleString()}</td>
-      <td style="padding:10px 14px;text-align:center;color:var(--gray);">${skus} SKUs</td>
-      <td style="padding:10px 14px;text-align:center;"><button onclick="event.stopPropagation();showLocMonthDetail('${branch}','${m}')" style="background:#edf2ff;color:#3182ce;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;">Details</button></td>
-    </tr>`;
-  }).join('');
-
-  document.getElementById('loc-main').innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-      <button onclick="currentLocBranch=null;renderLocPage()" style="background:white;border:1px solid var(--border);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;">← Back</button>
-      <div style="width:38px;height:38px;border-radius:10px;background:${LOC_COLORS[branch]};display:flex;align-items:center;justify-content:center;font-size:18px;">${LOC_ICONS[branch]}</div>
-      <span style="font-size:18px;font-weight:800;">${LOC_NAMES[branch]}</span>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
-      <div class="kpi" style="border-left-color:${LOC_COLORS[branch]}"><div class="kpi-label">Total Received</div><div class="kpi-value" style="color:${LOC_COLORS[branch]}">${fmt(totalRecv)}</div><div class="kpi-sub">from Naouri WH</div></div>
-      <div class="kpi" style="border-left-color:#38a169"><div class="kpi-label">Active Months</div><div class="kpi-value" style="color:#38a169">${activeMonths.length}</div><div class="kpi-sub">with shipments</div></div>
-      <div class="kpi" style="border-left-color:#3182ce"><div class="kpi-label">Last Shipment</div><div class="kpi-value" style="color:#3182ce;font-size:22px">${lastMonth}</div><div class="kpi-sub">most recent month</div></div>
-      <div class="kpi" style="border-left-color:#805ad5"><div class="kpi-label">SKUs Received</div><div class="kpi-value" style="color:#805ad5">${[...new Set(Object.values(locData).flatMap(m=>m.items.map(x=>x.sku)))].length}</div><div class="kpi-sub">unique products</div></div>
-    </div>
-    <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);">
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
-        <thead>
-          <tr style="background:var(--sidebar-bg);">
-            <th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">Month</th>
-            <th style="padding:10px 14px;text-align:right;font-weight:700;color:${LOC_COLORS[branch]};">Units Received</th>
-            <th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--label);">SKUs</th>
-            <th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--label);">Details</th>
-          </tr>
-        </thead>
-        <tbody>${monthRows}</tbody>
-        <tfoot>
-          <tr style="background:var(--sidebar-bg);font-weight:800;">
-            <td style="padding:10px 14px;">Total</td>
-            <td style="padding:10px 14px;text-align:right;color:${LOC_COLORS[branch]};">${totalRecv.toLocaleString()}</td>
-            <td colspan="2"></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-    <div id="loc-month-detail" style="margin-top:20px;"></div>`;
-}
-
-function showLocMonthDetail(branch, month){
-  const locData = (LOC_MONTHLY && LOC_MONTHLY[branch]) ? LOC_MONTHLY[branch] : {};
-  const mo = locData[month];
-  if(!mo) return;
-  const items = mo.items || [];
-  const rows = items.map(it =>
-    `<tr>
-      <td style="padding:9px 14px;color:var(--gray);font-size:12px;">${it.sku}</td>
-      <td style="padding:9px 14px;font-weight:600;">${it.name}</td>
-      <td style="padding:9px 14px;color:var(--gray);font-size:12px;">${it.label}</td>
-      <td style="padding:9px 14px;text-align:right;font-weight:800;color:${LOC_COLORS[branch]};">${it.qty.toLocaleString()}</td>
-    </tr>`
-  ).join('');
-  document.getElementById('loc-month-detail').innerHTML = `
-    <div style="font-weight:800;font-size:15px;margin-bottom:12px;color:${LOC_COLORS[branch]};">📦 ${month} — Item Details</div>
-    <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);">
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
-        <thead>
-          <tr style="background:var(--sidebar-bg);">
-            <th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">SKU</th>
-            <th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">Product</th>
-            <th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">Reference</th>
-            <th style="padding:10px 14px;text-align:right;font-weight:700;color:${LOC_COLORS[branch]};">Qty Received</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-        <tfoot>
-          <tr style="background:var(--sidebar-bg);font-weight:800;">
-            <td colspan="3" style="padding:10px 14px;">Total</td>
-            <td style="padding:10px 14px;text-align:right;color:${LOC_COLORS[branch]};">${mo.total_qty.toLocaleString()}</td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>`;
-}
-
->
+</html>
