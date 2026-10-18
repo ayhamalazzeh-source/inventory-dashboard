@@ -1911,7 +1911,7 @@ const GROUPS = [
 ];
 
 // ======== STOCK (localStorage) ========
-const DATA_VERSION = '2026-10-18-v4'; // bump this when SEED changes to force reset
+const DATA_VERSION = '2026-10-18-v5'; // bump this when SEED changes to force reset
 function initStock() {
   try {
     const ver = localStorage.getItem('inv2026_version');
@@ -2368,32 +2368,156 @@ function renderLocPage(){
 
 function showBranchDetail(branch){
   currentLocBranch = branch;
-  const months = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct'];
-  const locData = (LOC_MONTHLY && LOC_MONTHLY[branch]) ? LOC_MONTHLY[branch] : {};
-  const totalRecv = Object.values(locData).reduce((s,m) => s + (m.total_qty||0), 0);
-  const activeMonths = months.filter(m => locData[m] && locData[m].total_qty > 0);
-  const lastMonth = activeMonths.length ? activeMonths[activeMonths.length-1] : '—';
   const col = LOC_COLORS[branch];
 
+  // Show loading skeleton immediately
+  document.getElementById('loc-main').innerHTML =
+    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">'+
+      '<button onclick="currentLocBranch=null;renderLocPage()" style="background:white;border:1px solid var(--border);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;">← Back</button>'+
+      '<div style="width:38px;height:38px;border-radius:10px;background:'+col+';display:flex;align-items:center;justify-content:center;font-size:18px;">'+LOC_ICONS[branch]+'</div>'+
+      '<span style="font-size:18px;font-weight:800;">'+LOC_NAMES[branch]+'</span>'+
+    '</div>'+
+    '<div style="text-align:center;padding:40px;color:var(--gray);">⏳ Loading from Firebase…</div>';
+
+  // Try Firebase first, fall back to LOC_MONTHLY
+  fetch('https://inventory-aba19-default-rtdb.europe-west1.firebasedatabase.app/location_ledger/'+branch+'.json')
+    .then(r=>r.json())
+    .then(data => {
+      const items = Array.isArray(data) ? data : (data ? Object.values(data).filter(x=>x&&x.sku) : []);
+      if(items && items.length > 0){
+        _renderBranchMonthly(branch, items);
+      } else {
+        // Fall back to static LOC_MONTHLY
+        _renderBranchFromStatic(branch);
+      }
+    })
+    .catch(()=> _renderBranchFromStatic(branch));
+}
+
+function _buildMonthlyFromItems(items){
+  // items: [{sku, name, monthly:[{month,opening,inbound,outbound,closing}]}]
+  const months = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct'];
+  const locData = {};
+  months.forEach(m => {
+    let totalQty = 0;
+    const txItems = [];
+    items.forEach(item => {
+      const mo = (item.monthly||[]).find(x=>x.month===m);
+      if(!mo) return;
+      const recv = (mo.inbound||0);
+      if(recv > 0){
+        txItems.push({sku:item.sku, name:item.name, qty:recv, label:m});
+        totalQty += recv;
+      }
+    });
+    if(totalQty > 0) locData[m] = {total_qty:totalQty, items:txItems};
+  });
+  return locData;
+}
+
+function _renderBranchMonthly(branch, items){
+  // items from Firebase: [{sku, name, balance, monthly:[{month,opening,inbound,outbound,closing}]}]
+  const months = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct'];
+  const col = LOC_COLORS[branch];
+
+  // Build month summary
+  const monthSummary = {};
+  months.forEach(m => {
+    let totOpen=0, totIn=0, totOut=0, totClose=0, skuSet=new Set();
+    items.forEach(item => {
+      const mo = (item.monthly||[]).find(x=>x.month===m);
+      if(!mo) return;
+      totOpen  += mo.opening||0;
+      totIn    += mo.inbound||0;
+      totOut   += mo.outbound||0;
+      totClose += mo.closing||0;
+      if(mo.opening||mo.inbound||mo.outbound||mo.closing) skuSet.add(item.sku);
+    });
+    if(totOpen||totIn||totOut||totClose){
+      monthSummary[m] = {opening:totOpen, inbound:totIn, outbound:totOut, closing:totClose, skus:skuSet.size};
+    }
+  });
+
+  const activeMonths = months.filter(m=>monthSummary[m]);
+  const lastMonth = activeMonths.length ? activeMonths[activeMonths.length-1] : '—';
+  const totalRecv = Object.values(monthSummary).reduce((s,m)=>s+(m.inbound||0),0);
+  const uniqSKUs  = new Set(items.map(x=>x.sku)).size;
+
   const monthRows = months.map(m => {
-    const mo = locData[m];
-    if(!mo) return '<tr style="opacity:0.35"><td style="padding:10px 14px;color:var(--gray);font-size:12px;">'+m+'</td><td colspan="3" style="padding:10px 14px;text-align:center;color:var(--gray);">—</td></tr>';
-    const skus = new Set(mo.items.map(x=>x.sku)).size;
-    return '<tr style="cursor:pointer" onclick="showLocMonthDetail(\''+branch+'\',\''+m+'\')">'+
+    const mo = monthSummary[m];
+    if(!mo) return '<tr style="opacity:0.3"><td style="padding:10px 14px;color:var(--gray);">'+m+'</td><td colspan="5" style="padding:10px 14px;text-align:center;color:var(--gray);">—</td></tr>';
+    return '<tr style="cursor:pointer" onclick="showLocMonthDetailFB(''+branch+'',''+m+'')">'+
       '<td style="padding:10px 14px;font-weight:700;color:#3182ce;">'+m+'</td>'+
-      '<td style="padding:10px 14px;text-align:right;font-weight:800;color:'+col+';">'+mo.total_qty.toLocaleString()+'</td>'+
-      '<td style="padding:10px 14px;text-align:center;color:var(--gray);">'+skus+' SKUs</td>'+
-      '<td style="padding:10px 14px;text-align:center;"><button onclick="event.stopPropagation();showLocMonthDetail(\''+branch+'\',\''+m+'\')" style="background:#edf2ff;color:#3182ce;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;">Details</button></td>'+
+      '<td style="padding:10px 14px;text-align:right;color:#805ad5;font-weight:700;">'+mo.opening.toLocaleString()+'</td>'+
+      '<td style="padding:10px 14px;text-align:right;color:#2a9d8f;font-weight:700;">'+(mo.inbound>0?'+'+mo.inbound.toLocaleString():'—')+'</td>'+
+      '<td style="padding:10px 14px;text-align:right;color:#e63946;font-weight:700;">'+(mo.outbound>0?mo.outbound.toLocaleString():'—')+'</td>'+
+      '<td style="padding:10px 14px;text-align:right;font-weight:800;color:'+col+';">'+mo.closing.toLocaleString()+'</td>'+
+      '<td style="padding:10px 14px;text-align:center;"><button onclick="event.stopPropagation();showLocMonthDetailFB(''+branch+'',''+m+'')" style="background:#edf2ff;color:#3182ce;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;">Details</button></td>'+
       '</tr>';
   }).join('');
 
-  const uniqSKUs = new Set(Object.values(locData).flatMap(m=>m.items.map(x=>x.sku))).size;
+  // Store items for detail view
+  window._locFBItems = window._locFBItems || {};
+  window._locFBItems[branch] = items;
 
   document.getElementById('loc-main').innerHTML =
     '<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">'+
       '<button onclick="currentLocBranch=null;renderLocPage()" style="background:white;border:1px solid var(--border);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;">← Back</button>'+
       '<div style="width:38px;height:38px;border-radius:10px;background:'+col+';display:flex;align-items:center;justify-content:center;font-size:18px;">'+LOC_ICONS[branch]+'</div>'+
       '<span style="font-size:18px;font-weight:800;">'+LOC_NAMES[branch]+'</span>'+
+      '<span style="margin-left:8px;font-size:12px;color:#38a169;font-weight:600;background:#f0fff4;padding:3px 8px;border-radius:6px;">🔴 Live Firebase</span>'+
+    '</div>'+
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">'+
+      '<div class="kpi" style="border-left-color:'+col+'"><div class="kpi-label">Total Received</div><div class="kpi-value" style="color:'+col+'">'+fmt(totalRecv)+'</div><div class="kpi-sub">all inbound</div></div>'+
+      '<div class="kpi" style="border-left-color:#38a169"><div class="kpi-label">Active Months</div><div class="kpi-value" style="color:#38a169">'+activeMonths.length+'</div><div class="kpi-sub">with movements</div></div>'+
+      '<div class="kpi" style="border-left-color:#3182ce"><div class="kpi-label">Last Month</div><div class="kpi-value" style="color:#3182ce;font-size:22px">'+lastMonth+'</div><div class="kpi-sub">most recent</div></div>'+
+      '<div class="kpi" style="border-left-color:#805ad5"><div class="kpi-label">SKUs</div><div class="kpi-value" style="color:#805ad5">'+uniqSKUs+'</div><div class="kpi-sub">unique products</div></div>'+
+    '</div>'+
+    '<div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);">'+
+      '<table style="width:100%;border-collapse:collapse;font-size:13px;">'+
+        '<thead><tr style="background:var(--sidebar-bg);">'+
+          '<th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">Month</th>'+
+          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:#805ad5;">Opening</th>'+
+          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:#2a9d8f;">+ Inbound</th>'+
+          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:#e63946;">− Outbound</th>'+
+          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:'+col+';">Closing</th>'+
+          '<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--label);">Details</th>'+
+        '</tr></thead>'+
+        '<tbody>'+monthRows+'</tbody>'+
+      '</table>'+
+    '</div>'+
+    '<div id="loc-month-detail" style="margin-top:20px;"></div>';
+}
+
+function _renderBranchFromStatic(branch){
+  const col = LOC_COLORS[branch];
+  const locData = (LOC_MONTHLY && LOC_MONTHLY[branch]) ? LOC_MONTHLY[branch] : {};
+  const months = ['Jan','Feb','Mar','April','May','June','July','Aug','Sep','Oct'];
+  const totalRecv = Object.values(locData).reduce((s,m)=>s+(m.total_qty||0),0);
+  const activeMonths = months.filter(m=>locData[m]);
+  const lastMonth = activeMonths.length ? activeMonths[activeMonths.length-1] : '—';
+  const uniqSKUs = new Set(Object.values(locData).flatMap(m=>m.items.map(x=>x.sku))).size;
+
+  const monthRows = months.map(m => {
+    const mo = locData[m];
+    if(!mo) return '<tr style="opacity:0.3"><td style="padding:10px 14px;color:var(--gray);">'+m+'</td><td colspan="5" style="padding:10px 14px;text-align:center;color:var(--gray);">—</td></tr>';
+    const skus = new Set(mo.items.map(x=>x.sku)).size;
+    return '<tr style="cursor:pointer" onclick="showLocMonthDetail(''+branch+'',''+m+'')">'+
+      '<td style="padding:10px 14px;font-weight:700;color:#3182ce;">'+m+'</td>'+
+      '<td style="padding:10px 14px;text-align:right;color:#805ad5;">—</td>'+
+      '<td style="padding:10px 14px;text-align:right;color:#2a9d8f;font-weight:700;">+'+mo.total_qty.toLocaleString()+'</td>'+
+      '<td style="padding:10px 14px;text-align:right;color:#e63946;">—</td>'+
+      '<td style="padding:10px 14px;text-align:right;font-weight:800;color:'+col+';">'+mo.total_qty.toLocaleString()+'</td>'+
+      '<td style="padding:10px 14px;text-align:center;"><button onclick="event.stopPropagation();showLocMonthDetail(''+branch+'',''+m+'')" style="background:#edf2ff;color:#3182ce;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;">Details</button></td>'+
+      '</tr>';
+  }).join('');
+
+  document.getElementById('loc-main').innerHTML =
+    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">'+
+      '<button onclick="currentLocBranch=null;renderLocPage()" style="background:white;border:1px solid var(--border);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;">← Back</button>'+
+      '<div style="width:38px;height:38px;border-radius:10px;background:'+col+';display:flex;align-items:center;justify-content:center;font-size:18px;">'+LOC_ICONS[branch]+'</div>'+
+      '<span style="font-size:18px;font-weight:800;">'+LOC_NAMES[branch]+'</span>'+
+      '<span style="margin-left:8px;font-size:12px;color:#805ad5;font-weight:600;background:#faf5ff;padding:3px 8px;border-radius:6px;">📊 From Naouri Sheet</span>'+
     '</div>'+
     '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">'+
       '<div class="kpi" style="border-left-color:'+col+'"><div class="kpi-label">Total Received</div><div class="kpi-value" style="color:'+col+'">'+fmt(totalRecv)+'</div><div class="kpi-sub">from Naouri WH</div></div>'+
@@ -2405,20 +2529,57 @@ function showBranchDetail(branch){
       '<table style="width:100%;border-collapse:collapse;font-size:13px;">'+
         '<thead><tr style="background:var(--sidebar-bg);">'+
           '<th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--label);">Month</th>'+
-          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:'+col+';">Units Received</th>'+
-          '<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--label);">SKUs</th>'+
+          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:#805ad5;">Opening</th>'+
+          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:#2a9d8f;">+ Inbound</th>'+
+          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:#e63946;">− Outbound</th>'+
+          '<th style="padding:10px 14px;text-align:right;font-weight:700;color:'+col+';">Closing</th>'+
           '<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--label);">Details</th>'+
         '</tr></thead>'+
         '<tbody>'+monthRows+'</tbody>'+
-        '<tfoot><tr style="background:var(--sidebar-bg);font-weight:800;">'+
-          '<td style="padding:10px 14px;">Total</td>'+
-          '<td style="padding:10px 14px;text-align:right;color:'+col+';">'+totalRecv.toLocaleString()+'</td>'+
-          '<td colspan="2"></td>'+
-        '</tr></tfoot>'+
       '</table>'+
     '</div>'+
     '<div id="loc-month-detail" style="margin-top:20px;"></div>';
 }
+
+function showLocMonthDetailFB(branch, month){
+  const items = (window._locFBItems && window._locFBItems[branch]) || [];
+  const col = LOC_COLORS[branch];
+  const monthItems = items.map(item => {
+    const mo = (item.monthly||[]).find(x=>x.month===month);
+    if(!mo || (!mo.opening && !mo.inbound && !mo.outbound && !mo.closing)) return null;
+    return {sku:item.sku, name:item.name, opening:mo.opening, inbound:mo.inbound, outbound:mo.outbound, closing:mo.closing};
+  }).filter(Boolean);
+
+  const rows = monthItems.map(it =>
+    '<tr>'+
+    '<td style="padding:9px 14px;color:var(--gray);font-size:12px;">'+it.sku+'</td>'+
+    '<td style="padding:9px 14px;font-weight:600;">'+it.name+'</td>'+
+    '<td style="padding:9px 14px;text-align:right;color:#805ad5;">'+it.opening.toLocaleString()+'</td>'+
+    '<td style="padding:9px 14px;text-align:right;color:#2a9d8f;">'+(it.inbound>0?'+'+it.inbound.toLocaleString():'—')+'</td>'+
+    '<td style="padding:9px 14px;text-align:right;color:#e63946;">'+(it.outbound>0?it.outbound.toLocaleString():'—')+'</td>'+
+    '<td style="padding:9px 14px;text-align:right;font-weight:800;color:'+col+';">'+it.closing.toLocaleString()+'</td>'+
+    '</tr>'
+  ).join('');
+
+  const el = document.getElementById('loc-month-detail');
+  if(!el) return;
+  el.innerHTML =
+    '<div style="font-weight:800;font-size:15px;margin-bottom:12px;color:'+col+';">📦 '+month+' — Item Details</div>'+
+    '<div style="overflow-x:auto;border-radius:12px;border:1px solid var(--border);">'+
+      '<table style="width:100%;border-collapse:collapse;font-size:13px;">'+
+        '<thead><tr style="background:var(--sidebar-bg);">'+
+          '<th style="padding:10px 14px;text-align:left;">SKU</th>'+
+          '<th style="padding:10px 14px;text-align:left;">Product</th>'+
+          '<th style="padding:10px 14px;text-align:right;color:#805ad5;">Opening</th>'+
+          '<th style="padding:10px 14px;text-align:right;color:#2a9d8f;">+ Inbound</th>'+
+          '<th style="padding:10px 14px;text-align:right;color:#e63946;">− Outbound</th>'+
+          '<th style="padding:10px 14px;text-align:right;color:'+col+';">Closing</th>'+
+        '</tr></thead>'+
+        '<tbody>'+rows+'</tbody>'+
+      '</table>'+
+    '</div>';
+}
+
 
 function showLocMonthDetail(branch, month){
   const locData = (LOC_MONTHLY && LOC_MONTHLY[branch]) ? LOC_MONTHLY[branch] : {};
