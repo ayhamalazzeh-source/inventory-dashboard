@@ -1768,9 +1768,17 @@ function _makeSnap(val){
 
 async function _fbFetch(path, opts={}){
   const url = FB_BASE + '/' + path.replace(/^\/+/,'') + '.json';
-  const r = await fetch(url, opts);
-  if(!r.ok) throw new Error('Firebase '+r.status+' on '+path);
-  return r.json();
+  const controller = new AbortController();
+  const timer = setTimeout(()=>controller.abort(), 12000); // 12s timeout
+  try {
+    const r = await fetch(url, {...opts, signal: controller.signal});
+    clearTimeout(timer);
+    if(!r.ok) throw new Error('Firebase '+r.status+' on '+path);
+    return r.json();
+  } catch(e) {
+    clearTimeout(timer);
+    throw e;
+  }
 }
 
 // Polling for real-time listeners (every 30s)
@@ -1911,7 +1919,7 @@ const GROUPS = [
 ];
 
 // ======== STOCK (localStorage) ========
-const DATA_VERSION = '2026-10-18-v5'; // bump this when SEED changes to force reset
+const DATA_VERSION = '2026-10-18-v6'; // bump this when SEED changes to force reset
 function initStock() {
   try {
     const ver = localStorage.getItem('inv2026_version');
