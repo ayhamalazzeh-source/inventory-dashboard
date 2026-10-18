@@ -1919,7 +1919,7 @@ const GROUPS = [
 ];
 
 // ======== STOCK (localStorage) ========
-const DATA_VERSION = '2026-10-18-v7'; // bump this when SEED changes to force reset
+const DATA_VERSION = '2026-10-18-v8'; // bump this when SEED changes to force reset
 function initStock() {
   try {
     const ver = localStorage.getItem('inv2026_version');
@@ -4279,6 +4279,23 @@ function startAutoRefresh(){
   }, AUTO_REFRESH_MINUTES * 60 * 1000);
 }
 
+// ======== SYNC LOCATION STOCK FROM LEDGER ========
+async function syncLocStock(){
+  const locs = ['amman','irbid','zarqa','aqaba'];
+  const fetches = locs.map(loc =>
+    _fbFetch('location_ledger/'+loc)
+      .then(data => {
+        const items = Array.isArray(data) ? data : (data ? Object.values(data) : []);
+        items.forEach(item => {
+          if(!item || !item.sku) return;
+          if(!STOCK[item.sku]) STOCK[item.sku] = {naouri:0,amman:0,irbid:0,zarqa:0,aqaba:0};
+          STOCK[item.sku][loc] = typeof item.balance === 'number' ? item.balance : 0;
+        });
+      }).catch(()=>{})
+  );
+  return Promise.all(fetches);
+}
+
 // ======== FIREBASE SYNC ========
 function syncFromFirebase(){
   document.getElementById('fb-loader').style.display='flex';
@@ -4314,6 +4331,8 @@ function syncFromFirebase(){
     // txId format is "tx-<timestamp>" — safe for Firebase keys, stored as-is
     if(val) CANCELLED_ORDERS=new Set(Object.keys(val));
     try{const lc=JSON.parse(localStorage.getItem('inv2026_cancelled')||'[]');lc.forEach(id=>CANCELLED_ORDERS.add(id));}catch(e){}
+    return syncLocStock();
+  }).then(()=>{
     document.getElementById('fb-loader').style.display='none';
     setFbStatus('online');
     renderOverview();
