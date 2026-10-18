@@ -1919,7 +1919,7 @@ const GROUPS = [
 ];
 
 // ======== STOCK (localStorage) ========
-const DATA_VERSION = '2026-10-18-v6'; // bump this when SEED changes to force reset
+const DATA_VERSION = '2026-10-18-v7'; // bump this when SEED changes to force reset
 function initStock() {
   try {
     const ver = localStorage.getItem('inv2026_version');
@@ -2454,13 +2454,13 @@ function _renderBranchMonthly(branch, items){
   const monthRows = months.map(m => {
     const mo = monthSummary[m];
     if(!mo) return '<tr style="opacity:0.3"><td style="padding:10px 14px;color:var(--gray);">'+m+'</td><td colspan="5" style="padding:10px 14px;text-align:center;color:var(--gray);">—</td></tr>';
-    return '<tr style="cursor:pointer" onclick="showLocMonthDetailFB(''+branch+'',''+m+'')">'+
+    return '<tr style="cursor:pointer" onclick="showLocMonthDetailFB(\''+branch+'\',\''+m+'\')">'+
       '<td style="padding:10px 14px;font-weight:700;color:#3182ce;">'+m+'</td>'+
       '<td style="padding:10px 14px;text-align:right;color:#805ad5;font-weight:700;">'+mo.opening.toLocaleString()+'</td>'+
       '<td style="padding:10px 14px;text-align:right;color:#2a9d8f;font-weight:700;">'+(mo.inbound>0?'+'+mo.inbound.toLocaleString():'—')+'</td>'+
       '<td style="padding:10px 14px;text-align:right;color:#e63946;font-weight:700;">'+(mo.outbound>0?mo.outbound.toLocaleString():'—')+'</td>'+
       '<td style="padding:10px 14px;text-align:right;font-weight:800;color:'+col+';">'+mo.closing.toLocaleString()+'</td>'+
-      '<td style="padding:10px 14px;text-align:center;"><button onclick="event.stopPropagation();showLocMonthDetailFB(''+branch+'',''+m+'')" style="background:#edf2ff;color:#3182ce;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;">Details</button></td>'+
+      '<td style="padding:10px 14px;text-align:center;"><button onclick="event.stopPropagation();showLocMonthDetailFB(\''+branch+'\',\''+m+'\')" style="background:#edf2ff;color:#3182ce;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;">Details</button></td>'+
       '</tr>';
   }).join('');
 
@@ -2510,13 +2510,13 @@ function _renderBranchFromStatic(branch){
     const mo = locData[m];
     if(!mo) return '<tr style="opacity:0.3"><td style="padding:10px 14px;color:var(--gray);">'+m+'</td><td colspan="5" style="padding:10px 14px;text-align:center;color:var(--gray);">—</td></tr>';
     const skus = new Set(mo.items.map(x=>x.sku)).size;
-    return '<tr style="cursor:pointer" onclick="showLocMonthDetail(''+branch+'',''+m+'')">'+
+    return '<tr style="cursor:pointer" onclick="showLocMonthDetail(\''+branch+'\',\''+m+'\')">'+
       '<td style="padding:10px 14px;font-weight:700;color:#3182ce;">'+m+'</td>'+
       '<td style="padding:10px 14px;text-align:right;color:#805ad5;">—</td>'+
       '<td style="padding:10px 14px;text-align:right;color:#2a9d8f;font-weight:700;">+'+mo.total_qty.toLocaleString()+'</td>'+
       '<td style="padding:10px 14px;text-align:right;color:#e63946;">—</td>'+
       '<td style="padding:10px 14px;text-align:right;font-weight:800;color:'+col+';">'+mo.total_qty.toLocaleString()+'</td>'+
-      '<td style="padding:10px 14px;text-align:center;"><button onclick="event.stopPropagation();showLocMonthDetail(''+branch+'',''+m+'')" style="background:#edf2ff;color:#3182ce;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;">Details</button></td>'+
+      '<td style="padding:10px 14px;text-align:center;"><button onclick="event.stopPropagation();showLocMonthDetail(\''+branch+'\',\''+m+'\')" style="background:#edf2ff;color:#3182ce;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;">Details</button></td>'+
       '</tr>';
   }).join('');
 
